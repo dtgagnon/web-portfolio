@@ -1,6 +1,7 @@
 
 # Rules
-- Always use spaces for indentation, with a width of 4 spaces
+- Capture devleopment plans in ./dev-plans/
+- Always use spaces for indentation, with a width of 2 spaces
 - Use camelCase for variable names
 - Write unit tests for all new functions
 - Explain your reasoning before providing code
