@@ -35,7 +35,7 @@ NIX_CC='/nix/store/gj9lra51hwhxnhz05jqk5lh03wipamv0-gcc-wrapper-14-20241116'
 export NIX_CC
 NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_CFLAGS_COMPILE=' -frandom-seed=s8r7qlk1ph -isystem /nix/store/87hsv7pc321h80j7223209nxc8vmabqb-nodejs-22.14.0/include -isystem /nix/store/87hsv7pc321h80j7223209nxc8vmabqb-nodejs-22.14.0/include'
+NIX_CFLAGS_COMPILE=' -frandom-seed=wj8nxj15a9 -isystem /nix/store/87hsv7pc321h80j7223209nxc8vmabqb-nodejs-22.14.0/include -isystem /nix/store/87hsv7pc321h80j7223209nxc8vmabqb-nodejs-22.14.0/include'
 export NIX_CFLAGS_COMPILE
 NIX_ENFORCE_NO_NATIVE='1'
 export NIX_ENFORCE_NO_NATIVE
@@ -180,59 +180,22 @@ shell='/nix/store/ki4if6b0w5bqv8dc5lrjp8xm7wjy9dlf-bash-5.2p37/bin/bash'
 export shell
 shellHook='export PATH="$PWD/node_modules/.bin:$PATH"
 
-# Create a session group file to track PIDs
-echo "$$" > .session.pid
-
-# Store the shell'\''s PID to identify genuine exit
-echo "$$" > .shell.pid
-
-# Function to cleanup processes on shell exit
-cleanup() {
-  if [ -f ".shell.pid" ] && [ "$$" = "$(cat .shell.pid)" ]; then
-    echo "Cleaning up development environment..."
-    
-    # Kill development server and children
-    if [ -f ".dev.pid" ]; then
-      pid=$(cat .dev.pid)
-      pkill -P $pid 2>/dev/null || true  # Kill children first
-      kill -9 $pid 2>/dev/null || true   # Kill parent
-      rm -f .dev.pid
-    fi
-    
-    # Kill Chrome debug instance
-    pkill -9 -f "chromium.*remote-debugging-port=9222" 2>/dev/null || true
-    
-    # Kill any processes in our session group
-    if [ -f ".session.pid" ]; then
-      pkill -9 -g $(cat .session.pid) 2>/dev/null || true
-      rm -f .session.pid
-    fi
-
-    # Clean up our shell PID file
-    rm -f .shell.pid
-    
-    # Clean up ports
-    pkill -f "node.*$(pwd)" 2>/dev/null || true
-    wait
-    
-    echo "Cleanup complete!"
-  fi
-}
-
-# Run cleanup on any exit condition
-trap cleanup EXIT INT TERM QUIT KILL
-
-# Set up cleanup trap for shell exit and interrupts
-trap cleanup EXIT INT TERM
+# Ensure port is free before starting
+lsof -ti:3000 | xargs kill -9 2>/dev/null || true
+sleep 1
 
 # Start chromium if not already running
 if ! pgrep -f "chromium.*remote-debugging-port=9222" >/dev/null; then
-  chromium --remote-debugging-port=9222 &
+  echo "Starting Chromium debug instance..."
+  /nix/store/3r73b0s3fdd1nfwwb9cygfm7rqdn18m6-ungoogled-chromium-134.0.6998.88/bin/chromium --remote-debugging-port=9222 &
+  sleep 2  # Give chromium time to start
+else
+  echo "Chromium debug instance already running"
 fi
 
-# Start development server in background and save PID
-pnpm dev &
-echo $! > .dev.pid
+# Start development server in background
+echo "Starting development server..."
+PORT=3000 pnpm dev &
 
 echo "Development environment ready!"
 '
