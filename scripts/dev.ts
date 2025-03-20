@@ -5,13 +5,12 @@ const execAsync = promisify(exec);
 
 async function startDevServer() {
   try {
-    console.log('Starting development server...');
+    console.log('Starting development servers...');
     
-    const port = process.env.PORT || '3000';
-    
-    // Use the same configuration as our npm script and pass PORT env var
-    const serverProcess = exec(
-      `PORT=${port} ` +
+    // Start the backend server on port 3001
+    const backendPort = '3001';
+    const backendProcess = exec(
+      `PORT=${backendPort} ` +
       'NODE_OPTIONS="--no-warnings" ' +
       'node ' +
       '--loader ts-node/esm/transpile-only ' +
@@ -19,26 +18,41 @@ async function startDevServer() {
       'server/index.ts'
     );
     
-    // Forward stdout and stderr
-    serverProcess.stdout?.on('data', (data) => {
-      console.log(`Server: ${data}`);
+    // Forward backend stdout and stderr
+    backendProcess.stdout?.on('data', (data) => {
+      console.log(`Backend: ${data}`);
     });
     
-    serverProcess.stderr?.on('data', (data) => {
-      console.error(`Server Error: ${data}`);
+    backendProcess.stderr?.on('data', (data) => {
+      console.error(`Backend Error: ${data}`);
     });
     
-    console.log('Development server started successfully!');
-    console.log(`Server running at http://localhost:${port}`);
+    console.log(`Backend server running at http://localhost:${backendPort}`);
+    
+    // Start the frontend Vite server
+    const frontendPort = process.env.PORT || '3000';
+    const frontendProcess = exec(`npx vite --port ${frontendPort}`);
+    
+    // Forward frontend stdout and stderr
+    frontendProcess.stdout?.on('data', (data) => {
+      console.log(`Frontend: ${data}`);
+    });
+    
+    frontendProcess.stderr?.on('data', (data) => {
+      console.error(`Frontend Error: ${data}`);
+    });
+    
+    console.log(`Frontend server running at http://localhost:${frontendPort}`);
     
     // Handle process termination
     process.on('SIGINT', () => {
-      console.log('Shutting down development server...');
-      serverProcess.kill();
+      console.log('Shutting down development servers...');
+      backendProcess.kill();
+      frontendProcess.kill();
       process.exit(0);
     });
   } catch (error) {
-    console.error('Failed to start development server:', error);
+    console.error('Failed to start development servers:', error);
     process.exit(1);
   }
 }

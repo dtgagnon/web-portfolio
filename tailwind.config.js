@@ -1,10 +1,20 @@
 module.exports = {
   content: [
-    './src/**/*.{js,jsx,ts,tsx}',
-    './public/index.html'
+    './client/**/*.{js,jsx,ts,tsx}',
+    './client/index.html'
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        navy: {
+          700: 'var(--color-navy)'
+        },
+        forest: {
+          700: 'var(--color-forest)'
+        },
+        brass: 'var(--color-brass)'
+      }
+    },
   },
   plugins: [],
 }

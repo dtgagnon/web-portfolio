@@ -10,7 +10,7 @@ const AboutMe: React.FC = () => {
           <div className="md:col-span-1">
             <div className="bg-gray-100 p-6 rounded-lg">
               <img 
-                src="/images/profile.jpg" 
+                src="data:image/svg+xml,%3Csvg width='400' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='400' height='400' fill='%230a192f'/%3E%3Ccircle cx='200' cy='150' r='100' fill='%23d1d5db'/%3E%3Ccircle cx='200' cy='450' r='200' fill='%23d1d5db'/%3E%3C/svg%3E" 
                 alt="Profile" 
                 className="w-full h-auto rounded-lg mb-4"
               />

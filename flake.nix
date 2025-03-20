@@ -27,24 +27,8 @@
           shellHook = ''
             export PATH="$PWD/node_modules/.bin:$PATH"
             
-            # Ensure port is free before starting
-            lsof -ti:3000 | xargs kill -9 2>/dev/null || true
-            sleep 1
-            
-            # Start chromium if not already running
-            if ! pgrep -f "chromium.*remote-debugging-port=9222" >/dev/null; then
-              echo "Starting Chromium debug instance..."
-              ${pkgs.ungoogled-chromium}/bin/chromium --remote-debugging-port=9222 &
-              sleep 2  # Give chromium time to start
-            else
-              echo "Chromium debug instance already running"
-            fi
-            
-            # Start development server in background
-            echo "Starting development server..."
-            PORT=3000 pnpm dev &
-            
             echo "Development environment ready!"
+            echo "Run './scripts/start-dev.sh' to start the development servers."
           '';
         };
       }

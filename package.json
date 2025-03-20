@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "NODE_OPTIONS='--no-warnings' node --loader ts-node/esm/transpile-only --experimental-specifier-resolution=node scripts/dev.ts",
-    "build": "NODE_OPTIONS='--no-warnings' node --loader ts-node/esm/transpile-only --experimental-specifier-resolution=node scripts/build.ts",
+    "build": "vite build && NODE_OPTIONS='--no-warnings' node --loader ts-node/esm/transpile-only --experimental-specifier-resolution=node scripts/build.ts",
     "start": "node dist/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -32,6 +32,8 @@
     "@types/express": "5.0.1",
     "@types/react": "19.0.12",
     "@types/react-dom": "19.0.4",
-    "ts-node": "10.9.2"
+    "@vitejs/plugin-react": "^4.3.4",
+    "ts-node": "10.9.2",
+    "vite": "^6.2.2"
   }
 }

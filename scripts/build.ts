@@ -2,7 +2,6 @@ import { exec } from 'child_process';
 import { promisify } from 'util';
 import fs from 'fs';
 import path from 'path';
-import { cpSync } from 'fs';
 
 const execAsync = promisify(exec);
 
@@ -15,17 +14,11 @@ async function buildProject() {
       fs.mkdirSync('dist');
     }
     
-    // Create client dist directory if it doesn't exist
-    if (!fs.existsSync('dist/client')) {
-      fs.mkdirSync('dist/client', { recursive: true });
-    }
+    // Build the frontend with Vite (this is now handled by the npm script)
+    console.log('Frontend build is handled by Vite in the npm script...');
     
-    // Copy client files to dist
-    console.log('Copying client files...');
-    cpSync('client', 'dist/client', { recursive: true });
-    
-    // Compile TypeScript files
-    console.log('Compiling TypeScript files...');
+    // Compile server TypeScript files
+    console.log('Compiling server TypeScript files...');
     await execAsync('NODE_OPTIONS=--loader=ts-node/esm npx tsc --project tsconfig.build.json');
     
     console.log('Build completed successfully!');

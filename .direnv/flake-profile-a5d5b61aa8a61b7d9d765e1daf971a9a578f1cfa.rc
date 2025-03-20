@@ -35,7 +35,7 @@ NIX_CC='/nix/store/gj9lra51hwhxnhz05jqk5lh03wipamv0-gcc-wrapper-14-20241116'
 export NIX_CC
 NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu='1'
 export NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu
-NIX_CFLAGS_COMPILE=' -frandom-seed=wj8nxj15a9 -isystem /nix/store/87hsv7pc321h80j7223209nxc8vmabqb-nodejs-22.14.0/include -isystem /nix/store/87hsv7pc321h80j7223209nxc8vmabqb-nodejs-22.14.0/include'
+NIX_CFLAGS_COMPILE=' -frandom-seed=1cgjsd2rc2 -isystem /nix/store/87hsv7pc321h80j7223209nxc8vmabqb-nodejs-22.14.0/include -isystem /nix/store/87hsv7pc321h80j7223209nxc8vmabqb-nodejs-22.14.0/include'
 export NIX_CFLAGS_COMPILE
 NIX_ENFORCE_NO_NATIVE='1'
 export NIX_ENFORCE_NO_NATIVE
@@ -180,24 +180,8 @@ shell='/nix/store/ki4if6b0w5bqv8dc5lrjp8xm7wjy9dlf-bash-5.2p37/bin/bash'
 export shell
 shellHook='export PATH="$PWD/node_modules/.bin:$PATH"
 
-# Ensure port is free before starting
-lsof -ti:3000 | xargs kill -9 2>/dev/null || true
-sleep 1
-
-# Start chromium if not already running
-if ! pgrep -f "chromium.*remote-debugging-port=9222" >/dev/null; then
-  echo "Starting Chromium debug instance..."
-  /nix/store/3r73b0s3fdd1nfwwb9cygfm7rqdn18m6-ungoogled-chromium-134.0.6998.88/bin/chromium --remote-debugging-port=9222 &
-  sleep 2  # Give chromium time to start
-else
-  echo "Chromium debug instance already running"
-fi
-
-# Start development server in background
-echo "Starting development server..."
-PORT=3000 pnpm dev &
-
 echo "Development environment ready!"
+echo "Run '\''./scripts/start-dev.sh'\'' to start the development servers."
 '
 export shellHook
 stdenv='/nix/store/md93ycspqdq3arrv9ms0m4c33jssizgg-stdenv-linux'
