@@ -2,6 +2,7 @@ import { exec } from 'child_process';
 import { promisify } from 'util';
 import fs from 'fs';
 import path from 'path';
+import { cpSync } from 'fs';
 
 const execAsync = promisify(exec);
 
@@ -21,11 +22,11 @@ async function buildProject() {
     
     // Copy client files to dist
     console.log('Copying client files...');
-    fs.cpSync('client', 'dist/client', { recursive: true });
+    cpSync('client', 'dist/client', { recursive: true });
     
     // Compile TypeScript files
     console.log('Compiling TypeScript files...');
-    await execAsync('npx tsc --project tsconfig.build.json');
+    await execAsync('NODE_OPTIONS=--loader=ts-node/esm npx tsc --project tsconfig.build.json');
     
     console.log('Build completed successfully!');
   } catch (error) {

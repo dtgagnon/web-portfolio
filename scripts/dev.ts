@@ -5,11 +5,19 @@ const execAsync = promisify(exec);
 
 async function startDevServer() {
   try {
-    // Start the server with ts-node
     console.log('Starting development server...');
     
-    // Run the server in the background
-    const serverProcess = exec('npx ts-node --esm server/index.ts');
+    const port = process.env.PORT || '3000';
+    
+    // Use the same configuration as our npm script and pass PORT env var
+    const serverProcess = exec(
+      `PORT=${port} ` +
+      'NODE_OPTIONS="--no-warnings" ' +
+      'node ' +
+      '--loader ts-node/esm/transpile-only ' +
+      '--experimental-specifier-resolution=node ' +
+      'server/index.ts'
+    );
     
     // Forward stdout and stderr
     serverProcess.stdout?.on('data', (data) => {
@@ -21,7 +29,7 @@ async function startDevServer() {
     });
     
     console.log('Development server started successfully!');
-    console.log('Server running at http://localhost:3000');
+    console.log(`Server running at http://localhost:${port}`);
     
     // Handle process termination
     process.on('SIGINT', () => {

@@ -4,9 +4,12 @@
   "type": "module",
   "description": "Portfolio website for a product development engineer in the medical device industry",
   "main": "server/index.ts",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "scripts": {
-    "dev": "ts-node --esm scripts/dev.ts",
-    "build": "ts-node --esm scripts/build.ts",
+    "dev": "NODE_OPTIONS='--no-warnings' node --loader ts-node/esm/transpile-only --experimental-specifier-resolution=node scripts/dev.ts",
+    "build": "NODE_OPTIONS='--no-warnings' node --loader ts-node/esm/transpile-only --experimental-specifier-resolution=node scripts/build.ts",
     "start": "node dist/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

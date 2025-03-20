@@ -19,9 +19,7 @@ A portfolio website for a product development engineer in the medical device ind
 
 ## Prerequisites
 
-- NixOS operating system
-- Node.js 20.x
-- pnpm 10.x
+All prerequisites shall be declared within the project's [flake.nix](./flake.nix) file.
 
 ## Development Environment Setup
 
@@ -34,6 +32,12 @@ This project uses Nix flakes for development environment management. To set up t
    ```
 
 2. Enter the Nix development shell:
+   ```bash
+   direnv allow .
+   ```
+
+   *OR*
+
    ```bash
    nix develop
    ```
