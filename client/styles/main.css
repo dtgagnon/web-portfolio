@@ -4,34 +4,101 @@
 
 /* Custom styles */
 :root {
-  --color-navy: #a2b4cf;
-  --color-forest: #2c5e4e;
-  --color-brass: #b5a642;
+  --color-cream: #faf8f2;
+  --color-dark: #1c1c1c;
+  --color-pink: #ff8fa3;
+  --color-text: #4a4a4a;
 }
 
-.bg-navy-700 {
-  background-color: var(--color-navy);
+body {
+  background-color: var(--color-cream);
+  color: var(--color-text);
+  font-family: 'Inter', sans-serif;
 }
 
-.bg-forest-700 {
-  background-color: var(--color-forest);
+.profile-image-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
 }
 
-.text-brass {
-  color: var(--color-brass);
+.profile-image-outline {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--color-dark);
+  z-index: 0;
 }
 
-.border-brass {
-  border-color: var(--color-brass);
+.profile-image-accent {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--color-pink);
+  left: 15px;
+  top: -15px;
+  z-index: 1;
+  opacity: 0.9;
 }
 
-/* Additional custom styles */
+.profile-image {
+  position: absolute;
+  width: 95%;
+  height: 95%;
+  object-fit: cover;
+  border-radius: 50%;
+  top: 2.5%;
+  left: 2.5%;
+  z-index: 2;
+  background-color: var(--color-cream);
+}
+
+/* Chat animation classes */
+@keyframes bounce-in {
+  0% { transform: translateY(100%); }
+  60% { transform: translateY(-10%); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.5s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-in;
+}
+
+/* Add delay utilities */
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+/* Button and icon styles */
 @layer components {
   .btn-primary {
-    @apply px-4 py-2 bg-navy-700 text-white rounded-md hover:opacity-90 transition-opacity;
+    @apply px-6 py-3 bg-dark text-cream rounded-full hover:opacity-90 transition-opacity text-sm font-medium tracking-wide;
   }
   
   .btn-secondary {
-    @apply px-4 py-2 border border-brass text-brass rounded-md hover:bg-brass hover:text-white transition-colors;
+    @apply px-6 py-3 border-2 border-pink text-dark rounded-full hover:bg-pink hover:text-white transition-colors text-sm font-medium tracking-wide;
+  }
+
+  .social-icon {
+    @apply w-5 h-5 text-dark opacity-75 hover:text-pink hover:opacity-100 transition-all;
+  }
+
+  .logo {
+    @apply w-10 h-10 rounded-full bg-dark flex items-center justify-center text-cream font-medium text-sm;
   }
 }

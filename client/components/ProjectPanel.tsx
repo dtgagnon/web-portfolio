@@ -17,26 +17,29 @@ const ProjectPanel: React.FC<ProjectPanelProps> = ({
 
   return (
     <div 
-      className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transition-all hover:shadow-lg"
+      className="bg-white/50 backdrop-blur-sm rounded-2xl overflow-hidden cursor-pointer transition-all hover:bg-white/70"
       onClick={() => setIsExpanded(!isExpanded)}
     >
-      <div className="relative h-48">
-        <img 
-          src={imageUrl} 
-          alt={title}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-40 p-4 flex flex-col justify-end">
-          <h2 className="text-xl font-bold text-white">{title}</h2>
-          <p className="text-white">{description}</p>
+      <div className="flex flex-col md:flex-row">
+        <div className="w-full md:w-1/3 relative h-48 md:h-auto">
+          <img 
+            src={imageUrl} 
+            alt={title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-dark/10"></div>
+        </div>
+        <div className="w-full md:w-2/3 p-6 md:p-8">
+          <h3 className="text-xl font-medium mb-2 text-dark">{title}</h3>
+          <p className="text-text/80 mb-4">{description}</p>
+          
+          <div className={`overflow-hidden transition-all duration-300 ${isExpanded ? 'max-h-96' : 'max-h-0'}`}>
+            <div className="pt-4 border-t border-dark/10">
+              <p className="text-text/70 text-sm leading-relaxed">{details}</p>
+            </div>
+          </div>
         </div>
       </div>
-      
-      {isExpanded && (
-        <div className="p-4 bg-gray-100">
-          <p className="text-gray-700">{details}</p>
-        </div>
-      )}
     </div>
   );
 };
