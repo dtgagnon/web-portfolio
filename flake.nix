@@ -17,11 +17,12 @@
             lsof
           ];
           buildInputs = with pkgs; [
-            nodePackages.tailwindcss
+            tailwindcss_4
             nodePackages.postcss
-            nodePackages.autoprefixer
+            autoprefixer
             nodejs_22
             pnpm
+            spirenix.nixd
           ];
 
           shellHook = ''
