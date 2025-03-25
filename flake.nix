@@ -15,14 +15,11 @@
           packages = with pkgs; [
             ungoogled-chromium
             lsof
+            nixd
           ];
           buildInputs = with pkgs; [
-            tailwindcss_4
-            nodePackages.postcss
-            autoprefixer
             nodejs_22
             pnpm
-            spirenix.nixd
           ];
 
           shellHook = ''

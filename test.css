@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+:root {
+  --color-cream: #444136;
+  --color-dark: #1c1c1c;
+  --color-pink: #ff8fa3;
+  --color-green: #1e5c1e;
+  --color-text: #5f5f759f;
+}
+
+body {
+  @apply font-sans bg-cream text-text;
+}
+
+.profile-image-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  overflow: visible;
+}
+
+/* Social icons styling to match the design */
+.social-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-dark);
+  opacity: 0.75;
+  transition: all 0.2s ease;
+}
+
+.social-icon:hover {
+  color: var(--color-pink);
+  opacity: 1;
+}
+
+/* Chat animation classes */
+@keyframes bounce-in {
+  0% { transform: translateY(100%); }
+  60% { transform: translateY(-10%); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.5s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-in;
+}
+
+/* Add delay utilities */
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+/* Button and icon styles */
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 text-sm font-medium tracking-wide transition-opacity rounded-full bg-dark text-cream hover:opacity-90;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-3 text-sm font-medium tracking-wide transition-colors border-2 rounded-full border-pink text-dark hover:bg-pink hover:text-white;
+  }
+
+  .social-icon {
+    @apply w-5 h-5 transition-all opacity-75 text-dark hover:text-pink hover:opacity-100;
+  }
+
+  .logo {
+    @apply flex items-center justify-center w-10 h-10 text-sm font-medium rounded-full bg-dark text-cream;
+  }
+}
