@@ -13,7 +13,6 @@ export default function Home() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen h-screen max-w-[1920px] mx-auto p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-    
       <header className="flex items-center justify-between px-4 py-2 bg-background w-full">
         <div className="w-1/3 flex justify-start">
           <Image
@@ -35,7 +34,6 @@ export default function Home() {
       </header>
 
       <main className="grid grid-cols-1 sm:grid-cols-3 gap-8 row-start-2 items-center justify-items-center w-full">
-      <ResumeCard isOpen={isResumeOpen} setIsOpen={setIsResumeOpen} />
         <div className="sm:col-span-1 w-full self-end">
           <div className="flex space-x-4 mb-4">
             <SocialMediaLinks />
