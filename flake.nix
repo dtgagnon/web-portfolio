@@ -20,13 +20,14 @@
           buildInputs = with pkgs; [
             nodejs_22
             pnpm
+            tailwindcss_4
           ];
 
           shellHook = ''
             export PATH="$PWD/node_modules/.bin:$PATH"
+            export PATH="$PWD/node_modules/.bin:${pkgs.tailwindcss_4}/bin:$PATH"
             
             echo "Development environment ready!"
-            echo "Run './scripts/start-dev.sh' to start the development servers."
           '';
         };
       }

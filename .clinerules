@@ -19,12 +19,11 @@
 
 ## Key Technologies
 - **Frontend**:
-  - React 19
+  - Next.js 15
   - TypeScript 5.8.2
   - Tailwind CSS 4.0.14
 - **Backend**:
   - Node.js
-  - Express.js
 - **AI Integration**:
   - OpenAI API or Hugging Face Transformers
   - LangChain
