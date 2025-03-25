@@ -3,26 +3,28 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <header className="bg-background">
-<div className="flex justify-between items-center w-full">
-  <div className="cursor-pointer">
-    <Image
-      src="/logo.svg"
-      alt="Logo"
-      width={40}
-      height={40}
-      priority
-    />
-  </div>
-  <nav>
-    <ul className="flex gap-4 font-[family-name:var(--font-geist-sans)]">
-      <li><a href="#about" className="hover:underline">About</a></li>
-      <li><a href="#projects" className="hover:underline">Projects</a></li>
-      <li><a href="#contact" className="hover:underline">Contact</a></li>
-    </ul>
-  </nav>
-</div>
-
+      <header className="flex items-center justify-between px-4 py-2 bg-background w-full">
+        <div className="w-1/3 flex justify-start">
+          <Image
+            src="/images/derek-logo.jpg"
+            alt="Logo"
+            width={40}
+            height={40}
+            priority
+          />
+        </div>
+        <div className="w-1/3 flex justify-center">
+          {/* Center content can go here */}
+        </div>
+        <div className="w-1/3 flex justify-end">
+          <nav>
+            <ul className="flex gap-4 font-[family-name:var(--font-geist-sans)]">
+              <li><a href="#about" className="hover:underline">About</a></li>
+              <li><a href="#projects" className="hover:underline">Projects</a></li>
+              <li><a href="#contact" className="hover:underline">Contact</a></li>
+            </ul>
+          </nav>
+        </div>
       </header>
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <Image
@@ -55,7 +57,7 @@ export default function Home() {
           >
             <Image
               className="dark:invert"
-              src="/vercel.svg"
+              src="/public/images/vercel.svg"
               alt="Vercel logomark"
               width={20}
               height={20}
@@ -81,7 +83,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
-            src="/file.svg"
+            src="/public/images/file.svg"
             alt="File icon"
             width={16}
             height={16}
@@ -96,7 +98,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
-            src="/window.svg"
+            src="/public/images/window.svg"
             alt="Window icon"
             width={16}
             height={16}
@@ -111,7 +113,7 @@ export default function Home() {
         >
           <Image
             aria-hidden
-            src="/globe.svg"
+            src="/public/images/globe.svg"
             alt="Globe icon"
             width={16}
             height={16}
