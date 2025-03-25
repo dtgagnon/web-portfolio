@@ -16,6 +16,7 @@
             ungoogled-chromium
             lsof
             nixd
+            node2nix
           ];
           buildInputs = with pkgs; [
             nodejs_22
@@ -25,8 +26,6 @@
 
           shellHook = ''
             export PATH="$PWD/node_modules/.bin:$PATH"
-            export PATH="$PWD/node_modules/.bin:${pkgs.tailwindcss_4}/bin:$PATH"
-            
             echo "Development environment ready!"
           '';
         };
