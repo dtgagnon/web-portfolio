@@ -7,7 +7,6 @@ export default function AboutMe() {
         <br />I'm passionate about creating innovative solutions that improve healthcare outcomes
         through thoughtful design and robust engineering.
       </p>
-      <div className="border-b border-dotted border-gray-400 w-full mt-2" />
     </div>
   );
 }

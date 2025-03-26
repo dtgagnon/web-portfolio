@@ -11,9 +11,9 @@ import NavLinks from "@/components/layout/header/NavLinks";
 
 export default function Home() {
   return (
-    <div className="flex flex-col justify-center min-h-screen max-w-[1920px] mx-auto p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen max-w-[1920px] mx-auto gap-6 p-4 pb-5 font-[family-name:var(--font-geist-sans)]">
       <header className="flex items-center justify-between px-4 py-2 bg-background">
-        <div className="w-1/3 flex justify-start">
+        <div className="flex w-1/3 justify-start">
           <Image
             src="/images/derek-logo.jpg"
             alt="Logo"
@@ -23,17 +23,17 @@ export default function Home() {
           />
         </div>
 
-        <div className="w-1/3 flex justify-center">
+        <div className="flex w-1/3 justify-center">
           {/* Center content can go here */}
         </div>
 
-        <div className="w-1/3 flex justify-end">
+        <div className="flex w-1/3 justify-end">
           <NavLinks />
         </div>
       </header>
 
-      <main className="grid grid-cols-1 sm:grid-cols-3 gap-8 items-center justify-items-center w-full">
-        <div className="sm:col-span-1 w-full self-end">
+      <main className="flex items-center justify-center">
+        <div className="flex-col w-full items-center self-end">
           <div className="flex space-x-8 mb-4">
             <SocialMediaLinks />
             <ContactInfo />
@@ -41,7 +41,7 @@ export default function Home() {
           <div className="border-b border-dotted border-gray-400 w-full mt-2" />
         </div>
         
-        <div className="sm:col-span-1 flex justify-center">
+        <div className="flex w-full min-h-[200px] justify-center items-center">
           <Image
             className="rounded-full"
             src="/images/profile.jpg"
@@ -52,19 +52,20 @@ export default function Home() {
           />
         </div>
         
-        <div className="sm:col-span-1 text-center sm:text-right font-[family-name:var(--font-geist-sans)] self-start">
+        <div className="flex-col w-full text-center sm:text-right font-[family-name:var(--font-geist-sans)] self-start">
           <AboutMe />
+          <div className="border-b border-dotted border-gray-400 w-full mt-2" />
         </div>
       </main>
 
-      <footer className="flex min-h-screen items-center justify-between w-full">
-        <div className="flex justify-start">
+      <footer className="flex items-center justify-between">
+        <div className="flex w-1/3 justify-start">
           <p className="text-xs text-gray-500">© 2025 Derek Gagnon</p>
         </div>
-        <div className="flex justify-center">
+        <div className="flex w-1/3 justify-center">
           <ChatCard content="" />
         </div>
-        <div className="flex justify-end">
+        <div className="flex w-1/3 justify-end">
           <p className="text-xs text-gray-500">All rights reserved</p>
         </div>
       </footer>
