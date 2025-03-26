@@ -3,17 +3,16 @@
 import { useState } from "react";
 import Image from "next/image";
 import ChatCard from "@/components/features/ChatCard";
-import ContactInfo from "@/components/ContactInfo";
+import ContactInfo from "@/components/features/ContactInfo";
 import ResumeCard from "@/components/features/resume/ResumeCard";
-import AboutMe from "@/components/AboutMe";
-import SocialMediaLinks from "@/components/SocialMediaLinks";
+import AboutMe from "@/components/features/AboutMe";
+import SocialMediaLinks from "@/components/features/SocialMediaLinks";
 import NavLinks from "@/components/layout/header/NavLinks";
 
 export default function Home() {
-  const [isResumeOpen, setIsResumeOpen] = useState(false);
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen h-screen max-w-[1920px] mx-auto p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <header className="flex items-center justify-between px-4 py-2 bg-background w-full">
+    <div className="flex flex-col justify-center min-h-screen max-w-[1920px] mx-auto p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <header className="flex items-center justify-between px-4 py-2 bg-background">
         <div className="w-1/3 flex justify-start">
           <Image
             src="/images/derek-logo.jpg"
@@ -33,7 +32,7 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="grid grid-cols-1 sm:grid-cols-3 gap-8 row-start-2 items-center justify-items-center w-full">
+      <main className="grid grid-cols-1 sm:grid-cols-3 gap-8 items-center justify-items-center w-full">
         <div className="sm:col-span-1 w-full self-end">
           <div className="flex space-x-4 mb-4">
             <SocialMediaLinks />
@@ -47,8 +46,8 @@ export default function Home() {
             className="rounded-full"
             src="/images/profile.jpg"
             alt="Picture of Derek Gagnon"
-            width={180}
-            height={180}
+            width={200}
+            height={200}
             priority
           />
         </div>
@@ -58,7 +57,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="row-start-3 grid grid-cols-3 w-full">
+      <footer className="flex min-h-screen items-center justify-between w-full">
         <div className="flex justify-start">
           <p className="text-xs text-gray-500">© 2025 Derek Gagnon</p>
         </div>
