@@ -15,9 +15,9 @@ const Resume = () => {
 };
 
 const ContactInfo = () => (
-  <div className="contact-info">
+  <div className="flex flex-col items-center">
     <p>517-902-3799</p>
-    <h1>Derek T Gagnon</h1>
+    <h1 className="text-4xl font-semibold mb-2">Derek T Gagnon</h1>
     <p>gagnon.derek@gmail.com</p>
   </div>
 );

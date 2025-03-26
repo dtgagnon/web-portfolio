@@ -53,9 +53,6 @@ export default function Resume({ isOpen, setIsOpen }: { isOpen: boolean; setIsOp
           </button>
         </div>
         <div className="p-8">
-          <h1 className="text-2xl font-bold mb-4">Derek Gagnon</h1>
-          <p className="mb-4">Medical Device Engineer</p>
-          
           <ResumeContent />
         </div>
       </div>

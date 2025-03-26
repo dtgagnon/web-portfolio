@@ -11,14 +11,14 @@ import NavLinks from "@/components/layout/header/NavLinks";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen max-w-[1920px] mx-auto gap-6 p-4 pb-5 font-[family-name:var(--font-geist-sans)]">
-      <header className="flex items-center justify-between px-4 py-2 bg-background">
+    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen min-w-[860px] max-w-[1920px] mx-auto gap-6 p-4 pt-20 font-[family-name:var(--font-geist-sans)]">
+      <header className="flex items-center justify-between px-4 py-2">
         <div className="flex w-1/3 justify-start">
           <Image
             src="/images/derek-logo.jpg"
             alt="Logo"
-            width={100}
-            height={100}
+            width={50}
+            height={50}
             priority
           />
         </div>
@@ -32,8 +32,8 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="flex items-center justify-center">
-        <div className="flex-col w-full items-center self-end">
+      <main className="flex mx-10 my-110 items-center justify-center">
+        <div className="flex flex-col w-full items-center self-end">
           <div className="flex space-x-8 mb-4">
             <SocialMediaLinks />
             <ContactInfo />
