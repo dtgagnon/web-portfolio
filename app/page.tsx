@@ -34,7 +34,7 @@ export default function Home() {
 
       <main className="grid grid-cols-1 sm:grid-cols-3 gap-8 items-center justify-items-center w-full">
         <div className="sm:col-span-1 w-full self-end">
-          <div className="flex space-x-4 mb-4">
+          <div className="flex space-x-8 mb-4">
             <SocialMediaLinks />
             <ContactInfo />
           </div>

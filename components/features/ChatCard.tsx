@@ -54,7 +54,7 @@ export default function ChatCard({ threshold = 20, content }: ChatCardProps) {
         color: '#1c1c1c',
         border: '1px solid #3c4e74',
         borderRadius: '8px 8px 0 0',
-        boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.2)',
         transform: isOpen ? 'translate(-50%, 0)' : 'translate(-50%, calc(100% - 2.5rem))',
         transformOrigin: 'center bottom',
         transition: 'transform 0.3s ease',
