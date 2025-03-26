@@ -2,7 +2,7 @@ import React from 'react';
 
 const Resume = () => {
   return (
-    <div className="resume">
+    <div className="flex flex-col gap-8">
       <ContactInfo />
       <Summary />
       <Experience />
@@ -15,43 +15,47 @@ const Resume = () => {
 };
 
 const ContactInfo = () => (
-  <div className="flex flex-col items-center">
-    <p>517-902-3799</p>
-    <h1 className="text-4xl font-semibold mb-2">Derek T Gagnon</h1>
-    <p>gagnon.derek@gmail.com</p>
+  <div className="grid grid-cols-2">
+    <h1 className="text-4xl font-semibold self-end">Derek T Gagnon</h1>
+    <div className="text-right"> 
+      <p>517-902-3799</p>
+      <p>gagnon.derek@protonmail.com</p>
+    </div>
   </div>
 );
 
 const Summary = () => (
   <div className="summary">
-    <h2>SUMMARY</h2>
-    <p>Research &amp; Product Development • Medical Devices &amp; Biotechnology</p>
-    <p>
-      Innovative and results-driven engineer with 7+ years of experience in the design and development of complex medical device systems, integrating mechanical, bio-chemical, and electro-optic subsystems for Class II, blood-contacting cardiovascular medical devices.
-    </p>
-    <p>
-      Adept at leading cross-functional teams, prototyping solutions, and optimizing processes. Thrives in high-pressure, dynamic environments.
-    </p>
-    <p>
-      Proven track record of delivering complex projects through the full product development lifecycle, from concept through production and into new markets.
-    </p>
-    <p>
-      Leverages unique background to combine a deep understanding of engineering principles with multidisciplinary problem-solving skills; meshing areas of expertise to innovate and scale new product portfolios.
-    </p>
+    <h2 className="flex justify-center border-b-1 mb-2 text-xl">SUMMARY</h2>
+    <p className="flex justify-center">Research &amp; Product Development • Medical Devices &amp; Biotechnology</p>
+    <ul className="list-disc px-4">
+      <li>
+        Innovative and results-driven engineer with 7+ years of experience in the design and development of complex medical device systems, integrating mechanical, bio-chemical, and electro-optic subsystems for Class II, blood-contacting cardiovascular medical devices.
+      </li>
+      <li>
+        Adept at leading cross-functional teams, prototyping solutions, and optimizing processes. Thrives in high-pressure, dynamic environments.
+      </li>
+      <li>
+        Proven track record of delivering complex projects through the full product development lifecycle, from concept through production and into new markets.
+      </li>
+      <li>
+        Leverages unique background to combine a deep understanding of engineering principles with multidisciplinary problem-solving skills; meshing areas of expertise to innovate and scale new product portfolios.
+      </li>
+    </ul>
   </div>
 );
 
 const Experience = () => (
   <div className="experience">
-    <h2>Experience</h2>
+    <h2 className="flex justify-center border-b-1 mb-2 text-xl">EXPERIENCE</h2>
     <div className="experience-item">
       <h3>TERUMO CARDIOVASCULAR – ANN ARBOR, MI (2017 – 2024)</h3>
       <p>
         Manufacturer of class II cardiovascular medical devices used by perfusionists in surgeries requiring extracorporeal circulation, such as cardiopulmonary bypass surgeries, and include real-time blood parameter monitoring systems (CDI Monitoring Systems) and heart-lung machines (Advanced Perfusion Systems).
       </p>
       <h4>PRODUCT DEVELOPMENT ENGINEER</h4>
-      <p><strong>Design, Develop, Prototype, Test, Refine, Verify &amp; Validate</strong></p>
-      <ul>
+      <p className="underline">Design, Develop, Prototype, Test, Refine, Verify &amp; Validate</p>
+      <ul className="list-disc px-4">
         <li>
           Assessed impacts of designs and manufacturing methods, ensuring suitability across relevant systems and subsystems through IBM Rationale DOORs traces and additional risk management tools.
         </li>
@@ -65,8 +69,8 @@ const Experience = () => (
           Championed NPD labeling through full PD lifecycle, evaluating label and interface risks and ensuring regulatory and standards compliance.
         </li>
       </ul>
-      <h4>Technical Leader, Collaborator &amp; Mentor</h4>
-      <ul>
+      <p className="underline">Technical Leader, Collaborator &amp; Mentor</p>
+      <ul className="list-disc px-4">
         <li>
           Led cross-functional teams of senior engineers in critical design changes, reducing scrap by 25% and recovering $200k in product value.
         </li>
@@ -80,8 +84,8 @@ const Experience = () => (
           Consistently relied upon to bring stalled project activities to resolution, on time, and within budget.
         </li>
       </ul>
-      <h4>Process Improvement &amp; Strategic Problem Solving</h4>
-      <ul>
+      <p className="underline">Process Improvement &amp; Strategic Problem Solving</p>
+      <ul className="list-disc px-4">
         <li>
           Advocated and drove implementation of MBSE tools to increase cross-functional alignment and reduce manual tracing overhead.
         </li>
@@ -89,8 +93,8 @@ const Experience = () => (
           Resolved inter-system technical issues through root cause analysis methodologies, delivering clear and actionable direction.
         </li>
       </ul>
-      <h4>Design Controls, Quality Systems, &amp; Regulatory Compliance</h4>
-      <ul>
+      <p className="underline">Design Controls, Quality Systems, &amp; Regulatory Compliance</p>
+      <ul className="list-disc px-4">
         <li>
           Developed and launched FDA- and ISO-compliant real-time blood parameter monitoring devices under strict design controls, guiding products from Conceptualization through to Design Transfer, for successful market launches.
         </li>
@@ -100,7 +104,7 @@ const Experience = () => (
       </ul>
     </div>
     <div className="experience-item">
-      <h3>Henderson Development Company – Adrian, MI (2015 – 2017)</h3>
+      <h3>Anderson Development Company – Adrian, MI (2015 – 2017)</h3>
       <p>
         Specialty chemical manufacturer; develops advanced urethane elastomers and acrylic powders.
       </p>
@@ -116,7 +120,7 @@ const Experience = () => (
 
 const Education = () => (
   <div className="education">
-    <h2>Education</h2>
+    <h2 className="flex justify-center border-b-1 mb-2 text-xl">EDUCATION</h2>
     <div className="education-item">
       <h3>UNIVERSITY OF MICHIGAN – Materials Science &amp; Engineering</h3>
       <p>Ann Arbor, Michigan</p>
@@ -150,8 +154,8 @@ const Education = () => (
 
 const Expertise = () => (
   <div className="expertise">
-    <h2>Expertise</h2>
-    <ul>
+    <h2 className="flex justify-center border-b-1 mb-2 text-xl">EXPERTISE</h2>
+    <ul className="grid grid-cols-2 gap-x-6 list-disc px-4">
       <li><strong>General Engineering:</strong> IBM Rational DOORs, SolidWorks, DFM&amp;A, Rapid Prototyping, “failing fast”, PDM, and PLM</li>
       <li><strong>Testing:</strong> Minitab, test design, V&amp;V, and TMV</li>
       <li><strong>Regulatory &amp; Standards Knowledge:</strong> Device regulatory compliance (21CFR, ANSI, ASME, ISO/IEC, GMP)</li>
@@ -165,10 +169,10 @@ const Expertise = () => (
 
 const ActiveProjects = () => (
   <div className="active-projects">
-    <h2>Active Projects</h2>
+    <h2 className="flex justify-center border-b-1 mb-2 text-xl">ACTIVE PROJECTS</h2>
     <h3>RevEng Technologies – Reverse Engineering Services</h3>
     <p>Ann Arbor, Michigan</p>
-    <ul>
+    <ul className="list-disc px-4">
       <li>3D scan objects</li>
       <li>Produce common mesh file types (PLY, OBJ, STL) from 3D scans</li>
       <li>Design improvements</li>
@@ -180,13 +184,13 @@ const ActiveProjects = () => (
 
 const PersonalProjects = () => (
   <div className="personal-projects">
-    <h2>Personal Projects</h2>
-    <ul>
+    <h2 className="flex justify-center border-b-1 mb-2 text-xl">PERSONAL PROJECTS</h2>
+    <ul className="list-disc px-4">
       <li>Designing medical device applications from bleeding-edge machine learning techniques</li>
       <li>Learning NixOS for deployment of declarative, reproducible systems</li>
       <li>
         Design, development, and production of:
-        <ul>
+        <ul className="list-disc px-4">
           <li>A custom ergonomic split mechanical keyboard</li>
           <li>An interactive personal portfolio website (coming soon to derektgagnon.com)</li>
         </ul>
