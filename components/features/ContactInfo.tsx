@@ -6,7 +6,9 @@ export default function ChatCard() {
           Derek Gagnon
         </div>
       <div className="text-sm/6 text-center sm:text-right font-[family-name:var(--font-geist-sans)] self-start">
-        gagnon.derek@protonmail.com
+        <a href="mailto:gagnon.derek@protonmail.com" className="hover:underline decoration-dashed">
+          gagnon.derek@protonmail.com
+        </a>
       </div>
     </div>
   );

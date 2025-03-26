@@ -50,9 +50,9 @@ export default function ChatCard({ threshold = 20, content }: ChatCardProps) {
         left: '50%',
         width: '300px',
         maxHeight: '400px',
-        backgroundColor: '#faf8f2',
+        backgroundColor: '#fff3e0',
         color: '#1c1c1c',
-        border: '1px solid #0c581c',
+        border: '1px solid #3c4e74',
         borderRadius: '8px 8px 0 0',
         boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.1)',
         transform: isOpen ? 'translate(-50%, 0)' : 'translate(-50%, calc(100% - 2.5rem))',
@@ -66,8 +66,8 @@ export default function ChatCard({ threshold = 20, content }: ChatCardProps) {
       <div 
         style={{
           padding: '0.5rem',
-          backgroundColor: '#0c581c',
-          color: '#1c1c1c',
+          backgroundColor: '#3c4e74',
+          color: '#fff3e0',
           borderRadius: '8px 8px 0 0',
           display: 'flex',
           justifyContent: 'space-between',
@@ -87,9 +87,9 @@ export default function ChatCard({ threshold = 20, content }: ChatCardProps) {
             style={{
               width: '100%',
               padding: '0.5rem',
-              border: '1px solid rgba(0, 100, 0, 0.9)',
+              border: '1px solid #3c4e74',
               borderRadius: '4px',
-              backgroundColor: '#ffffff',
+              backgroundColor: '#fff3e0',
               color: '#1c1c1c'
             }}
             placeholder="Ask away!"
