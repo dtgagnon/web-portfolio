@@ -38,7 +38,7 @@ export default function Resume({ isOpen, setIsOpen }: { isOpen: boolean; setIsOp
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div 
         ref={resumeRef}
-        className="bg-white w-full max-w-3xl h-[calc(100vh-4rem)] overflow-auto rounded-lg shadow-xl"
+        className="bg-white w-full max-w-6xl h-[calc(100vh-4rem)] overflow-auto rounded-lg shadow-xl"
         style={{ aspectRatio: '8.5/11' }} // Letter paper ratio (portrait)
       >
         <div className="sticky top-0 flex justify-end p-2 bg-white border-b">

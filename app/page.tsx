@@ -13,13 +13,22 @@ export default function Home() {
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen min-w-[860px] max-w-[1920px] mx-auto gap-6 p-4 pt-20 font-[family-name:var(--font-geist-sans)]">
       <header className="flex items-center justify-between px-4 py-2">
-        <div className="flex w-1/3 justify-start">
+        <div className="flex w-1/3 justify-start relative group">
           <Image
             src="/images/derek-logo.jpg"
             alt="Logo"
-            width={50}
-            height={50}
+            width={80}
+            height={80}
             priority
+            className="transition-opacity duration-300 ease-in-out z-10 group-hover:opacity-0"
+          />
+          <Image
+            src="/images/logo-ani-0.jpeg" 
+            alt="Logo Hover"
+            width={80}
+            height={80}
+            priority
+            className="absolute top-0 left-0 transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100"
           />
         </div>
 

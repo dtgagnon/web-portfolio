@@ -42,57 +42,23 @@ export default function ChatCard({ threshold = 20, content }: ChatCardProps) {
   }, [cursorPos, threshold]);
 
   return (
-    <div 
-      ref={cardRef}
-      style={{
-        position: 'fixed',
-        bottom: '0',
-        left: '50%',
-        width: '300px',
-        maxHeight: '400px',
-        backgroundColor: '#fff3e0',
-        color: '#1c1c1c',
-        border: '1px solid #3c4e74',
-        borderRadius: '8px 8px 0 0',
-        boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.2)',
-        transform: isOpen ? 'translate(-50%, 0)' : 'translate(-50%, calc(100% - 2.5rem))',
-        transformOrigin: 'center bottom',
-        transition: 'transform 0.3s ease',
-        cursor: 'pointer',
-        zIndex: 1000
-      }}
-      onMouseEnter={() => !isOpen && setIsOpen(true)}
+    <div className={`fixed bottom-0 origin-bottom left-1/2 w-80 max-h-[400px] bg-[#fff3e0] text-[#1c1c1c] border-[1px solid #3c4e74] rounded-[8px] shadow-[0_-2px_10px_rgba(0,0,0,.2)]
+    transition-transform duration-300 ease-in-out cursor-pointer z-1000
+    ${isOpen ? 'translate-x-[-50%] translate-y-0' : 'translate-x-[-50%] translate-y-[calc(100%-2.5rem)]'}`}
+    ref={cardRef}
+    onMouseEnter={() => !isOpen && setIsOpen(true)}
     >
-      <div 
-        style={{
-          padding: '0.5rem',
-          backgroundColor: '#3c4e74',
-          color: '#fff3e0',
-          borderRadius: '8px 8px 0 0',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}
-        onClick={() => setIsOpen(false)}
-      >
-        <span>Chat w/ Derek's Portfolio!</span>
-        <span>{isOpen ? '▼' : '▲'}</span>
+      <div className="flex bg-[#3c4e74] text-[#fff3e0] rounded-t-[8px] items-center justify-between p-2" onClick={() => setIsOpen(false)}>
+        <span className="text-sm">Chat with Derek's Portfolio!</span>
+        <span className="text-sm">{isOpen ? '▼' : '▲'}</span>
       </div>
       {isOpen && (
-        <div style={{ padding: '1rem' }}>
-          <input
+        <div className="p-4">
+          <input className="w-full p-2 border border-[#3c4e74] rounded-[4px] bg-[#fff3e0] text-[#1c1c1c]"
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '0.5rem',
-              border: '1px solid #3c4e74',
-              borderRadius: '4px',
-              backgroundColor: '#fff3e0',
-              color: '#1c1c1c'
-            }}
-            placeholder="Ask away!"
+            placeholder="Coming soon!"
           />
           {content}
         </div>
