@@ -23,6 +23,10 @@
             nodejs_22
             pnpm
             tailwindcss_4
+            # Dependencies for better-sqlite3 native bindings
+            sqlite
+            pkg-config
+            gcc
           ];
 
           shellHook = ''

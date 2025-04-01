@@ -6,12 +6,13 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:init": "node scripts/createEmptyDb.js"
   },
   "dependencies": {
-    "@types/better-sqlite3": "^7.6.12",
     "better-sqlite3": "^9.6.0",
     "next": "15.2.4",
+    "openai": "^4.20.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -25,6 +26,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "tailwindcss": "^4",
+    "tsx": "^4.19.3",
     "typescript": "^5"
   }
 }

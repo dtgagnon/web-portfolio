@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { MessageRepository, SessionRepository, TelemetryRepository } from '@/lib/database';
+import { MessageRepository, SessionRepository, TelemetryRepository, ChatMessage as DbChatMessage } from '@/lib/database';
+import { generateChatCompletion, prepareSystemMessage, ChatMessage as OpenAIChatMessage } from '@/lib/api/llm/openai';
 import { randomUUID } from 'crypto';
 
 // POST /api/chat - Send a message and get a response
@@ -23,7 +24,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Record the user message
-    const userMessage = MessageRepository.create({
+    const userDbMessage = MessageRepository.create({
       user_id: userId || null,
       content: message,
       role: 'user',
@@ -33,22 +34,39 @@ export async function POST(request: NextRequest) {
     // Record telemetry for message sent
     TelemetryRepository.recordEvent('message_sent', null, userId, currentSessionId);
 
-    // This is where you would integrate with your LLM provider
-    // For now, we'll just return a simple echo response
-    // TODO: Replace with actual LLM integration
-    const responseText = `I received your message: "${message}". This is a placeholder response.`;
+    // Get previous messages for context (limited to last 10 for performance)
+    const previousMessages = MessageRepository.findBySessionId(currentSessionId)
+      .slice(-10) // Get last 10 messages
+      .map(dbMsg => ({
+        role: dbMsg.role,
+        content: dbMsg.content
+      } as OpenAIChatMessage));
+    
+    // Prepare messages for OpenAI
+    const systemMessage = prepareSystemMessage();
+    const openaiMessages: OpenAIChatMessage[] = [
+      systemMessage,
+      ...previousMessages,
+      { role: 'user' as const, content: message }
+    ];
+    
+    // Generate response from OpenAI
+    const aiResponse = await generateChatCompletion(openaiMessages, {
+      temperature: 0.7,
+      model: 'gpt-4o' // You can adjust the model as needed
+    });
     
     // Save the assistant's response
-    const assistantMessage = MessageRepository.create({
-      user_id: null,
-      content: responseText,
+    const assistantDbMessage = MessageRepository.create({
+      user_id: null, // Assistant messages don't have a user_id
+      content: aiResponse.content ?? '', // Default to empty string if null
       role: 'assistant',
       session_id: currentSessionId
     });
 
     return NextResponse.json({
       sessionId: currentSessionId,
-      message: assistantMessage,
+      message: assistantDbMessage,
       success: true
     });
   } catch (error) {

@@ -1,6 +1,6 @@
-import { getDbConnection } from '../dbClient';
 import { ChatMessage } from '../models/types';
 import { randomUUID } from 'crypto';
+import { getDbConnection } from '../dbClient';
 
 export class MessageRepository {
   // Get a message by ID
