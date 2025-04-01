@@ -1,0 +1,126 @@
+{
+  "sessionId": "thread_mpkRtJR4L7KWHD7Wy0OsUGI5",
+  "messages": [
+    {
+      "id": "msg_mO56K83LN9hQ31qGahHLiChf",
+      "object": "thread.message",
+      "created_at": 1743534914,
+      "assistant_id": null,
+      "thread_id": "thread_mpkRtJR4L7KWHD7Wy0OsUGI5",
+      "run_id": null,
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": {
+            "value": "Hi! What can you tell me about Derek?",
+            "annotations": []
+          }
+        }
+      ],
+      "attachments": [],
+      "metadata": {}
+    },
+    {
+      "id": "msg_O14jofNpy7S940ljRsPRgsHH",
+      "object": "thread.message",
+      "created_at": 1743534921,
+      "assistant_id": "asst_DGmRvUCG7xqzr05EyBATt8zM",
+      "thread_id": "thread_mpkRtJR4L7KWHD7Wy0OsUGI5",
+      "run_id": "run_QpTPUTFvIPuunlWJg6wq1irn",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": {
+            "value": "Derek Gagnon is a seasoned Systems Engineer with over nine years of experience in the medical devices and biotechnology sector. He specializes in developing and designing complex systems that integrate mechanical, bio-chemical, and electro-optic subsystems, particularly for blood-contacting cardiovascular medical devices. Derek possesses a robust track record of managing projects throughout the product development lifecycle, from concept to production. His expertise includes systems engineering, regulatory standards, quality management, and process improvement, all underpinned by a strong educational foundation in materials science and engineering, combined with chemistry [1].\n\n**References:**\n[1] Reference from Derek-Gagnon_SysEngr_Resume.pdf",
+            "annotations": []
+          }
+        }
+      ],
+      "attachments": [],
+      "metadata": {}
+    },
+    {
+      "id": "msg_UpKD2DDdrv0K0WEFkIMATt6Z",
+      "object": "thread.message",
+      "created_at": 1743535685,
+      "assistant_id": null,
+      "thread_id": "thread_mpkRtJR4L7KWHD7Wy0OsUGI5",
+      "run_id": null,
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": {
+            "value": "Tell me a little about his system's engineering experience",
+            "annotations": []
+          }
+        }
+      ],
+      "attachments": [],
+      "metadata": {}
+    },
+    {
+      "id": "msg_MFJJhufnwKbpjk09kw2DOeDC",
+      "object": "thread.message",
+      "created_at": 1743535690,
+      "assistant_id": "asst_DGmRvUCG7xqzr05EyBATt8zM",
+      "thread_id": "thread_mpkRtJR4L7KWHD7Wy0OsUGI5",
+      "run_id": "run_S0vXNLSYcbyQrdlhmrIK67Hs",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": {
+            "value": "Derek has a solid foundation in systems engineering, particularly in the medical devices industry. His experience includes designing and developing complex medical device systems that integrate mechanical, bio-chemical, and electro-optic subsystems. He has led cross-functional teams to deliver projects throughout the product development lifecycle, from initial concept to production. Derek has also championed the creation of innovative solutions such as a novel variable-reference sensor, which improved manufacturing throughput by 40%. Additionally, he has been a technical leader, focusing on mentoring junior engineers and fostering collaboration across functional groups [1].\n\n**References:**\n[1] Reference from Derek-Gagnon_SysEngr_Resume.pdf",
+            "annotations": []
+          }
+        }
+      ],
+      "attachments": [],
+      "metadata": {}
+    },
+    {
+      "id": "msg_ufWfrgtl7LkPTUjQBdUGrk85",
+      "object": "thread.message",
+      "created_at": 1743535746,
+      "assistant_id": null,
+      "thread_id": "thread_mpkRtJR4L7KWHD7Wy0OsUGI5",
+      "run_id": null,
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": {
+            "value": "List his areas of expertise",
+            "annotations": []
+          }
+        }
+      ],
+      "attachments": [],
+      "metadata": {}
+    },
+    {
+      "id": "msg_P0I5bVbxpJKcmdz82Nnj4imn",
+      "object": "thread.message",
+      "created_at": 1743535750,
+      "assistant_id": "asst_DGmRvUCG7xqzr05EyBATt8zM",
+      "thread_id": "thread_mpkRtJR4L7KWHD7Wy0OsUGI5",
+      "run_id": "run_N2v26h00fnwOCiqUJoUODlkc",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": {
+            "value": "Derek's areas of expertise encompass a wide range of skills essential in systems engineering and the medical devices sector. He excels in designing complex interfacing systems, utilizing tools such as IBM Rational DOORs, SolidWorks, and PDM (3DX), and leveraging DFM&A and rapid prototyping. His testing acumen includes proficiency with Minitab, test design, V&V, and TMV. Derek is also well-versed in regulatory and standards knowledge, covering 21 CFR 820, ISO-13485 / 14971, IEC 60601/62304, and more. Additionally, he has specialized knowledge in electro-mechanical systems, medical device development, and verification and validation, along with unique subject matter expertise in ex vivo blood circuits, hemodynamics, chemical biosensors, and materials science [1].\n\n**References:**\n[1] Reference from Derek-Gagnon_SysEngr_Resume.pdf",
+            "annotations": []
+          }
+        }
+      ],
+      "attachments": [],
+      "metadata": {}
+    }
+  ],
+  "success": true
+}

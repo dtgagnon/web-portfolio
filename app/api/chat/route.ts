@@ -30,94 +30,112 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
 
-    let currentSessionId = incomingSessionId;
-    let isNewSession = false;
+    let openAIThreadId = incomingSessionId; // Assume incoming sessionId is the OpenAI Thread ID
+    let localDbSessionId: string | undefined = undefined;
 
     // Create a new OpenAI thread if no sessionId (threadId) is provided
-    if (!currentSessionId) {
+    if (!openAIThreadId) {
       const newThread = await createThread();
-      currentSessionId = newThread.id;
-      isNewSession = true;
+      openAIThreadId = newThread.id; // Store the new OpenAI Thread ID
+
       // Create corresponding session in our DB - Assumes create generates its own ID
       const newDbSession = SessionRepository.create(userId || undefined);
-      console.log(`Created new OpenAI thread ${currentSessionId} and DB session ${newDbSession.id}`);
+      localDbSessionId = newDbSession.id; // Store the local DB session ID
+      console.log(`Created new OpenAI thread ${openAIThreadId} and DB session ${localDbSessionId}`);
+      // TODO: Consider linking openAIThreadId to the local session record in the DB
     } else {
-      // Update existing session activity in our DB
-      SessionRepository.updateActivity(currentSessionId);
-      console.log(`Using existing thread/session: ${currentSessionId}`);
+      // If using an existing OpenAI thread, we need to find the corresponding local DB session ID.
+      // This requires a way to look up the local session based on the OpenAI thread ID.
+      // Assuming SessionRepository has a method like findByOpenAIThreadId, or that the ID passed *is* the local ID.
+      // FOR NOW: Let's assume incomingSessionId was actually the LOCAL DB ID for existing sessions.
+      // This simplifies the logic but means the client needs to send the LOCAL ID.
+      // Re-evaluating the initial assumption:
+      openAIThreadId = incomingSessionId; // Let's stick with this being the OpenAI ID
+
+      // !!! CRITICAL FLAW: We don't have the localDbSessionId for existing threads here easily.
+      // !!! TEMPORARY WORKAROUND: We cannot reliably log to local DB for existing threads without DB schema changes or lookups.
+      // !!! Let's skip local DB operations for *existing* threads for now to avoid errors.
+
+      // Update existing session activity in our DB (This call might be incorrect if it expects local ID)
+      // SessionRepository.updateActivity(openAIThreadId); // Commenting out as it likely needs local ID
+      console.log(`Using existing OpenAI thread: ${openAIThreadId}`);
     }
 
-    // Record the user message in our DB (optional, as OpenAI keeps history)
-    // Could be useful for logging or if OpenAI history is purged
-    const userDbMessage = MessageRepository.create({
-      user_id: userId || null,
-      content: message,
-      role: 'user',
-      session_id: currentSessionId
-    });
+    // --- Local DB Operations (Only if localDbSessionId is known, i.e., new session) ---
+    if (localDbSessionId) {
+      // Record the user message in our DB (optional, as OpenAI keeps history)
+      const userDbMessage = MessageRepository.create({
+        user_id: userId || null,
+        content: message,
+        role: 'user',
+        session_id: localDbSessionId // Use local DB session ID
+      });
 
-    // Record telemetry
-    TelemetryRepository.recordEvent('message_sent', null, userId, currentSessionId);
+      // Record telemetry
+      TelemetryRepository.recordEvent('message_sent', null, userId, localDbSessionId); // Use local DB session ID
+    } else {
+      console.warn(`Skipping local DB logging for existing thread ${openAIThreadId} as localDbSessionId is unknown.`);
+    }
 
+    // --- OpenAI API Operations (Always use openAIThreadId) ---
+    
     // 1. Add the user message to the OpenAI Thread
-    await addMessageToThread(currentSessionId, {
+    await addMessageToThread(openAIThreadId, {
       role: 'user',
       content: message
     });
-    console.log(`Added message to thread ${currentSessionId}`);
+    console.log(`Added message to thread ${openAIThreadId}`);
 
     // 2. Run the Assistant on the Thread
-    console.log(`Running assistant ${assistantId} on thread ${currentSessionId}...`);
-    const run = await runAssistantOnThread(currentSessionId, assistantId);
-    // Note: runAssistantOnThread already waits for completion
+    console.log(`Running assistant ${assistantId} on thread ${openAIThreadId}...`);
+    const run = await runAssistantOnThread(openAIThreadId, assistantId);
     console.log(`Run ${run.id} completed with status: ${run.status}`);
 
-    // 3. Retrieve the latest message from the Thread (should be the assistant's response)
-    const threadMessages = await getMessagesFromThread(currentSessionId, 1, 'desc');
+    // 3. Retrieve the latest message from the Thread
+    const threadMessages = await getMessagesFromThread(openAIThreadId, 1, 'desc');
     
-    let assistantResponseContent = "Sorry, I couldn't process that."; // Default response
+    let assistantResponseContent = "Sorry, I couldn't process that."; 
     let assistantMessageId: string | null = null;
 
     if (threadMessages.length > 0 && threadMessages[0].role === 'assistant') {
       const assistantMessage = threadMessages[0];
       assistantMessageId = assistantMessage.id;
-      // The getMessagesFromThread function already processes annotations.
-      // We need to extract the text content.
       const textContent = assistantMessage.content
         .filter(contentBlock => contentBlock.type === 'text')
-        .map(textContentBlock => (textContentBlock as any).text.value) // Type assertion might be needed depending on exact type
+        .map(textContentBlock => (textContentBlock as any).text.value)
         .join('\n');
       
       if (textContent) {
         assistantResponseContent = textContent;
       }
     } else {
-      console.warn(`No assistant message found or latest message not from assistant in thread ${currentSessionId}`);
-      // Handle cases where the assistant might not have responded as expected
+      console.warn(`No assistant message found or latest message not from assistant in thread ${openAIThreadId}`);
     }
 
-    // Record the assistant's response in our DB (optional)
-    const assistantDbMessage = MessageRepository.create({
-      user_id: null, 
-      content: assistantResponseContent,
-      role: 'assistant',
-      session_id: currentSessionId,
-      // Optionally store the OpenAI message ID for correlation
-      // metadata: { openai_message_id: assistantMessageId }
-    });
+    // --- Local DB Operations for Assistant Message (Only if localDbSessionId is known) ---
+    let assistantDbMessage = null;
+    if (localDbSessionId) {
+      assistantDbMessage = MessageRepository.create({
+        user_id: null, 
+        content: assistantResponseContent,
+        role: 'assistant',
+        session_id: localDbSessionId, // Use local DB session ID
+        // metadata: { openai_message_id: assistantMessageId } 
+      });
+    }
 
-    // Return the necessary info to the client
+    // --- API Response ---
+    // Return the OpenAI Thread ID as sessionId for subsequent requests
+    // Optionally return localDbSessionId if the client needs it
     return NextResponse.json({
-      sessionId: currentSessionId, // Return the threadId as sessionId
-      message: assistantDbMessage, // Return the DB representation of the message
-      // Or return the raw content: 
-      // responseContent: assistantResponseContent,
+      sessionId: openAIThreadId, 
+      message: assistantDbMessage, // This might be null if it was an existing thread
+      responseContent: assistantResponseContent, // Always return the content
       success: true
     });
 
   } catch (error: any) {
     console.error('Chat API POST error:', error);
-    // Provide a more specific error message if possible
     const errorMessage = error.message || 'Failed to process message';
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }

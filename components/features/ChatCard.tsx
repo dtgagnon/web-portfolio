@@ -24,6 +24,9 @@ interface Message {
   content: string;
   role: 'user' | 'assistant' | 'system';
   created_at: number;
+  // Add optional fields that might be present in API responses
+  text?: string;
+  message?: string;
 }
 
 interface ChatCardProps {
@@ -96,7 +99,7 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
         const errorText = await response.text(); 
         console.error(`Error fetching chat history (${response.status}):`, errorText);
         // Display a user-friendly error message in the chat
-        setMessages(prev => [...prev, { id: 'error-fetch-' + Date.now(), role: 'system', content: `Chat service is currently unavailable. Please try again later.`, created_at: Date.now() / 1000 }]);
+        setMessages(prev => [...prev, { id: 'error-fetch-' + Date.now(), role: 'system', content: `Chat service is currently unavailable. Please try again later.`, created_at: Math.floor(Date.now() / 1000) }]);
         return; 
       }
       
@@ -105,7 +108,26 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
       if (contentType && contentType.indexOf("application/json") !== -1) {
         const data = await response.json();
         if (data.success && data.messages) {
-          setMessages(data.messages);
+          // Validate and normalize messages before setting state
+          const normalizedMessages = data.messages.map((msg: any) => {
+            // Ensure each message has the required fields with proper types
+            const normalizedMsg: Message = {
+              id: msg.id || `normalized-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+              content: typeof msg.content === 'string' ? msg.content : 
+                      (msg.text || msg.message || 'Message content unavailable'),
+              role: ['user', 'assistant', 'system'].includes(msg.role) ? 
+                    (msg.role as 'user' | 'assistant' | 'system') : 'system',
+              created_at: typeof msg.created_at === 'number' && !isNaN(msg.created_at) ? 
+                         msg.created_at : Math.floor(Date.now() / 1000)
+            };
+            
+            // Store original text/message fields if present for future reference
+            if (typeof msg.text === 'string') normalizedMsg.text = msg.text;
+            if (typeof msg.message === 'string') normalizedMsg.message = msg.message;
+            
+            return normalizedMsg;
+          });
+          setMessages(normalizedMessages);
         } else {
           console.error('Failed to parse chat history:', data);
         }
@@ -118,7 +140,7 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
     } catch (error) {
       console.error('Network or parsing error fetching chat history:', error);
       // Display a user-friendly error message in the chat for network/parsing errors
-      setMessages(prev => [...prev, { id: 'error-fetch-net-' + Date.now(), role: 'system', content: `Chat service is currently unavailable. Please try again later.`, created_at: Date.now() / 1000 }]);
+      setMessages(prev => [...prev, { id: 'error-fetch-net-' + Date.now(), role: 'system', content: `Chat service is currently unavailable. Please try again later.`, created_at: Math.floor(Date.now() / 1000) }]);
     }
   };
 
@@ -146,7 +168,7 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
       const remainingSeconds = Math.ceil((cooldownEndTime - now) / 1000);
       console.warn(`Cooldown active. Please wait ${remainingSeconds}s`);
       // Optionally update a temporary message or do nothing
-      setIsLoading(false);
+      setIsLoading(false); // Need to reset loading if cooldown prevents sending
       return; // Prevent sending during cooldown
     }
     // --- End cooldown check ---
@@ -200,70 +222,73 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
         setMessages(prev => [...prev, { 
           id: 'error-send-' + Date.now(), 
           role: 'system', 
-          content: `Chat service is currently unavailable. Please try again after ${formatCooldownTime(cooldownSeconds)}.`, 
-          created_at: Date.now() / 1000 
+          content: `Error: ${errorData?.error || responseText}. Cooldown activated for ${formatCooldownTime(cooldownSeconds)}.`, 
+          created_at: Math.floor(Date.now() / 1000) 
         }]);
-        setIsLoading(false); // Ensure loading state is reset
-        return; 
-      }
+      } else { // response.ok is true
+        const data = await response.json();
 
-      // --- Handle successful JSON response ---
-      let contentType = null;
-      try {
-        contentType = response.headers.get("content-type");
-      } catch (error) {
-        console.error("Error getting content type:", error);
-      }
-      if (contentType && contentType.indexOf("application/json") !== -1) {
-        try {
-          const data = await response.json();
-          if (data.success && data.assistantResponse) {
-            setMessages(prev => [...prev, data.assistantResponse]);
-            if (data.sessionId) {
-              setSessionId(data.sessionId);
-              sessionStorage.setItem('chatSessionId', data.sessionId);
-            }
-            // Reset error count on success
-            setErrorCount(0);
-            setCooldownEndTime(0); // Reset cooldown on success
+        if (data.success) {
+          // Update session ID if it's new
+          if (data.sessionId && !sessionId) {
+            setSessionId(data.sessionId);
+            sessionStorage.setItem('chatSessionId', data.sessionId);
+          }
+
+          // Add the assistant's message to the state, prioritizing responseContent
+          let assistantText = '';
+          if (data.responseContent) {
+            assistantText = data.responseContent;
+          } else if (data.message && data.message.content) {
+            // Fallback to message.content if responseContent is missing (less likely now)
+            console.warn("Using fallback data.message.content as data.responseContent was missing.");
+            assistantText = data.message.content;
+          }
+
+          if (assistantText) {
+            // Construct the message object for the UI
+            const assistantMessage: Message = {
+              // Use DB message ID if available AND if we used message.content, otherwise generate
+              id: (data.message && !data.responseContent) ? (data.message.id || `assistant-${Date.now()}`) : `assistant-${Date.now()}`,
+              content: assistantText,
+              role: 'assistant',
+              // Use DB timestamp if available AND if we used message.content, otherwise now
+              created_at: (data.message && !data.responseContent) ? (data.message.created_at || Math.floor(Date.now() / 1000)) : Math.floor(Date.now() / 1000),
+            };
+            setMessages(prev => [...prev, assistantMessage]);
           } else {
-            // Handle cases where JSON is valid but doesn't have expected data
-            console.error('Successful response missing expected data:', data);
-            setMessages(prev => [...prev, { id: 'error-data-' + Date.now(), role: 'system', content: 'Received an unexpected response from the server.', created_at: Date.now() / 1000 }]);
+            // This case should be rare now, but handle it
+            console.error('Received success response but no assistant content found in responseContent or message.content:', data);
+            setMessages(prev => [...prev, {
+              id: 'error-no-content-' + Date.now(),
+              role: 'system',
+              content: 'Received an incomplete response from the assistant.',
+              created_at: Math.floor(Date.now() / 1000)
+            }]);
           }
-        } catch (parseError) {
-          console.error("Failed to parse successful JSON response:", parseError);
-          // Also log the raw text if possible to help debug
-          try {
-            const errorText = await response.text();
-            console.error("Raw response text:", errorText);
-          } catch (textError) {
-            console.error("Failed to read response text after JSON parse error:", textError);
-          }
-          setMessages(prev => [...prev, { id: 'error-parse-' + Date.now(), role: 'system', content: 'Failed to read the server\'s response. Please try again.', created_at: Date.now() / 1000 }]);
-          // Optionally trigger cooldown here too if unexpected success format is treated as an error
-          // const nextErrorCount = Math.min(errorCount + 1, COOLDOWN_PERIODS_SECONDS.length);
-          // const cooldownSeconds = COOLDOWN_PERIODS_SECONDS[nextErrorCount - 1];
-          // const newCooldownEndTime = Date.now() + cooldownSeconds * 1000;
-          // setErrorCount(nextErrorCount);
-          // setCooldownEndTime(newCooldownEndTime);
-        }
-      } else {
-        // Handle successful responses that are not JSON
-        console.warn('Received successful non-JSON response');
-        // Try reading as text, but handle potential errors
-        let responseText = '[Could not read non-JSON response text]'; 
-        try {
-          responseText = await response.text(); 
-          console.warn('Response text:', responseText);
-        } catch (textReadError) {
-          console.error("Failed to read text from successful non-JSON response:", textReadError);
-        }
-        // Decide how to handle this - maybe display a generic message?
-        setMessages(prev => [...prev, { id: 'warn-nonjson-' + Date.now(), role: 'system', content: 'Received an unexpected response format from the server.', created_at: Date.now() / 1000 }]);
-      }
 
-      setIsLoading(false);
+          setErrorCount(0); // Reset error count on success
+          setCooldownEndTime(0); // Reset cooldown on success
+
+        } else {
+          // Handle backend reporting success: false
+          console.error('API indicated failure:', data.error);
+          // Implement cooldown based on error count
+          const nextErrorCount = Math.min(errorCount + 1, COOLDOWN_PERIODS_SECONDS.length);
+          const cooldownSeconds = COOLDOWN_PERIODS_SECONDS[nextErrorCount - 1];
+          const newCooldownEndTime = Date.now() + cooldownSeconds * 1000;
+          
+          setErrorCount(nextErrorCount);
+          setCooldownEndTime(newCooldownEndTime);
+
+          setMessages(prev => [...prev, { 
+            id: 'error-api-fail-' + Date.now(), 
+            role: 'system', 
+            content: `Assistant Error: ${data.error || 'Unknown error'}. Cooldown activated for ${formatCooldownTime(cooldownSeconds)}.`, 
+            created_at: Math.floor(Date.now() / 1000) 
+          }]);
+        }
+      }
     } catch (error) {
       // --- Network Error Handling ---
       console.error('Network error sending message:', error);
@@ -279,9 +304,10 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
           id: 'error-network-' + Date.now(), 
           role: 'system', 
           content: `Failed to connect to chat service. Please try again after ${formatCooldownTime(cooldownSeconds)}.`, 
-          created_at: Date.now() / 1000 
+          created_at: Math.floor(Date.now() / 1000) 
         }]);
-      setIsLoading(false); // Ensure loading state is reset on network error
+    } finally {
+      setIsLoading(false); // Ensure loading state is always reset
     }
   };
 
@@ -296,6 +322,8 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
       }}
       ref={cardRef}
       onMouseEnter={() => !isOpen && setIsOpen(true)}
+      aria-label="Chat with portfolio"
+      role="region"
     >
       <div 
         className={`flex ${isDarkMode ? 'bg-[#3c4e74] text-[#faf8f2]' : 'bg-[#3c4e74] text-[#faf8f2]'} rounded-t-[8px] items-center justify-between p-2`} 
@@ -312,33 +340,77 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
             {messages.length === 0 ? (
               <div className="text-center text-gray-500 italic py-4">
                 <p>No messages yet. Start a conversation!</p>
+                <p className="text-xs mt-2">Ask me about my UX design work, accessibility expertise, or neuroinclusive design approach.</p>
               </div>
             ) : (
-              messages.map((msg) => (
-                <div 
-                  key={msg.id} 
-                  className={`mb-3 max-w-[85%] ${
-                    msg.role === 'user' ? 'ml-auto' : 
-                    msg.role === 'assistant' ? 'mr-auto' :
-                    'mx-auto text-center w-full' // Center system messages
-                  }`}
-                >
+              messages.map((msg) => {
+                // --- Enhanced validation --- 
+                if (!msg || typeof msg !== 'object') {
+                  console.error("Invalid message object found in state:", msg);
+                  return null; // Don't render invalid entries
+                }
+                
+                // Try to safely access properties with fallbacks
+                const messageId = msg.id || `fallback-${Math.random().toString(36).substring(2, 9)}`;
+                const messageContent = typeof msg.content === 'string' ? msg.content : 
+                                      ((msg as any).text || (msg as any).message || 'Message content unavailable');
+                const messageRole = ['user', 'assistant', 'system'].includes(msg.role) ? 
+                                    msg.role : 'system';
+                const messageTimestamp = typeof msg.created_at === 'number' && !isNaN(msg.created_at) ? 
+                                        msg.created_at : Math.floor(Date.now() / 1000);
+                
+                // Log detailed information for debugging
+                if (typeof msg.content !== 'string' || typeof msg.created_at !== 'number' || isNaN(msg.created_at)) {
+                  console.warn("Message format issue detected:", {
+                    id: messageId,
+                    originalContent: msg.content,
+                    originalTimestamp: msg.created_at,
+                    using: {
+                      content: messageContent,
+                      timestamp: messageTimestamp
+                    }
+                  });
+                  
+                  // Report error to monitoring system if available
+                  if (typeof window !== 'undefined' && window.onerror) {
+                    window.onerror(
+                      `Error rendering message (ID: ${messageId})`,
+                      'ChatCard.tsx',
+                      0,
+                      0,
+                      new Error('Invalid message format')
+                    );
+                  }
+                }
+                // --- End enhanced validation ---
+                
+                // Use the safe values from our validation
+                return (
                   <div 
-                    className={`p-2 rounded-md text-sm ${
-                      msg.role === 'user' 
-                        ? `bg-[#ff8fa3] text-[#1c1c1c]` 
-                        : msg.role === 'assistant'
-                        ? `bg-[#d4f7d4] text-[#1c1c1c]`
-                        : `bg-gray-200 text-gray-600 italic` // Style for system messages
+                    key={messageId} 
+                    className={`mb-3 max-w-[85%] ${
+                      messageRole === 'user' ? 'ml-auto' : 
+                      messageRole === 'assistant' ? 'mr-auto' :
+                      'mx-auto text-center w-full' // Center system messages
                     }`}
                   >
-                    {msg.content}
+                    <div 
+                      className={`p-2 rounded-md text-sm ${
+                        messageRole === 'user' 
+                          ? `bg-[#ff8fa3] text-[#1c1c1c]` 
+                          : messageRole === 'assistant'
+                          ? `bg-[#d4f7d4] text-[#1c1c1c]`
+                          : `bg-gray-200 text-gray-600 italic` // Style for system messages
+                      }`}
+                    >
+                      {messageContent}
+                    </div>
+                    <div className="text-xs opacity-60 mt-1">
+                      {new Date(messageTimestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                    </div>
                   </div>
-                  <div className="text-xs opacity-60 mt-1">
-                    {new Date(msg.created_at * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                  </div>
-                </div>
-              ))
+                );
+              })
             )}
             <div ref={messagesEndRef} />
           </div>
