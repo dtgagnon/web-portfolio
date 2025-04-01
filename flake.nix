@@ -17,6 +17,7 @@
             lsof
             nixd
             node2nix
+            sqlite
           ];
           buildInputs = with pkgs; [
             nodejs_22

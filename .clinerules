@@ -15,7 +15,7 @@
 - **Operating System**: NixOS
 - **Shell**: zsh
 - **Node.js Version**: 20.19.0
-- **Package Manager**: pnpm 10.6.3
+- **Package Manager**: pnpm 10.6.3 ONLY USE pnpm, do not use npm or yarn
 
 ## Key Technologies
 - **Frontend**:
