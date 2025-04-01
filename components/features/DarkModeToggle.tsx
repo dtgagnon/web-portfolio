@@ -1,23 +1,3 @@
-// "use client"; // Directive for client component
-
-// import { useDarkMode } from '../context/DarkModeContext';
-
-// export default function DarkModeToggle() {
-//   const { isDarkMode, toggleDarkMode } = useDarkMode();
-  
-//   return (
-//     <button
-//       onClick={toggleDarkMode}
-//       className="fixed top-4 right-4 p-2 rounded-full bg-opacity-20 hover:bg-opacity-30 transition-colors"
-//       style={{
-//         backgroundColor: isDarkMode ? '#121d1d' : '#fff3e0',
-//         color: isDarkMode ? '#fff3e0' : '#171717'
-//       }}
-//     >
-//       {isDarkMode ? '🌙' : '☀️'}
-//     </button>
-//   );
-// }
 "use client"; // Directive for client component
 
 import { useDarkMode } from '../context/DarkModeContext';

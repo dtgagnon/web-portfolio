@@ -1,7 +1,7 @@
 
 export default function ChatCard() {
   return (
-    <div>
+    <div className="flex-col justify-center">
       <div className="text-4xl font-semibold mb-2">
         Derek Gagnon
       </div>

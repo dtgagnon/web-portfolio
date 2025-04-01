@@ -1,10 +1,8 @@
 'use client'
 
-import { useState } from "react";
 import Image from "next/image";
-import ChatCard from "@/components/features/ChatCard";
+import ChatCard from "@/components/features/chat/ChatCard";
 import ContactInfo from "@/components/features/ContactInfo";
-import ResumeCard from "@/components/features/resume/ResumeCard";
 import AboutMe from "@/components/features/AboutMe";
 import SocialMediaLinks from "@/components/features/SocialMediaLinks";
 import NavLinks from "@/components/layout/header/NavLinks";
