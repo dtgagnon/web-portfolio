@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:init": "node scripts/createEmptyDb.js"
+    "db:init": "tsx scripts/initDb.ts"
   },
   "dependencies": {
     "better-sqlite3": "^9.6.0",
