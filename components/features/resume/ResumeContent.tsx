@@ -1,14 +1,8 @@
 import React from 'react';
-import { useDarkMode } from '@/components/context/DarkModeContext';
 
 const Resume = () => {
-  const { isDarkMode } = useDarkMode();
   return (
-    <div className="flex flex-col gap-8 p-8"
-      style={{
-        color: isDarkMode ? '#faf8f2' : '#1c1c1c'
-      }}
-    >
+    <div className="flex flex-col gap-8 p-8 bg-white dark:bg-dark dark:text-cream">
       <ContactInfo />
       <Summary />
       <Experience />
@@ -20,13 +14,9 @@ const Resume = () => {
 };
 
 const ContactInfo = () => {
-  const { isDarkMode } = useDarkMode();
   return (
     <div className="grid grid-cols-2" 
-      style={{ 
-        fontFamily: 'Times New Roman',
-        color: isDarkMode ? '#faf8f2' : '#1c1c1c'
-      }}
+      style={{ fontFamily: 'Times New Roman' }}
     >
       <h1 className="text-3xl font-semibold self-end">Derek T Gagnon</h1>
       <div className="text-right"> 
@@ -38,19 +28,9 @@ const ContactInfo = () => {
 };
 
 const Summary = () => {
-  const { isDarkMode } = useDarkMode();
   return (
-    <div className="summary"
-      style={{
-        color: isDarkMode ? '#faf8f2' : '#1c1c1c'
-      }}
-    >
-      <h2 className="flex justify-center mb-2 text-xl font-bold"
-        style={{
-          borderBottomWidth: '1px',
-          borderBottomColor: isDarkMode ? '#4b5563' : '#e5e7eb'
-        }}
-      >SUMMARY</h2>
+    <div className="summary">
+      <h2 className="flex justify-center mb-2 text-xl font-bold border-b border-gray-200 dark:border-gray-600">SUMMARY</h2>
       <p className="flex justify-center text-lg font-bold mb-2">Systems Engineer • Medical Devices &amp; Biotechnology • PD Expertise</p>
       <ul className="list-disc px-4">
         <li>
@@ -71,19 +51,9 @@ const Summary = () => {
 };
 
 const Experience = () => {
-  const { isDarkMode } = useDarkMode();
   return (
-  <div className="experience"
-    style={{
-      color: isDarkMode ? '#faf8f2' : '#1c1c1c'
-    }}
-  >
-    <h2 className="flex justify-center mb-4 text-xl font-bold"
-      style={{
-        borderBottomWidth: '1px',
-        borderBottomColor: isDarkMode ? '#4b5563' : '#e5e7eb'
-      }}
-    >EXPERIENCE</h2>
+  <div className="experience">
+    <h2 className="flex justify-center mb-4 text-xl font-bold border-b border-[#e5e7eb] dark:border-[#4b5563]">EXPERIENCE</h2>
     <div className="experience-item">
       <div className="flex font-bold">
         <h3>TERUMO CARDIOVASCULAR - ANN ARBOR, MI</h3> <h3 className="ml-auto">2017 – 2024</h3>
@@ -160,19 +130,9 @@ const Experience = () => {
 };
 
 const Education = () => {
-  const { isDarkMode } = useDarkMode();
   return (
-  <div className="education"
-    style={{
-      color: isDarkMode ? '#faf8f2' : '#1c1c1c'
-    }}
-  >
-    <h2 className="flex justify-center mb-4 text-xl font-bold"
-      style={{
-        borderBottomWidth: '1px',
-        borderBottomColor: isDarkMode ? '#4b5563' : '#e5e7eb'
-      }}
-    >EDUCATION</h2>
+  <div className="education">
+    <h2 className="flex justify-center mb-4 text-xl font-bold border-b border-[#e5e7eb] dark:border-[#4b5563]">EDUCATION</h2>
     <div className="education-item mb-4">
       <h3 className="mb-0"><b>UNIVERSITY OF MICHIGAN – Materials Science &amp; Engineering</b></h3>
       <p className="mb-2"><small>Ann Arbor, Michigan</small></p>
@@ -198,19 +158,9 @@ const Education = () => {
 };
 
 const Expertise = () => {
-  const { isDarkMode } = useDarkMode();
   return (
-  <div className="expertise"
-    style={{
-      color: isDarkMode ? '#faf8f2' : '#1c1c1c'
-    }}
-  >
-    <h2 className="flex justify-center mb-4 text-xl font-bold"
-      style={{
-        borderBottomWidth: '1px',
-        borderBottomColor: isDarkMode ? '#4b5563' : '#e5e7eb'
-      }}
-    >EXPERTISE</h2>
+  <div className="expertise">
+    <h2 className="flex justify-center mb-4 text-xl font-bold border-b border-[#e5e7eb] dark:border-[#4b5563]">EXPERTISE</h2>
     <div className="grid grid-cols-1 gap-x-2 md:grid-cols-2">
       <ul className="list-disc px-4">
         <li><strong>Systems Engineering:</strong> Design of complex interfacing systems, IBM Rational DOORs, SOLIDWORKS, DFM&amp;A, Rapid Prototyping, and PDM (3DX)</li>
@@ -230,19 +180,9 @@ const Expertise = () => {
 };
 
 const ActiveProjects = () => {
-  const { isDarkMode } = useDarkMode();
   return (
-  <div className="active-projects"
-    style={{
-      color: isDarkMode ? '#faf8f2' : '#1c1c1c'
-    }}
-  >
-    <h2 className="flex justify-center mb-4 text-xl font-bold"
-      style={{
-        borderBottomWidth: '1px',
-        borderBottomColor: isDarkMode ? '#4b5563' : '#e5e7eb'
-      }}
-    >ACTIVE PROJECTS</h2>
+  <div className="active-projects">
+    <h2 className="flex justify-center mb-4 text-xl font-bold border-b border-[#e5e7eb] dark:border-[#4b5563]">ACTIVE PROJECTS</h2>
     <div className="grid grid-cols-1 gap-x-2 md:grid-cols-2 gap-y-2">
       <div className="flex flex-col">
         <h3 className="font-bold">DTG Engineering – Engineering Services</h3>

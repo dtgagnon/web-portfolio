@@ -97,44 +97,27 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
   return (
     <div 
       ref={cardRef}
-      className={`fixed bottom-0 origin-bottom left-1/2 w-80 max-h-[400px] border border-[#3c4e74] rounded-t-md shadow-[0_-2px_10px_rgba(0,0,0,.2)] transition-transform duration-300 ease-in-out translate-x-[-50%] ${isOpen ? 'translate-y-0' : 'translate-y-[calc(100%-2.5rem)]'}`}
-      style={{ 
-        zIndex: 1000,
-        backgroundColor: isDarkMode ? '#1c1c1c' : '#faf8f2'
-      }}
+      className={`fixed bottom-0 origin-bottom left-1/2 w-80 max-h-[400px] border border-[#3c4e74] rounded-t-md shadow-[0_-2px_10px_rgba(0,0,0,.2)] transition-transform duration-300 ease-in-out translate-x-[-50%] ${isOpen ? 'translate-y-0' : 'translate-y-[calc(100%-2.5rem)]'} bg-cream dark:bg-dark z-[1000]`}
     >
       {/* Chat header */}
       <div 
-        className="p-2 cursor-pointer rounded-t-lg flex justify-between items-center"
+        className="p-2 cursor-pointer rounded-t-lg flex justify-between items-center bg-[#7cbddb] dark:bg-pink text-dark"
         onClick={() => setIsOpen(!isOpen)}
-        style={{
-          backgroundColor: isDarkMode ? '#ff8fa3' : '#7cbddb',
-          color: '#1c1c1c'
-        }}
       >
         <h3 className="font-semibold">Chat with Me</h3>
         <span className="text-xs">{isOpen ? '▼' : '▲'}</span>
       </div>
       
       {/* Chat messages */}
-      <div className="p-3 max-h-96 overflow-y-auto"
-        style={{
-          backgroundColor: isDarkMode ? '#1c1c1c' : '#faf8f2',
-          color: isDarkMode ? '#faf8f2' : '#1c1c1c'
-        }}
-      >
+      <div className="p-3 max-h-96 overflow-y-auto bg-cream dark:bg-dark text-dark dark:text-cream">
         {messages.length === 0 ? (
-          <div className="text-center py-8"
-            style={{
-              color: isDarkMode ? '#a0a0a0' : '#6b7280'
-            }}
-          >
+          <div className="text-center py-8 text-gray-500 dark:text-gray-400">
             <p>Ask me anything about my work!</p>
             <p className="text-xs mt-2">Ask me about my UX design work, accessibility expertise, or neuroinclusive design approach.</p>
           </div>
         ) : (
           messages.map((msg) => (
-            <MessageBubble key={msg.id} message={msg} isDarkMode={isDarkMode} />
+            <MessageBubble key={msg.id} message={msg} />
           ))
         )}
         <div ref={messagesEndRef} />

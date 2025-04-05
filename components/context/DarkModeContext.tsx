@@ -10,7 +10,9 @@ type DarkModeContextType = {
 const DarkModeContext = createContext<DarkModeContextType>({} as DarkModeContextType);
 
 export function DarkModeProvider({ children }: { children: React.ReactNode }) {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(
+    typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
+  );
   
   const toggleDarkMode = () => {
     setIsDarkMode(prev => !prev);

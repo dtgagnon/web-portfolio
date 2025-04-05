@@ -13,13 +13,7 @@ const InputField: React.FC<InputFieldProps> = ({ message, setMessage, isLoading,
   return (
     <form onSubmit={onSubmit} className="flex gap-2">
       <input
-        className="flex-1 p-2 rounded border focus:outline-none"
-        style={{
-          backgroundColor: isDarkMode ? '#1f2937' : 'white',
-          color: isDarkMode ? '#faf8f2' : '#1c1c1c',
-          borderColor: isDarkMode ? '#4b5563' : '#d1d5db',
-          borderWidth: '1px',
-        }}
+        className="flex-1 p-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-dark dark:text-cream focus:outline-none"
         type="text"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
@@ -28,7 +22,7 @@ const InputField: React.FC<InputFieldProps> = ({ message, setMessage, isLoading,
         aria-label="Message input"
       />
       <button
-        className="px-4 py-2 bg-[skyblue] text-[#1c1c1c] rounded hover:bg-sky-600 disabled:opacity-50 transition-colors"
+        className="px-4 py-2 bg-[skyblue] text-dark rounded hover:bg-sky-600 disabled:opacity-50 transition-colors"
         type="submit"
         disabled={isLoading || !message.trim()}
         aria-label="Send message"

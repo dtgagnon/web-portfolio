@@ -3,7 +3,8 @@
 :root {
   /* Light mode defaults */
   --background: #fff3e0;
-  --foreground: #171717;  --color-background: var(--background);
+  --foreground: #171717;
+  --color-background: var(--background);
   --color-foreground: var(--foreground);
 
   /* Font variables */
@@ -15,6 +16,8 @@ html.dark {
   /* Dark mode overrides */
   --background: #1c1c1c;
   --foreground: #faf8f2;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
 
   /* Accents */
   --primary: #ff8fa3;

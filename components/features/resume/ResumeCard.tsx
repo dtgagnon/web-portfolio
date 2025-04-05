@@ -2,11 +2,9 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import ResumeContent from './ResumeContent';
-import { useDarkMode } from '@/components/context/DarkModeContext';
 
 export default function Resume({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (isOpen: boolean) => void }) {
   const resumeRef = useRef<HTMLDivElement>(null);
-  const { isDarkMode } = useDarkMode();
 
   // Close on escape key press
   useEffect(() => {
@@ -37,33 +35,16 @@ export default function Resume({ isOpen, setIsOpen }: { isOpen: boolean; setIsOp
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 p-4"
-      style={{
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
-      }}
-    >
+    <div className="fixed inset-0 bg-black/50 dark:bg-black/50 flex items-center justify-center z-50 p-4">
       <div 
         ref={resumeRef}
-        className="w-full max-w-6xl h-[calc(100vh-4rem)] overflow-auto rounded-lg shadow-xl"
-        style={{ 
-          aspectRatio: '8.5/11', // Letter paper ratio (portrait)
-          backgroundColor: isDarkMode ? '#1c1c1c' : 'white',
-          color: isDarkMode ? '#faf8f2' : '#1c1c1c'
-        }}
+        className="bg-white text-dark dark:bg-dark dark:text-cream w-full max-w-6xl h-[calc(100vh-4rem)] overflow-auto rounded-lg shadow-xl"
+        style={{ aspectRatio: '8.5/11' }} // Letter paper ratio (portrait)
       >
-        <div className="sticky top-0 flex justify-end p-2 border-b"
-          style={{
-            backgroundColor: isDarkMode ? '#1c1c1c' : 'white',
-            borderColor: isDarkMode ? '#374151' : '#e5e7eb'
-          }}
-        >
+        <div className="sticky top-0 flex justify-end p-2 bg-white text-dark dark:bg-dark dark:text-cream border-b border-gray-200 dark:border-gray-700">
           <button 
             onClick={() => setIsOpen(false)}
-            className="p-2 rounded-full"
-            style={{
-              backgroundColor: isDarkMode ? '#2d3748' : '#f3f4f6',
-              color: isDarkMode ? '#faf8f2' : '#1c1c1c'
-            }}
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-dark dark:text-cream"
             aria-label="Close"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -71,9 +52,7 @@ export default function Resume({ isOpen, setIsOpen }: { isOpen: boolean; setIsOp
             </svg>
           </button>
         </div>
-        <div className="p-8">
-          <ResumeContent />
-        </div>
+        <ResumeContent />
       </div>
     </div>
   );

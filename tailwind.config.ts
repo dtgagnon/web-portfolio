@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import colors from 'tailwindcss/colors';
 
 const config: Config = {
   darkMode: 'class',
@@ -8,12 +9,22 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
+    colors: {},
+    fontFamily: {},
     extend: {
       colors: {
-        cream: '#faf8f2',
-        dark: '#1c1c1c',
-        pink: '#ff8fa3',
-        accentGreen: '#d4f7d4'
+        cream: {
+          DEFAULT: '#faf8f2'
+        },
+        dark: {
+          DEFAULT: '#1c1c1c'
+        },
+        pink: {
+          DEFAULT: '#ff8fa3'
+        },
+        accentGreen: {
+          DEFAULT: '#d4f7d4'
+        }
       }
     }
   },
