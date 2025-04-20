@@ -25,7 +25,7 @@ function MoonIcon() {
   );
 }
 
-export default function DarkModeToggle() {
+export default function ThemeToggle() {
   const { theme, resolvedTheme, setTheme } = useTheme();
 
   // Toggle between light and dark, regardless of current theme

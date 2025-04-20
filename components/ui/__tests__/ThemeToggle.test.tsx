@@ -1,7 +1,7 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import DarkModeToggle from '@/components/features/DarkModeToggle';
+import ThemeToggle from '@/components/features/ThemeToggle';
 
 const mockSetTheme = vi.fn();
 vi.mock('@/components/context/ThemeContext', () => ({
@@ -12,13 +12,13 @@ vi.mock('@/components/context/ThemeContext', () => ({
     })
 }));
 
-describe('DarkModeToggle', () => {
+describe('ThemeToggle', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('renders correctly', () => {
-    render(<DarkModeToggle />);
+    render(<ThemeToggle />);
 
     // Check if the button is present
     const toggleButton = screen.getByRole('button', { name: /activate dark mode/i });
@@ -27,7 +27,7 @@ describe('DarkModeToggle', () => {
 
   it('toggles theme when clicked', async () => {
     const user = userEvent.setup();
-    render(<DarkModeToggle />);
+    render(<ThemeToggle />);
 
     const toggleButton = screen.getByRole('button', { name: /activate dark mode/i });
 
