@@ -1,5 +1,5 @@
 "use client";
-import { useDarkMode } from "@/components/context/DarkModeContext";
+import { useTheme } from "@/components/context/ThemeContext";
 
 function SunIcon() {
   return (
@@ -26,7 +26,7 @@ function MoonIcon() {
 }
 
 export default function DarkModeToggle() {
-  const { theme, resolvedTheme, setTheme } = useDarkMode();
+  const { theme, resolvedTheme, setTheme } = useTheme();
 
   // Toggle between light and dark, regardless of current theme
   const handleClick = () => {

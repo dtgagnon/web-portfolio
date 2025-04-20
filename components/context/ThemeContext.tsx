@@ -5,15 +5,15 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 export type Theme = 'light' | 'dark' | 'system';
 export type ResolvedTheme = 'light' | 'dark';
 
-interface DarkModeContextProps {
+interface ThemeContextProps {
   theme: Theme;
   resolvedTheme: ResolvedTheme;
   setTheme: (theme: Theme) => void;
 }
 
-const DarkModeContext = createContext<DarkModeContextProps | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
-export function DarkModeProvider({ children }: { children: ReactNode }) {
+export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('system');
   const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>('light');
   const [mounted, setMounted] = useState(false);
@@ -71,14 +71,14 @@ export function DarkModeProvider({ children }: { children: ReactNode }) {
 
   if (!mounted) return null;
   return (
-    <DarkModeContext.Provider value={{ theme, resolvedTheme, setTheme }}>
+    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme }}>
       {children}
-    </DarkModeContext.Provider>
+    </ThemeContext.Provider>
   );
 }
 
-export function useDarkMode() {
-  const ctx = useContext(DarkModeContext);
-  if (!ctx) throw new Error('useDarkMode must be used within DarkModeProvider');
+export function useTheme() {
+  const ctx = useContext(ThemeContext);
+  if (!ctx) throw new Error('useTheme must be used within ThemeProvider');
   return ctx;
 }
