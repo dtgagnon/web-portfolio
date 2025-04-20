@@ -5,7 +5,7 @@ import { MessageBubble } from './MessageBubble';
 import InputField from './InputField';
 import { useChatCooldown } from '@/lib/helpers/chatCooldown';
 import { useCursorPosition } from '@/lib/helpers/useCursorPosition';
-import { useDarkMode } from '@/components/context/DarkModeContext';
+
 import useChatHistory from '@/lib/api/llm/useChatHistory';
 
 interface ChatCardProps {
@@ -19,8 +19,7 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const cursorPos = useCursorPosition();
-  const { isDarkMode } = useDarkMode();
-  const { 
+    const { 
     startCooldown, 
     resetCooldown, 
     incrementErrorCount, 
@@ -97,11 +96,11 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
   return (
     <div 
       ref={cardRef}
-      className={`fixed bottom-0 origin-bottom left-1/2 w-80 max-h-[400px] border border-[#3c4e74] rounded-t-md shadow-[0_-2px_10px_rgba(0,0,0,.2)] transition-transform duration-300 ease-in-out translate-x-[-50%] ${isOpen ? 'translate-y-0' : 'translate-y-[calc(100%-2.5rem)]'} bg-cream dark:bg-dark z-[1000]`}
+      className={`fixed bottom-0 origin-bottom left-1/2 w-80 max-h-[400px] border border-[#3c4e74] rounded-t-md shadow-[0_-2px_10px_rgba(0,0,0,.2)] transition-transform duration-300 ease-in-out translate-x-[-50%] ${isOpen ? 'translate-y-0' : 'translate-y-[calc(100%-2.5rem)]'} bg-white dark:bg-black z-[1000]`}
     >
       {/* Chat header */}
       <div 
-        className="p-2 cursor-pointer rounded-t-lg flex justify-between items-center bg-[#7cbddb] dark:bg-pink text-dark"
+        className="p-2 cursor-pointer rounded-t-lg flex justify-between items-center bg-[#7cbddb] dark:bg-pink text-black"
         onClick={() => setIsOpen(!isOpen)}
       >
         <h3 className="font-semibold">Chat with Me</h3>
@@ -109,7 +108,7 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
       </div>
       
       {/* Chat messages */}
-      <div className="p-3 max-h-96 overflow-y-auto bg-cream dark:bg-dark text-dark dark:text-cream">
+      <div className="p-3 max-h-96 overflow-y-auto bg-white dark:bg-black text-black dark:text-white">
         {messages.length === 0 ? (
           <div className="text-center py-8 text-gray-500 dark:text-gray-400">
             <p>Ask me anything about my work!</p>
@@ -124,12 +123,7 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
       </div>
       
       {/* Input area */}
-      <div className="p-3 border-t"
-        style={{
-          borderColor: isDarkMode ? '#374151' : '#e5e7eb',
-          backgroundColor: isDarkMode ? '#1c1c1c' : '#faf8f2'
-        }}
-      >
+      <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-amber-50 dark:bg-gray-900">
         {isCooldownActive() ? (
           <div className="text-center text-sm text-red-500 mb-2">
             {getCooldownMessage()}

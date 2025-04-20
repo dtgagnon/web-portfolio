@@ -1,33 +1,5 @@
 @import "tailwindcss";
 
-:root {
-  /* Light mode defaults */
-  --background: #fff3e0;
-  --foreground: #171717;
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
-  /* Font variables */
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-html.dark {
-  /* Dark mode overrides */
-  --background: #1c1c1c;
-  --foreground: #faf8f2;
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
-  /* Accents */
-  --primary: #ff8fa3;
-  --secondary: #a0d5a0;
-  --accent: #6c80a8;
-}
-
-body {
-  /* Applying the variables */
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* The following is a Tailwind CSS v4 feature that may trigger IDE warnings */
+/* but it works correctly in the build process */
+@custom-variant dark (&:where(.dark, .dark *));

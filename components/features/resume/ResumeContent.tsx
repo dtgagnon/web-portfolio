@@ -2,7 +2,7 @@ import React from 'react';
 
 const Resume = () => {
   return (
-    <div className="flex flex-col gap-8 p-8 bg-white dark:bg-dark dark:text-cream">
+    <div className="flex flex-col gap-8 p-8 bg-white text-black dark:bg-black dark:text-white">
       <ContactInfo />
       <Summary />
       <Experience />

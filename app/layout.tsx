@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Geist, Geist_Mono } from "next/font/google";
 import { DarkModeProvider } from "../components/context/DarkModeContext";
 import DarkModeToggle from "../components/features/DarkModeToggle";
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,18 +21,18 @@ export const metadata: Metadata = {
   description: "Derek Gagnon's Portfolio",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+export default function RootLayout({ children }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const fontClasses = `${geistSans.variable} ${geistMono.variable}`;
+
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${fontClasses} antialiased bg-amber-50 text-gray-900 dark:bg-gray-900 dark:text-amber-50`}>
         <DarkModeProvider>
           <DarkModeToggle />
+          <div className="p-4 bg-green-200 dark:bg-red-900 text-black dark:text-white">Tailwind dark mode test: this box should turn red/white in dark mode, green/black in light mode.</div>
           {children}
         </DarkModeProvider>
       </body>

@@ -32,12 +32,12 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
   // Determine the styling based on message role
   const getBubbleStyle = () => {
     if (message.role === 'user') {
-      return 'ml-auto bg-pink text-dark';
+      return 'ml-auto bg-pink text-black';
     } else if (message.role === 'assistant') {
-      return 'mr-auto bg-accentGreen text-dark';
+      return 'mr-auto bg-green text-black';
     } else {
       // System messages (errors, notifications)
-      return 'mx-auto bg-gray-300 dark:bg-gray-700 text-dark dark:text-cream italic text-sm';
+      return 'mx-auto bg-gray-300 dark:bg-gray-700 text-black dark:text-white italic text-sm';
     }
   };
 

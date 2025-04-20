@@ -38,13 +38,13 @@ export default function Resume({ isOpen, setIsOpen }: { isOpen: boolean; setIsOp
     <div className="fixed inset-0 bg-black/50 dark:bg-black/50 flex items-center justify-center z-50 p-4">
       <div 
         ref={resumeRef}
-        className="bg-white text-dark dark:bg-dark dark:text-cream w-full max-w-6xl h-[calc(100vh-4rem)] overflow-auto rounded-lg shadow-xl"
+        className="bg-white text-black dark:bg-black dark:text-white w-full max-w-6xl h-[calc(100vh-4rem)] overflow-auto rounded-lg shadow-xl"
         style={{ aspectRatio: '8.5/11' }} // Letter paper ratio (portrait)
       >
-        <div className="sticky top-0 flex justify-end p-2 bg-white text-dark dark:bg-dark dark:text-cream border-b border-gray-200 dark:border-gray-700">
+        <div className="sticky top-0 flex justify-end p-2 bg-white text-black dark:bg-black dark:text-white border-b border-gray-200 dark:border-gray-700">
           <button 
             onClick={() => setIsOpen(false)}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-dark dark:text-cream"
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-black dark:text-white"
             aria-label="Close"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
