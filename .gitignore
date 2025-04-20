@@ -40,6 +40,15 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# cache directories
+.swc/
+.turbo/
+.cache/
+.eslintcache
+
+# direnv
+.direnv/
+
 # ai
 .windsurfrules
 .windsurfignore
