@@ -1,5 +1,4 @@
 import React from 'react';
-import { Navbar, Footer } from '@/components/atomic/organisms';
 import { ThemeToggle } from '@/components/atomic/atoms';
 
 interface MainLayoutProps {
@@ -16,13 +15,10 @@ export default function MainLayout({
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-black text-black dark:text-white transition-colors">
       <ThemeToggle />
-      <Navbar />
       
       <main className={`flex-1 ${className}`}>
         {children}
       </main>
-      
-      {showFooter && <Footer />}
     </div>
   );
 }
