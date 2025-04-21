@@ -1,5 +1,5 @@
 "use client";
-import { useTheme } from "@/components/context/ThemeContext";
+import { useTheme } from "@/providers/ThemeContext";
 
 function SunIcon() {
   return (
