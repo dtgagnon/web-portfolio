@@ -5,7 +5,7 @@ import ChatCard from "@/components/features/chat/ChatCard";
 import ContactInfo from "@/components/features/ContactInfo";
 import AboutMe from "@/components/features/AboutMe";
 import SocialMediaLinks from "@/components/features/SocialMediaLinks";
-import NavLinks from "@/components/layout/header/NavLinks";
+import NavLinks from "@/components/atomic/molecules/NavLinks";
 
 export default function Home() {
   return (
