@@ -3,7 +3,7 @@
 import Image from "next/image";
 import ChatCard from "@/components/organisms/chat/ChatCard";
 import ContactInfo from "@/components/molecules/ContactInfo";
-import AboutMe from "@/components/organisms/About";
+import AboutMeBlurb from "@/components/molecules/AboutMeBlurb";
 import SocialLinks from "@/components/molecules/SocialLinks";
 import NavLink from "@/components/molecules/NavLink";
 
@@ -65,7 +65,7 @@ export default function Home() {
         </div>
         
         <div className="flex-col w-full text-center sm:text-right font-[family-name:var(--font-geist-sans)] self-start">
-          <AboutMe />
+          <AboutMeBlurb />
           <div className="border-b border-dotted border-gray-400 w-full mt-2" />
         </div>
       </main>
