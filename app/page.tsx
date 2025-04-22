@@ -1,11 +1,11 @@
 'use client'
 
 import Image from "next/image";
-import ChatCard from "@/components/features/chat/ChatCard";
-import ContactInfo from "@/components/features/ContactInfo";
-import AboutMe from "@/components/features/AboutMe";
-import SocialMediaLinks from "@/components/features/SocialMediaLinks";
-import NavLinks from "@/components/atomic/molecules/NavLinks";
+import ChatCard from "@/components/organisms/chat/ChatCard";
+import ContactInfo from "@/components/molecules/ContactInfo";
+import AboutMe from "@/components/organisms/About";
+import SocialLinks from "@/components/molecules/SocialLinks";
+import NavLink from "@/components/molecules/NavLink";
 
 export default function Home() {
   return (
@@ -35,15 +35,20 @@ export default function Home() {
         </div>
 
         <div className="flex w-1/3 justify-end">
-          <NavLinks />
+          <div className="flex space-x-4">
+            <NavLink href="/">Home</NavLink>
+            <NavLink href="/about">About</NavLink>
+            <NavLink href="/projects">Projects</NavLink>
+            <NavLink href="/contact">Contact</NavLink>
+          </div>
         </div>
       </header>
 
       <main className="flex mx-10 my-110 items-center justify-center">
         <div className="flex flex-col w-full items-center self-end">
           <div className="flex space-x-8 mb-4">
-            <SocialMediaLinks />
-            <ContactInfo />
+            <SocialLinks />
+            <ContactInfo name="Derek Gagnon" email="gagnon.derek@protonmail.com" />
           </div>
           <div className="border-b border-dotted border-gray-400 w-full mt-2" />
         </div>
