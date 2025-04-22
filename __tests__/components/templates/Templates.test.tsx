@@ -1,6 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
+import { ThemeProvider } from '@/providers/ThemeContext';
 import { MainLayout, SectionLayout, ProjectLayout } from '@/components/templates';
+
+// Mock chat components
+vi.mock('@/components/organisms/chat', () => ({
+  ChatCard: () => <div data-testid="chat-component" className="fixed bottom-0">Chat Component</div>
+}));
 
 // Mock child components to simplify testing
 vi.mock('@/components/organisms', () => ({
@@ -12,6 +18,11 @@ vi.mock('@/components/atoms', () => ({
   ThemeToggle: () => <div data-testid="theme-toggle">ThemeToggle</div>,
   Button: ({ children, variant, onClick }: { children: React.ReactNode, variant: string, onClick?: () => void }) => (
     <button data-testid="button" data-variant={variant} onClick={onClick}>{children}</button>
+  ),
+  IconLink: ({ href, label, children }: { href: string, label: string, children: React.ReactNode }) => (
+    <a href={href} aria-label={label} data-testid="icon-link" className="inline-flex items-center justify-center">
+      {children}
+    </a>
   )
 }));
 
@@ -84,9 +95,11 @@ describe('Template Components', () => {
   describe('MainLayout', () => {
     it('renders with navbar, theme toggle, and content', () => {
       render(
-        <MainLayout>
-          <div>Main Content</div>
-        </MainLayout>
+        <ThemeProvider>
+          <MainLayout>
+            <div>Main Content</div>
+          </MainLayout>
+        </ThemeProvider>
       );
       
       // Verify key components are rendered
@@ -97,9 +110,11 @@ describe('Template Components', () => {
     
     it('renders with footer by default', () => {
       render(
-        <MainLayout>
-          <div>Main Content</div>
-        </MainLayout>
+        <ThemeProvider>
+          <MainLayout>
+            <div>Main Content</div>
+          </MainLayout>
+        </ThemeProvider>
       );
       
       expect(screen.getByTestId('footer')).toBeInTheDocument();
@@ -107,9 +122,11 @@ describe('Template Components', () => {
     
     it('does not render footer when showFooter is false', () => {
       render(
-        <MainLayout showFooter={false}>
-          <div>Main Content</div>
-        </MainLayout>
+        <ThemeProvider>
+          <MainLayout showFooter={false}>
+            <div>Main Content</div>
+          </MainLayout>
+        </ThemeProvider>
       );
       
       expect(screen.queryByTestId('footer')).not.toBeInTheDocument();
@@ -117,9 +134,11 @@ describe('Template Components', () => {
     
     it('applies custom class to main element', () => {
       const { container } = render(
-        <MainLayout className="custom-class">
-          <div>Main Content</div>
-        </MainLayout>
+        <ThemeProvider>
+          <MainLayout className="custom-class">
+            <div>Main Content</div>
+          </MainLayout>
+        </ThemeProvider>
       );
       
       const mainElement = container.querySelector('main');
@@ -130,13 +149,15 @@ describe('Template Components', () => {
   describe('ProjectLayout', () => {
     it('renders project details correctly', () => {
       render(
-        <ProjectLayout 
-          title="Project Title" 
-          description="Project Description"
-          technologies={['React', 'TypeScript']}
-        >
-          <div>Project Content</div>
-        </ProjectLayout>
+        <ThemeProvider>
+          <ProjectLayout 
+            title="Project Title" 
+            description="Project Description"
+            technologies={['React', 'TypeScript']}
+          >
+            <div>Project Content</div>
+          </ProjectLayout>
+        </ThemeProvider>
       );
       
       // Check title and description
@@ -153,13 +174,15 @@ describe('Template Components', () => {
     
     it('renders github and demo buttons when provided', () => {
       render(
-        <ProjectLayout 
-          title="Project Title" 
-          github="https://github.com/user/project"
-          demo="https://demo.example.com"
-        >
-          <div>Project Content</div>
-        </ProjectLayout>
+        <ThemeProvider>
+          <ProjectLayout 
+            title="Project Title" 
+            github="https://github.com/user/project"
+            demo="https://demo.example.com"
+          >
+            <div>Project Content</div>
+          </ProjectLayout>
+        </ThemeProvider>
       );
       
       const buttons = screen.getAllByTestId('button');
@@ -170,12 +193,14 @@ describe('Template Components', () => {
     
     it('applies custom class to content area', () => {
       const { container } = render(
-        <ProjectLayout 
-          title="Project Title" 
-          className="custom-class"
-        >
-          <div>Project Content</div>
-        </ProjectLayout>
+        <ThemeProvider>
+          <ProjectLayout 
+            title="Project Title" 
+            className="custom-class"
+          >
+            <div>Project Content</div>
+          </ProjectLayout>
+        </ThemeProvider>
       );
       
       // Find project content div (second div with max-w-7xl class)

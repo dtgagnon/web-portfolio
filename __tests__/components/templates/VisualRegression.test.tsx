@@ -38,7 +38,17 @@ vi.mock('@/components/atoms', () => ({
       <svg className="w-8 h-8"></svg>
       {withText && <span>Logo Text</span>}
     </a>
+  ),
+  IconLink: ({ href, label, children }: { href: string, label: string, children: React.ReactNode }) => (
+    <a href={href} aria-label={label} data-testid="icon-link" className="inline-flex items-center justify-center">
+      {children}
+    </a>
   )
+}));
+
+// Mock ChatCard component to fix scrollIntoView error
+vi.mock('@/components/organisms/chat', () => ({
+  ChatCard: () => <div data-testid="chat-component" className="fixed bottom-0 left-1/2 transform -translate-x-1/2">Chat Component</div>
 }));
 
 describe('Template Components Visual Regression', () => {
@@ -115,8 +125,8 @@ describe('Template Components Visual Regression', () => {
       
       const mainDiv = container.firstChild;
       expect(mainDiv).toHaveClass('transition-colors');
-      expect(mainDiv).toHaveClass('bg-white', 'dark:bg-black');
-      expect(mainDiv).toHaveClass('text-black', 'dark:text-white');
+      expect(mainDiv).toHaveClass('bg-navy-900', 'dark:bg-navy-950');
+      expect(mainDiv).toHaveClass('text-gray-100', 'dark:text-white');
     });
   });
   

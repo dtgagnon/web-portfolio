@@ -1,6 +1,7 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import Navbar from '@/components/organisms/Navbar';
+import { Navbar } from '@/components/organisms';
+import { ThemeProvider } from '@/providers/ThemeContext';
 
 // Mock the atomic components used in Navbar
 vi.mock('@/components/atoms', () => ({
@@ -26,7 +27,11 @@ vi.mock('@/components/molecules', () => ({
 
 describe('Navbar component', () => {
   it('renders the logo with correct props', () => {
-    render(<Navbar />);
+    render(
+      <ThemeProvider>
+        <Navbar />
+      </ThemeProvider>
+    );
     
     const logo = screen.getByTestId('logo');
     expect(logo).toBeInTheDocument();
@@ -34,58 +39,66 @@ describe('Navbar component', () => {
     expect(logo).toHaveAttribute('data-with-text', 'true');
   });
 
-  it('renders desktop navigation links', () => {
-    render(<Navbar />);
+  it('renders navigation links', () => {
+    render(
+      <ThemeProvider>
+        <Navbar />
+      </ThemeProvider>
+    );
     
+    // Check that all expected navigation links exist
     const navLinks = screen.getAllByTestId('nav-link');
-    expect(navLinks.length).toBe(4); // 4 desktop links in the refactored version
+    expect(navLinks.length).toBe(3);
     
-    // Check desktop links (first 4 links)
-    expect(navLinks[0]).toHaveAttribute('href', '/');
-    expect(navLinks[0]).toHaveTextContent('Home');
-    expect(navLinks[1]).toHaveAttribute('href', '/projects');
+    expect(navLinks[0]).toHaveTextContent('About');
     expect(navLinks[1]).toHaveTextContent('Projects');
-    expect(navLinks[2]).toHaveAttribute('href', '/about');
-    expect(navLinks[2]).toHaveTextContent('About');
-    expect(navLinks[3]).toHaveAttribute('href', '/contact');
-    expect(navLinks[3]).toHaveTextContent('Contact');
+    expect(navLinks[2]).toHaveTextContent('Resume');
   });
 
-  it('renders SocialLinks components with correct props', () => {
-    render(<Navbar />);
+  it('has correct navigation styling', () => {
+    render(
+      <ThemeProvider>
+        <Navbar />
+      </ThemeProvider>
+    );
     
-    const socialLinks = screen.getAllByTestId('social-links');
-    expect(socialLinks.length).toBe(1); // Only desktop version in the refactored component
+    // Check that container has flex layout
+    const navElement = screen.getByRole('navigation');
+    expect(navElement).toHaveClass('flex', 'justify-between', 'items-center');
     
-    // Desktop social links
-    expect(socialLinks[0]).toHaveAttribute('data-direction', 'row');
-    expect(socialLinks[0]).toHaveAttribute('data-icon-size', 'sm');
+    // Check that links container has correct gap spacing
+    const linksContainer = navElement.childNodes[1];
+    expect(linksContainer).toHaveClass('gap-6', 'md:gap-8');
   });
 
-  it('toggles mobile menu when the menu button is clicked', () => {
-    render(<Navbar />);
+  it('positions logo and navigation correctly', () => {
+    render(
+      <ThemeProvider>
+        <Navbar />
+      </ThemeProvider>
+    );
     
-    // Find the menu button
-    const menuButton = screen.getByRole('button', { name: /open menu/i });
-    expect(menuButton).toBeInTheDocument();
+    // Get the nav element and its children
+    const navElement = screen.getByRole('navigation');
+    const logoElement = screen.getByTestId('logo');
+    const navLinks = screen.getAllByTestId('nav-link');
     
-    // Click the menu button to open the menu
-    fireEvent.click(menuButton);
+    // Logo should be the first child of nav
+    expect(navElement.firstChild).toBe(logoElement);
     
-    // The button should now be for closing the menu
-    expect(screen.getByRole('button', { name: /close menu/i })).toBeInTheDocument();
-    
-    // Click the menu button again to close the menu
-    fireEvent.click(screen.getByRole('button', { name: /close menu/i }));
-    
-    // The button should be back to open menu
-    expect(screen.getByRole('button', { name: /open menu/i })).toBeInTheDocument();
+    // Navigation links should be in a container that's the second child
+    const linksContainer = navElement.childNodes[1];
+    expect(linksContainer).toContainElement(navLinks[0]);
   });
 
   it('applies custom className when provided', () => {
-    render(<Navbar className="custom-class" />);
+    render(
+      <ThemeProvider>
+        <Navbar className="custom-class" />
+      </ThemeProvider>
+    );
     
-    const header = screen.getByRole('banner');
-    expect(header).toHaveClass('custom-class');
+    const nav = screen.getByRole('navigation');
+    expect(nav).toHaveClass('custom-class');
   });
 });
