@@ -113,9 +113,14 @@ describe('MainLayout component', () => {
       );
       
       const rootContainer = container.querySelector('div:first-child');
-      expect(rootContainer).toHaveClass('h-screen');
-      expect(rootContainer).toHaveClass('max-h-screen');
+      expect(rootContainer).toBeInTheDocument();
       expect(rootContainer).toHaveClass('overflow-hidden');
+      
+      // Check for modern viewport units which use arbitrary value syntax
+      if (rootContainer) {
+        expect(rootContainer.className).toContain('h-[100vh]');
+        expect(rootContainer.className).toContain('max-h-[100dvh]');
+      }
     });
 
     it('makes main content area take available height', () => {
@@ -156,11 +161,15 @@ describe('MainLayout component', () => {
       
       // Root container should use viewport height and constrain content
       const rootContainer = container.querySelector('div:first-child');
+      expect(rootContainer).toBeInTheDocument();
       expect(rootContainer).toHaveClass('flex');
       expect(rootContainer).toHaveClass('flex-col');
       expect(rootContainer).toHaveClass('overflow-hidden');
-      expect(rootContainer).toHaveClass('h-screen') // Has height: 100vh
-      expect(rootContainer).toHaveClass('max-h-screen') // Has max-height: 100vh
+      // Modern viewport units - check with className directly to handle arbitrary values
+      if (rootContainer) {
+        expect(rootContainer.className).toContain('h-[100vh]'); // Using arbitrary value syntax
+        expect(rootContainer.className).toContain('max-h-[100dvh]'); // Using dynamic viewport height
+      }
       
       // Header should have a fixed height and not expand
       const header = container.querySelector('header');
