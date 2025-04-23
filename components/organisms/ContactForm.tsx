@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Input, Button } from '@/components/molecules';
+import Input from '@/components/atoms/Input';
+import Button from '@/components/atoms/Button';
 
 interface ContactFormProps {
   className?: string;
@@ -79,7 +80,7 @@ export default function ContactForm({ className = '', onSubmit }: ContactFormPro
   };
   
   return (
-    <form onSubmit={handleSubmit} className={`space-y-6 ${className}`}>
+    <form onSubmit={handleSubmit} className={`space-y-6 ${className}`} role="form">
       {submitStatus === 'success' && (
         <div className="p-4 bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200 rounded-md">
           Thank you for your message! I'll get back to you as soon as possible.
