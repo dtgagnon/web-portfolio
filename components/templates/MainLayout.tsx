@@ -20,8 +20,9 @@ export default function MainLayout({
   showChat = true
 }: MainLayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col bg-navy-900 dark:bg-navy-950 text-gray-100 dark:text-white transition-colors">
-      <header className="flex justify-between items-center px-4 md:px-8 py-4">
+    <div className="flex flex-col h-screen max-h-screen overflow-hidden bg-navy-900 dark:bg-navy-950 text-gray-100 dark:text-white transition-colors">
+      {/* Header with fixed height */}
+      <header className="flex-shrink-0 flex justify-between items-center px-4 md:px-8 py-3">
         <div className="flex items-center">
           <ThemeToggle />
         </div>
@@ -30,10 +31,11 @@ export default function MainLayout({
         </div>
       </header>
       
-      <main className={`min-h-screen bg-navy-900 dark:bg-navy-950 flex-1 ${className}`}>
-        <div className="flex flex-col justify-center h-full relative px-4 md:px-8">
+      {/* Main content area - takes remaining space and scrolls if needed */}
+      <main className={`flex-1 min-h-0 bg-navy-900 dark:bg-navy-950 overflow-auto ${className}`}>
+        <div className="flex flex-col justify-center h-full relative px-4 md:px-8 py-4 overflow-auto">
           {showSocialLinks && (
-            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 ml-4 md:ml-8">
+            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 ml-4 md:ml-8 z-10">
               <SocialLinks />
             </div>
           )}
@@ -41,10 +43,12 @@ export default function MainLayout({
         </div>
       </main>
       
-      {showFooter && <Footer />}
+      {/* Footer with fixed height */}
+      {showFooter && <Footer className="flex-shrink-0" />}
       
+      {/* Chat component that peeks from bottom */}
       {showChat && (
-        <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 mb-0">
+        <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 mb-0 z-20">
           <ChatCard />
         </div>
       )}

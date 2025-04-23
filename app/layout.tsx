@@ -32,7 +32,6 @@ export default function RootLayout({ children }: Readonly<{
       <body className={`${fontClasses} antialiased bg-amber-50 text-gray-900 dark:bg-gray-900 dark:text-amber-50`}>
         <ThemeProvider>
           <ThemeToggle />
-          <div className="p-4 bg-green-200 dark:bg-red-900 text-black dark:text-white">Tailwind dark mode test: this box should turn red/white in dark mode, green/black in light mode.</div>
           {children}
         </ThemeProvider>
       </body>
