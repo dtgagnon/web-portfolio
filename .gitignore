@@ -47,7 +47,7 @@ next-env.d.ts
 .eslintcache
 
 # direnv
-.direnv/
+.direnv
 
 # ai
 .windsurfrules
