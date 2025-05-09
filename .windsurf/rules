@@ -1,0 +1,64 @@
+# Rules
+- Capture development plans in ./dev-plans/
+- Always use spaces for indentation, with a width of 2 spaces
+- Use camelCase for variable names
+- Write unit tests for all new functions
+- Explain your reasoning before providing code
+- Focus on code readability and maintainability
+- Prioritize using the most common library in the community
+- When adding new features to websites, ensure they are responsive and accessible
+
+
+# Development Environment Details
+## System Configuration
+- **Operating System**: NixOS
+- **Shell**: zsh
+- **Node.js Version**: 20.19.0
+- **Package Manager**: pnpm 10.6.3 ONLY USE pnpm, do not use npm or yarn
+
+## Key Technologies
+- **Frontend**:
+  - Next.js 15
+  - TypeScript 5.8.2
+  - Tailwind CSS 4.0.14
+- **Backend**:
+  - Node.js
+- **AI Integration**:
+  - OpenAI API or Hugging Face Transformers
+  - LangChain
+
+## Nix Configuration
+- **Flake Inputs**:
+  - nixpkgs (nixos-unstable)
+  - flake-utils
+- **Development Packages**:
+  - nodejs_20
+  - pnpm
+  - tailwindcss
+
+## Project Structure
+```
+.
+├── app/           # Next.js app router directory (pages, layouts, etc.)
+│   ├── api/       # API routes
+│   └── (routes)   # Route groups and pages
+├── components/    # React components
+│   ├── ui/        # Reusable UI components
+│   └── features/  # Feature-specific components
+├── lib/           # Shared utilities
+│   ├── api/       # API client functions
+│   └── utils/     # Helper functions
+├── public/        # Static assets
+├── scripts/       # Development scripts
+├── flake.nix      # Nix development environment
+├── package.json   # Project dependencies
+├── tsconfig.json  # TypeScript configuration
+└── tailwind.config.js # Tailwind CSS configuration
+```
+
+## Important Notes
+1. All command line instructions should use zsh syntax
+2. Development environment managed through Nix flakes
+3. Use direnv for environment management (direnv reload to refresh the dev environment)
+4. Tailwind CSS configuration requires Nix package installation
+5. TypeScript configured with strict mode and modern ES features
