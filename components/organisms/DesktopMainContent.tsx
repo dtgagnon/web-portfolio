@@ -28,7 +28,7 @@ const DesktopMainContent: React.FC<DesktopMainContentProps> = ({
         className="w-1/4 flex flex-col items-start text-left pt-10 transform translate-y-12 space-y-6"
         data-testid="desktop-left-column"
       >
-        <ContactInfoComponent name={name} email={email} showEmail={true} className="text-left" />
+        <ContactInfoComponent name={name} email={email} showEmail={false} className="text-left" />
         <hr className="w-full border-t border-dotted border-gray-400 dark:border-gray-600" data-testid="desktop-column-border" />
         <SocialLinksComponent className="self-start" />
       </div>

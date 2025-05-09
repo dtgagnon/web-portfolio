@@ -29,7 +29,7 @@ export default function ContactInfo({
   email,
   className = '',
   showLabel = false,
-  showEmail = true
+  showEmail = false
 }: ContactInfoProps) {
   return (
     <div className={`flex flex-col ${className}`}>

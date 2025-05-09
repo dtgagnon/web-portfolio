@@ -1,17 +1,19 @@
 import React from 'react';
 import { IconLink } from '@/components/atoms';
-import { LinkedInIcon, GitHubIcon } from '@/components/atoms/icons'; // You'll need to create these
+import { LinkedInIcon, GitHubIcon, EmailIcon } from '@/components/atoms/icons';
 
 interface SocialLinksProps {
   className?: string;
   direction?: 'row' | 'column';
   iconSize?: 'sm' | 'md' | 'lg';
+  email?: string;
 }
 
 export default function SocialLinks({
   className = '',
   direction = 'row',
-  iconSize = 'md'
+  iconSize = 'md',
+  email = 'gagnon.derek@protonmail.com'
 }: SocialLinksProps) {
   const sizes = {
     sm: 'w-4 h-4',
@@ -24,6 +26,10 @@ export default function SocialLinks({
   
   return (
     <div className={`${containerClass} ${className}`}>
+      <IconLink href={`mailto:${email}`} label="Email Me">
+        <EmailIcon className={sizeClass} />
+      </IconLink>
+
       <IconLink href="https://linkedin.com/in/derek-gagnon" label="LinkedIn Profile">
         <LinkedInIcon className={sizeClass} />
       </IconLink>
@@ -31,8 +37,6 @@ export default function SocialLinks({
       <IconLink href="https://github.com/dtgagnon" label="GitHub Profile">
         <GitHubIcon className={sizeClass} />
       </IconLink>
-      
-      {/* Add more social links as needed */}
     </div>
   );
 }
