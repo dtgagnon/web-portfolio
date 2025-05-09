@@ -96,7 +96,7 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
   return (
     <div 
       ref={cardRef}
-      className={`fixed bottom-0 origin-bottom left-1/2 w-80 max-h-[400px] border border-[#3c4e74] rounded-t-md shadow-[0_-2px_10px_rgba(0,0,0,.2)] transition-transform duration-300 ease-in-out translate-x-[-50%] ${isOpen ? 'translate-y-0' : 'translate-y-[calc(100%-2.5rem)]'} bg-white dark:bg-black z-[1000]`}
+      className={`fixed bottom-0 origin-bottom left-1/2 w-80 max-h-[400px] rounded-t-md shadow-[0_-2px_10px_rgba(0,0,0,.2)] transition-transform duration-300 ease-in-out translate-x-[-50%] ${isOpen ? 'translate-y-0' : 'translate-y-[calc(100%-2.5rem)]'} bg-white dark:bg-black z-[1000]`}
     >
       {/* Chat header */}
       <div 

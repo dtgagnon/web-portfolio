@@ -4,9 +4,10 @@ import FullScreenModal from './FullScreenModal';
 
 interface AboutMeBlurbProps {
   className?: string;
+  isMobileLayout?: boolean;
 }
 
-export default function AboutMeBlurb({ className = '' }: AboutMeBlurbProps) {
+export default function AboutMeBlurb({ className = '', isMobileLayout = false }: AboutMeBlurbProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
@@ -20,27 +21,44 @@ export default function AboutMeBlurb({ className = '' }: AboutMeBlurbProps) {
           I'm passionate about creating innovative solutions that improve healthcare outcomes
           through thoughtful design and robust engineering.
         </p>
-        <div className="flex justify-end">
+        <div className={isMobileLayout ? "flex flex-col items-center mt-2" : "flex justify-end"}>
           <button
             onClick={openModal}
-            className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium flex items-center"
+            className={`text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium ${isMobileLayout ? 'flex flex-col items-center' : 'flex items-center'}`}
             aria-label="More about me"
           >
             More about me
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 ml-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M14 5l7 7m0 0l-7 7m7-7H3"
-              />
-            </svg>
+            {isMobileLayout ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 mt-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 ml-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            )}
           </button>
         </div>
       </div>

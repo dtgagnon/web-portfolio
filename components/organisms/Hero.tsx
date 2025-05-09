@@ -54,7 +54,7 @@ export default function Hero({
               <div className="relative h-64 w-64 md:h-80 md:w-80 rounded-full overflow-hidden">
                 <Image
                   src={imageSrc}
-                  alt="Hero image"
+                  alt="Derek headshot image"
                   fill
                   style={{ objectFit: 'cover' }}
                   priority

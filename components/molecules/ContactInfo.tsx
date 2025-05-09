@@ -1,4 +1,3 @@
-
 // export default function ChatCard() {
 //   return (
 //     <div className="flex-col justify-center">
@@ -22,28 +21,32 @@ interface ContactInfoProps {
   email: string;
   className?: string;
   showLabel?: boolean;
+  showEmail?: boolean;
 }
 
 export default function ContactInfo({
   name,
   email,
   className = '',
-  showLabel = false
+  showLabel = false,
+  showEmail = true
 }: ContactInfoProps) {
   return (
     <div className={`flex flex-col ${className}`}>
       <h2 className="text-2xl font-semibold mb-2">{name}</h2>
       
-      <div className="text-sm font-[family-name:var(--font-geist-mono)]">
-        {showLabel && <span className="text-gray-500 mr-2">Email:</span>}
-        <a 
-          href={`mailto:${email}`} 
-          className="hover:border-b border-dashed"
-          aria-label={`Send email to ${name}`}
-        >
-          {email}
-        </a>
-      </div>
+      {showEmail && (
+        <div className="text-sm font-[family-name:var(--font-geist-mono)]">
+          {showLabel && <span className="text-gray-500 mr-2">Email:</span>}
+          <a 
+            href={`mailto:${email}`} 
+            className="hover:border-b border-dashed"
+            aria-label={`Send email to ${name}`}
+          >
+            {email}
+          </a>
+        </div>
+      )}
     </div>
   );
 }
