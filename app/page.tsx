@@ -5,9 +5,8 @@ import Image from 'next/image';
 import ContactInfo from '@/components/molecules/ContactInfo';
 import AboutMeBlurb from '@/components/molecules/AboutMeBlurb';
 import SocialLinks from '@/components/molecules/SocialLinks';
-import NavLink from '@/components/molecules/NavLink'; 
 import ChatCard from '@/components/organisms/chat/ChatCard'; 
-import { MainContent } from '@/components/organisms';
+import { MainContent, Navbar } from '@/components/organisms';
 
 const NAME = 'Derek Gagnon';
 const EMAIL = 'gagnon.derek@protonmail.com';
@@ -29,38 +28,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen font-[family-name:var(--font-geist-sans)]">
       <header className="flex items-center justify-between px-4 py-2 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex w-1/3 justify-start relative group">
-          {/* Placeholder for Logo - Assuming paths, adjust if needed */}
-          <Image
-            src="/images/derek-logo.jpg" 
-            alt="Logo"
-            width={80}
-            height={80}
-            priority
-            className="transition-opacity duration-300 ease-in-out z-10 group-hover:opacity-0"
-          />
-          <Image
-            src="/images/logo-ani-0.jpeg"
-            alt="Logo Hover"
-            width={80}
-            height={80}
-            priority
-            className="absolute top-0 left-0 transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100"
-          />
-        </div>
-
-        <div className="flex w-1/3 justify-center">
-          {/* Optional: Centered header content if any */}
-        </div>
-
-        <div className="flex w-1/3 justify-end">
-          <nav className="flex space-x-4">
-            <NavLink href="/">Home</NavLink>
-            <NavLink href="/about">About</NavLink> 
-            <NavLink href="/projects">Projects</NavLink> 
-            <NavLink href="/contact">Contact</NavLink> 
-          </nav>
-        </div>
+        <Navbar className="w-full" />
       </header>
 
       <main className="flex-grow flex flex-col items-center justify-center py-12 md:py-20 px-4">

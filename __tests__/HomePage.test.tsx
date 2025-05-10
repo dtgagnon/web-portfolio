@@ -43,6 +43,15 @@ vi.mock('@/components/atoms/ThemeToggle', () => ({
   default: () => <div data-testid="theme-toggle">Theme Toggle</div>
 }));
 
+// Mock Navbar component
+vi.mock('@/components/organisms/Navbar', () => ({
+  default: ({ className }: { className?: string }) => (
+    <nav data-testid="navbar" className={className}>
+      <div>Navigation Links</div>
+    </nav>
+  )
+}));
+
 
 describe('Home Page Layout (app/page.tsx) - Mobile View', () => {
   beforeEach(() => {
