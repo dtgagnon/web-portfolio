@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Footer } from '@/components/organisms';
+import { Navbar, Footer, MainContent } from '@/components/organisms';
 import { ThemeToggle } from '@/components/atoms';
 import { SocialLinks } from '@/components/molecules';
 import { ChatCard } from '@/components/organisms/chat';

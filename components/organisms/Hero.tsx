@@ -1,6 +1,5 @@
 import React from 'react';
-import Image from 'next/image';
-import { Button } from '@/components/atoms';
+import { Button, ProfileImage } from '@/components/atoms';
 
 interface HeroProps {
   title: string;
@@ -51,16 +50,12 @@ export default function Hero({
           {/* Image */}
           <div className="flex justify-center">
             {imageSrc && (
-              <div className="relative h-64 w-64 md:h-80 md:w-80 rounded-full overflow-hidden">
-                <Image
-                  src={imageSrc}
-                  alt="Derek headshot image"
-                  fill
-                  style={{ objectFit: 'cover' }}
-                  priority
-                  className="rounded-full"
-                />
-              </div>
+              <ProfileImage
+                src={imageSrc}
+                alt="Derek headshot image"
+                priority
+                size="md"
+              />
             )}
           </div>
         </div>

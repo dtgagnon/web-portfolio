@@ -7,18 +7,14 @@ import AboutMeBlurb from '@/components/molecules/AboutMeBlurb';
 import SocialLinks from '@/components/molecules/SocialLinks';
 import NavLink from '@/components/molecules/NavLink'; 
 import ChatCard from '@/components/organisms/chat/ChatCard'; 
-import useBreakpoint from '@/lib/hooks/useBreakpoint'; 
-import MobileMainContent from '@/components/organisms/MobileMainContent'; 
-import DesktopMainContent from '@/components/organisms/DesktopMainContent'; 
+import { MainContent } from '@/components/organisms';
 
 const NAME = 'Derek Gagnon';
 const EMAIL = 'gagnon.derek@protonmail.com';
 const PROFILE_IMAGE_URL = '/images/profile.jpg';
 const PROFILE_IMAGE_ALT = 'Picture of Derek Gagnon';
-const BREAKPOINT_PX = 768;
 
 export default function Home() {
-  const isMobile = useBreakpoint(BREAKPOINT_PX);
 
   const mainContentProps = {
     name: NAME,
@@ -68,11 +64,7 @@ export default function Home() {
       </header>
 
       <main className="flex-grow flex flex-col items-center justify-center py-12 md:py-20 px-4">
-        {isMobile ? (
-          <MobileMainContent {...mainContentProps} />
-        ) : (
-          <DesktopMainContent {...mainContentProps} />
-        )}
+        <MainContent {...mainContentProps} />
       </main>
 
       <footer className="flex items-center justify-between px-4 py-3">

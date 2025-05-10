@@ -1,6 +1,6 @@
 // components/organisms/DesktopMainContent.tsx
 import React from 'react';
-import Image from 'next/image';
+import { ProfileImage } from '@/components/atoms';
 
 interface DesktopMainContentProps {
   name: string;
@@ -38,16 +38,12 @@ const DesktopMainContent: React.FC<DesktopMainContentProps> = ({
         className="w-1/2 flex justify-center items-start pt-10"
         data-testid="desktop-center-column"
       >
-        <div className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 relative rounded-full overflow-hidden shadow-lg">
-          <Image
-            src={profileImageUrl}
-            alt={profileImageAlt}
-            fill
-            style={{ objectFit: 'cover' }}
-            priority
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-        </div>
+        <ProfileImage
+          src={profileImageUrl}
+          alt={profileImageAlt}
+          priority
+          size="lg"
+        />
       </div>
 
       {/* Right Column: About Me Blurb */}
