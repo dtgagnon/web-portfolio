@@ -16,11 +16,11 @@ export default function AboutMeBlurb({ className = '' }: AboutMeBlurbProps) {
     <div className={`${className}`}>
       <div className="space-y-4">
         <p className="text-lg">
-          Hi! I'm a medical device engineer (and I love Gina Chan!!) who has become a bit of an everything engineer.
+          Hi! I'm a medical device engineer who has become a bit of an everything engineer.
           I'm passionate about creating innovative solutions that improve healthcare outcomes
           through thoughtful design and robust engineering.
         </p>
-        <div className="flex flex-col items-center mt-2 md:flex md:flex-row md:justify-end md:mt-0">
+        <div className="flex flex-col items-center mt-2 md:flex md:flex-row md:justify-start md:mt-0">
           <button
             onClick={openModal}
             className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium flex flex-col items-center md:flex-row md:items-center"

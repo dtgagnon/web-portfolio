@@ -46,7 +46,7 @@ const MainContent: React.FC<MainContentProps> = ({
           <AboutMeBlurbComponent className="" />
         </div>
 
-        <hr className="w-2/3 border-t border-dotted border-gray-400 dark:border-gray-600 my-6" data-testid="mobile-layout-border" />
+        <hr className="w-2/3 border-t border-dotted border-gray-400 dark:border-gray-600 -mt-1 mb-6" data-testid="mobile-layout-border" />
 
         {/* Social links */}
         <div className="mt-auto">
@@ -58,12 +58,12 @@ const MainContent: React.FC<MainContentProps> = ({
       <div className="hidden md:flex items-start justify-center w-full space-x-8 px-4 relative" data-testid="desktop-view">
         {/* Left Column: Contact Info and Social Links with upward offset */}
         <div 
-          className="w-1/4 flex flex-col items-start text-left pt-10 transform translate-y-12 space-y-6"
+          className="w-1/4 flex flex-col items-start text-left transform translate-y-48 space-y-2"
           data-testid="desktop-left-column"
         >
-          <ContactInfoComponent name={name} email={email} showEmail={false} className="text-left" />
-          <hr className="w-full border-t border-dotted border-gray-400 dark:border-gray-600" data-testid="desktop-column-border" />
-          <SocialLinksComponent className="self-start" />
+          <ContactInfoComponent name={name} email={email} showEmail={false} className="self-center text-center" />
+          <hr className="w-full border-t border-dotted border-gray-400 dark:border-gray-600 " data-testid="desktop-column-border" />
+          <SocialLinksComponent className="self-center" />
         </div>
 
         {/* Center Column: Profile Image */}
@@ -80,9 +80,9 @@ const MainContent: React.FC<MainContentProps> = ({
         </div>
 
         {/* Right Column: About Me Blurb */}
-        <div className="w-1/3 pt-16 relative" data-testid="desktop-about-blurb-column">
+        <div className="w-1/3 pt-16 relative space-y-2" data-testid="desktop-about-blurb-column">
           <AboutMeBlurbComponent className="text-left" />
-          <div className="absolute bottom-0 left-0 w-full h-px border-b border-dotted border-gray-400 dark:border-gray-600 -mb-8"></div>
+          <hr className="w-full border-t border-dotted border-gray-400 dark:border-gray-600" data-testid="desktop-about-blurb-border" />
         </div>
       </div>
     </>
