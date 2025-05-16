@@ -1,59 +1,24 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
+import FullScreenModal from '@/components/molecules/FullScreenModal';
 import ResumeContent from './ResumeContent';
 
-export default function Resume({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (isOpen: boolean) => void }) {
-  const resumeRef = useRef<HTMLDivElement>(null);
+interface ResumeCardProps {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}
 
-  // Close on escape key press
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setIsOpen(false);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [setIsOpen]);
-
-  // Close when clicking outside the resume
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (resumeRef.current && !resumeRef.current.contains(e.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen, setIsOpen]);
-
-  if (!isOpen) return null;
+export default function ResumeCard({ isOpen, setIsOpen }: ResumeCardProps) {
+  const handleClose = () => setIsOpen(false);
 
   return (
-    <div className="fixed inset-0 bg-black/50 dark:bg-black/50 flex items-center justify-center z-50 p-4">
-      <div 
-        ref={resumeRef}
-        className="bg-white text-black dark:bg-black dark:text-white w-full max-w-6xl h-[calc(100vh-4rem)] overflow-auto rounded-lg shadow-xl"
-        style={{ aspectRatio: '8.5/11' }} // Letter paper ratio (portrait)
-      >
-        <div className="sticky top-0 flex justify-end p-2 bg-white text-black dark:bg-black dark:text-white border-b border-gray-200 dark:border-gray-700">
-          <button 
-            onClick={() => setIsOpen(false)}
-            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-black dark:text-white"
-            aria-label="Close"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <ResumeContent />
-      </div>
-    </div>
+    <FullScreenModal 
+      isOpen={isOpen} 
+      onClose={handleClose}
+      className="max-w-6xl w-full h-[90vh] overflow-auto"
+    >
+      <ResumeContent />
+    </FullScreenModal>
   );
 }

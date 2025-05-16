@@ -1,140 +1,87 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import Resume from '@/components/organisms/resume/ResumeCard';
+import ResumeCard from '@/components/organisms/resume/ResumeCard';
 
-// Mock the ResumeContent component
+// Mock the FullScreenModal and ResumeContent components
+vi.mock('@/components/molecules/FullScreenModal', () => ({
+  __esModule: true,
+  default: ({ isOpen, onClose, children, className }: { 
+    isOpen: boolean; 
+    onClose: () => void; 
+    children: React.ReactNode;
+    className?: string;
+  }) => 
+    isOpen ? (
+      <div data-testid="mock-modal" onClick={(e) => e.target === e.currentTarget && onClose()}>
+        <button onClick={onClose} aria-label="Close">Close</button>
+        <div data-testid="modal-content" className={className}>
+          {children}
+        </div>
+      </div>
+    ) : null
+}));
+
 vi.mock('@/components/organisms/resume/ResumeContent', () => ({
   __esModule: true,
   default: () => <div data-testid="mock-resume-content">Resume Content</div>
 }));
 
-describe('Resume component', () => {
-  // Common props used across tests
+describe('ResumeCard', () => {
   const mockSetIsOpen = vi.fn();
   
   beforeEach(() => {
-    // Reset mocks before each test
-    mockSetIsOpen.mockReset();
-    vi.resetModules();
+    mockSetIsOpen.mockClear();
+    vi.clearAllMocks();
   });
   
   it('renders nothing when isOpen is false', () => {
-    const { container } = render(<Resume isOpen={false} setIsOpen={mockSetIsOpen} />);
+    const { container } = render(
+      <ResumeCard isOpen={false} setIsOpen={mockSetIsOpen} />
+    );
     expect(container.firstChild).toBeNull();
   });
   
-  it('renders resume modal when isOpen is true', () => {
-    const { container } = render(<Resume isOpen={true} setIsOpen={mockSetIsOpen} />);
+  it('renders modal content when isOpen is true', () => {
+    render(<ResumeCard isOpen={true} setIsOpen={mockSetIsOpen} />);
     
-    // Check that the modal content is rendered
+    expect(screen.getByTestId('mock-modal')).toBeInTheDocument();
     expect(screen.getByTestId('mock-resume-content')).toBeInTheDocument();
-    
-    // Check for modal background without checking specific styles
-    const overlay = container.firstChild as HTMLElement;
-    expect(overlay).toBeTruthy();
-  });
-
-  it('has the expected modal structure', () => {
-    const { container } = render(<Resume isOpen={true} setIsOpen={mockSetIsOpen} />);
-    
-    // Modal should have a close button
-    const closeButton = screen.getByLabelText('Close');
-    expect(closeButton).toBeInTheDocument();
-    
-    // Modal should contain the resume content
-    expect(screen.getByTestId('mock-resume-content')).toBeInTheDocument();
-    
-    // The overlay should be a parent of the content
-    const overlay = container.firstChild as HTMLElement;
-    const resumeContent = screen.getByTestId('mock-resume-content');
-    expect(overlay).toContainElement(resumeContent);
   });
   
-  it('closes when close button is clicked', () => {
-    render(<Resume isOpen={true} setIsOpen={mockSetIsOpen} />);
+  it('calls setIsOpen with false when close button is clicked', () => {
+    render(<ResumeCard isOpen={true} setIsOpen={mockSetIsOpen} />);
     
-    // Find and click close button
-    const closeButton = screen.getByLabelText('Close');
+    const closeButton = screen.getByRole('button', { name: /close/i });
     fireEvent.click(closeButton);
     
-    // Verify setIsOpen was called with false
     expect(mockSetIsOpen).toHaveBeenCalledWith(false);
   });
   
-  it('closes when clicking outside the resume', () => {
-    const { container } = render(<Resume isOpen={true} setIsOpen={mockSetIsOpen} />);
+  it('calls setIsOpen with false when clicking outside the content', () => {
+    render(<ResumeCard isOpen={true} setIsOpen={mockSetIsOpen} />);
     
-    // Mock event for clicking outside
-    const overlay = container.firstChild as HTMLElement;
-    fireEvent.mouseDown(overlay);
+    const modal = screen.getByTestId('mock-modal');
+    fireEvent.click(modal);
     
-    // Verify setIsOpen was called with false
     expect(mockSetIsOpen).toHaveBeenCalledWith(false);
   });
   
-  it('does not close when clicking inside the resume', () => {
-    render(<Resume isOpen={true} setIsOpen={mockSetIsOpen} />);
+  it('does not call setIsOpen when clicking inside the content', () => {
+    render(<ResumeCard isOpen={true} setIsOpen={mockSetIsOpen} />);
     
-    // Click inside the resume content
-    const resumeContent = screen.getByTestId('mock-resume-content');
-    fireEvent.mouseDown(resumeContent);
+    const content = screen.getByTestId('modal-content');
+    fireEvent.click(content);
     
-    // Verify setIsOpen was not called
     expect(mockSetIsOpen).not.toHaveBeenCalled();
   });
   
-  it('closes when Escape key is pressed', () => {
-    render(<Resume isOpen={true} setIsOpen={mockSetIsOpen} />);
+  it('applies the correct className to the modal content', () => {
+    render(<ResumeCard isOpen={true} setIsOpen={mockSetIsOpen} />);
     
-    // Simulate Escape key press
-    fireEvent.keyDown(window, { key: 'Escape' });
-    
-    // Verify setIsOpen was called with false
-    expect(mockSetIsOpen).toHaveBeenCalledWith(false);
-  });
-  
-  it('does not close when other keys are pressed', () => {
-    render(<Resume isOpen={true} setIsOpen={mockSetIsOpen} />);
-    
-    // Simulate pressing a different key
-    fireEvent.keyDown(window, { key: 'Enter' });
-    
-    // Verify setIsOpen was not called
-    expect(mockSetIsOpen).not.toHaveBeenCalled();
-  });
-  
-  it('has appropriate layout structure', () => {
-    render(<Resume isOpen={true} setIsOpen={mockSetIsOpen} />);
-    
-    // Find resume content in the modal
-    const resumeContent = screen.getByTestId('mock-resume-content');
-    expect(resumeContent).toBeInTheDocument();
-    
-    // Check that content exists in proper hierarchy
-    const contentContainer = resumeContent.closest('div');
-    expect(contentContainer).toBeTruthy();
-    
-    // Check for close button in header
-    const closeButton = screen.getByLabelText('Close');
-    expect(closeButton).toBeInTheDocument();
-  });
-  
-  it('has a sticky header with close button', () => {
-    render(<Resume isOpen={true} setIsOpen={mockSetIsOpen} />);
-    
-    // Find the sticky header
-    const stickyHeader = screen.getByLabelText('Close').closest('div');
-    
-    // Check for proper styling
-    expect(stickyHeader).toHaveClass(
-      'sticky', 
-      'top-0', 
-      'flex', 
-      'justify-end', 
-      'p-2', 
-      'bg-white', 
-      'dark:bg-black', 
-      'border-b'
-    );
+    const content = screen.getByTestId('modal-content');
+    expect(content).toHaveClass('max-w-6xl');
+    expect(content).toHaveClass('w-full');
+    expect(content).toHaveClass('h-[90vh]');
+    expect(content).toHaveClass('overflow-auto');
   });
 });

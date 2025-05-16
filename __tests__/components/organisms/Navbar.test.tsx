@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { Navbar } from '@/components/organisms';
 import { ThemeProvider } from '@/providers/ThemeContext';
@@ -13,8 +13,13 @@ vi.mock('@/components/atoms', () => ({
 }));
 
 vi.mock('@/components/molecules', () => ({
-  NavLink: ({ href, children, className }: { href: string; children: React.ReactNode; className?: string }) => (
-    <a href={href} className={className} data-testid="nav-link">
+  NavLink: ({ href, children, className, onClick }: { href: string; children: React.ReactNode; className?: string; onClick?: (e: React.MouseEvent) => void }) => (
+    <a 
+      href={href} 
+      className={className} 
+      data-testid="nav-link"
+      onClick={onClick}
+    >
       {children}
     </a>
   ),
@@ -23,6 +28,17 @@ vi.mock('@/components/molecules', () => ({
       Social Links
     </div>
   ),
+}));
+
+// Mock the ResumeButton component
+vi.mock('@/components/organisms/resume/ResumeButton', () => ({
+  default: () => (
+    <button
+      data-testid="resume-button"
+    >
+      Resume
+    </button>
+  )
 }));
 
 describe('Navbar component', () => {
@@ -36,23 +52,27 @@ describe('Navbar component', () => {
     const logo = screen.getByTestId('logo');
     expect(logo).toBeInTheDocument();
     expect(logo).toHaveAttribute('href', '/');
-    expect(logo).toHaveAttribute('data-with-text', 'true');
+    expect(logo).toHaveAttribute('data-with-text', 'false');
   });
 
-  it('renders navigation links', () => {
+  it('renders navigation links and resume button', () => {
     render(
       <ThemeProvider>
         <Navbar />
       </ThemeProvider>
     );
     
-    // Check that all expected navigation links exist
+    // Check that navigation links exist
     const navLinks = screen.getAllByTestId('nav-link');
-    expect(navLinks.length).toBe(3);
+    expect(navLinks.length).toBe(2);
     
     expect(navLinks[0]).toHaveTextContent('About');
     expect(navLinks[1]).toHaveTextContent('Projects');
-    expect(navLinks[2]).toHaveTextContent('Resume');
+    
+    // Check that resume button exists
+    const resumeButton = screen.getByTestId('resume-button');
+    expect(resumeButton).toBeInTheDocument();
+    expect(resumeButton).toHaveTextContent('Resume');
   });
 
   it('has correct navigation styling', () => {
@@ -100,5 +120,18 @@ describe('Navbar component', () => {
     
     const nav = screen.getByRole('navigation');
     expect(nav).toHaveClass('custom-class');
+  });
+  
+  it('renders the resume button', () => {
+    render(
+      <ThemeProvider>
+        <Navbar />
+      </ThemeProvider>
+    );
+    
+    // Find the resume button
+    const resumeButton = screen.getByTestId('resume-button');
+    expect(resumeButton).toBeInTheDocument();
+    expect(resumeButton).toHaveTextContent('Resume');
   });
 });

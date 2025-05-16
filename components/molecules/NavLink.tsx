@@ -7,7 +7,7 @@ interface NavLinkProps {
   children: React.ReactNode;
   className?: string;
   activeClassName?: string;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
 export default function NavLink({
@@ -20,10 +20,18 @@ export default function NavLink({
   const pathname = usePathname();
   const isActive = pathname === href || pathname?.startsWith(`${href}/`);
   
+  // Create a handler that prevents default navigation if onClick is provided
+  const handleClick = (e: React.MouseEvent) => {
+    if (onClick) {
+      e.preventDefault(); // Prevent default navigation when a custom handler is provided
+      onClick(e);
+    }
+  };
+  
   return (
     <Link 
       href={href}
-      onClick={onClick}
+      onClick={handleClick}
       className={`transition-colors hover:text-sky-600 dark:hover:text-sky-400 ${isActive ? activeClassName : ''} ${className}`}
     >
       {children}

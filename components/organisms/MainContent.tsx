@@ -62,7 +62,7 @@ const MainContent: React.FC<MainContentProps> = ({
           data-testid="desktop-left-column"
         >
           <ContactInfoComponent name={name} email={email} showEmail={false} className="self-center text-center" />
-          <hr className="w-full border-t border-dotted border-gray-400 dark:border-gray-600 " data-testid="desktop-column-border" />
+          <hr className="w-full border-t border-dotted border-gray-400 dark:border-gray-600" data-testid="desktop-column-border" />
           <SocialLinksComponent className="self-center" />
         </div>
 

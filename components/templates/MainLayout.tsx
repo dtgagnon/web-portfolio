@@ -1,5 +1,8 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { Navbar, Footer, MainContent } from '@/components/organisms';
+
 import { ThemeToggle } from '@/components/atoms';
 import { SocialLinks } from '@/components/molecules';
 import { ChatCard } from '@/components/organisms/chat';
@@ -19,6 +22,7 @@ export default function MainLayout({
   showSocialLinks = true,
   showChat = true
 }: MainLayoutProps) {
+
   return (
     <div className="flex flex-col h-[100vh] max-h-[100dvh] overflow-hidden bg-navy-900 dark:bg-navy-950 text-gray-100 dark:text-white transition-colors">
       {/* Header with fixed height */}
@@ -46,6 +50,7 @@ export default function MainLayout({
       {/* Footer with fixed height */}
       {showFooter && <Footer className="flex-shrink-0 max-h-[6rem]" />}
       
+
       {/* Chat component that peeks from bottom */}
       {showChat && (
         <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 mb-0 z-20">

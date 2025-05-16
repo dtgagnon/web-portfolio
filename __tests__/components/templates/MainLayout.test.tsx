@@ -2,10 +2,15 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import MainLayout from '@/components/templates/MainLayout';
 import { ThemeProvider } from '@/providers/ThemeContext';
+import { fireEvent } from '@testing-library/react';
 
 // Mock necessary components
 vi.mock('@/components/organisms', () => ({
-  Navbar: () => <div data-testid="navbar">Navbar</div>,
+  Navbar: () => (
+    <div data-testid="navbar">
+      <button data-testid="resume-button">Resume</button>
+    </div>
+  ),
   Footer: () => <div data-testid="footer">Footer</div>
 }));
 
@@ -19,6 +24,16 @@ vi.mock('@/components/atoms', () => ({
 
 vi.mock('@/components/molecules', () => ({
   SocialLinks: () => <div data-testid="social-links" className="absolute left-0">Social Links</div>
+}));
+
+// We no longer need to mock ResumeCard as it's managed by ResumeButton component
+vi.mock('@/components/organisms/resume/ResumeButton', () => ({
+  __esModule: true,
+  default: () => (
+    <button data-testid="resume-button">
+      Resume
+    </button>
+  )
 }));
 
 describe('MainLayout component', () => {
@@ -98,6 +113,21 @@ describe('MainLayout component', () => {
       );
       
       expect(screen.queryByTestId('chat-component')).not.toBeInTheDocument();
+    });
+
+    it('renders the resume button in navbar', () => {
+      render(
+        <ThemeProvider>
+          <MainLayout>
+            <div>Main Content</div>
+          </MainLayout>
+        </ThemeProvider>
+      );
+      
+      // The resume button should be visible
+      const resumeButton = screen.getByTestId('resume-button');
+      expect(resumeButton).toBeInTheDocument();
+      expect(resumeButton).toHaveTextContent('Resume');
     });
   });
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Logo } from '@/components/atoms';
 import { NavLink } from '@/components/molecules';
+import ResumeButton from './resume/ResumeButton';
 
 interface NavbarProps {
   className?: string;
@@ -14,7 +15,7 @@ export default function Navbar({ className = '' }: NavbarProps) {
       <div className="flex items-center gap-6 md:gap-8">
         <NavLink href="/about">About</NavLink>
         <NavLink href="/projects">Projects</NavLink>
-        <NavLink href="/resume">Resume</NavLink>
+        <ResumeButton />
       </div>
     </nav>
   );
