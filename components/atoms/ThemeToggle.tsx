@@ -16,7 +16,7 @@ function SunIcon() {
       aria-hidden="true"
     >
       <circle cx="12" cy="12" r="5" />
-      <g className="sun-rays origin-center group-hover:animate-rotate-rays">
+      <g className="sun-rays origin-center group-hover:animate-sunRayRotation">
         <line x1="12" y1="1" x2="12" y2="3" />
         <line x1="12" y1="21" x2="12" y2="23" />
         <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
@@ -32,8 +32,33 @@ function SunIcon() {
 
 function MoonIcon() {
   return (
-    <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg
+      className="group"
+      width={20}
+      height={20}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
       <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
+      <g className="moon-stars origin-center opacity-0 group-hover:opacity-100">
+        {/* Star 1 Group - immediate animation */}
+        <g className="group-hover:animate-twinkle">
+          {/* Star 1: Centered at (18,5) - 1px up, 1px left */}
+          <line x1="17" y1="5" x2="19" y2="5" strokeWidth={1.5} />
+          <line x1="18" y1="4" x2="18" y2="6" strokeWidth={1.5} />
+        </g>
+        {/* Star 2 Group - delayed animation */}
+        <g className="group-hover:animate-twinkle-delayed">
+          {/* Star 2: Centered at (21,8), 'x' shape */}
+          <line x1="20" y1="7" x2="22" y2="9" strokeWidth={1.5} /> {/* Diagonal \ */}
+          <line x1="22" y1="7" x2="20" y2="9" strokeWidth={1.5} /> {/* Diagonal /  */}
+        </g>
+      </g>
     </svg>
   );
 }

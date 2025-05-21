@@ -1,5 +1,30 @@
 @import "tailwindcss";
 
+@theme {
+  /* Define the animation utility using a CSS variable */
+  --animate-sunRayRotation: sunRayRotationKeyframes 1s linear;
+
+  /* Define the keyframes directly here */
+  @keyframes sunRayRotationKeyframes {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(270deg);
+    }
+  }
+
+  --animate-twinkle: twinkleKeyframes 0.9s ease-in-out 2 forwards; /* For the first star */
+  --animate-twinkle-delayed: twinkleKeyframes 0.9s ease-in-out 0.2s 2 forwards; /* For the second star, 0.2s delay */
+
+  @keyframes twinkleKeyframes {
+    0%, 100% { opacity: 1; transform: scale(1); } /* End state and smooth start */
+    25% { opacity: 1; transform: scale(1.05); }  /* Subtle peak */
+    50% { opacity: 0.4; transform: scale(0.95); } /* Subtle dim/shrink */
+    75% { opacity: 1; transform: scale(1.03); }  /* Subtle other peak */
+  }
+}
+
 /* The following is a Tailwind CSS v4 feature that may trigger IDE warnings */
 /* but it works correctly in the build process */
 @custom-variant dark (&:where(.dark, .dark *));

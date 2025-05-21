@@ -7,15 +7,7 @@ module.exports = {
   ],
   theme: {
     extend: {
-      keyframes: {
-        'rotate-rays': {
-          '0%': { transform: 'rotate(0deg)' },
-          '100%': { transform: 'rotate(360deg)' },
-        },
-      },
-      animation: {
-        'rotate-rays': 'rotate-rays 1s linear',
-      },
+      // Keyframes and animation are now defined in globals.css for Tailwind CSS v4
     },
   },
   plugins: [],
