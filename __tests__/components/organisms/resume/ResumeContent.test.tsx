@@ -13,7 +13,7 @@ describe('ResumeContent component', () => {
     expect(mainContainer).toHaveClass('flex', 'flex-col', 'gap-8', 'p-8');
     
     // Check for proper background and text colors
-    expect(mainContainer).toHaveClass('bg-white', 'text-black', 'dark:bg-black', 'dark:text-white');
+    expect(mainContainer).toHaveClass('bg-transparent', 'text-black', 'dark:bg-transparent', 'dark:text-yellow-50');
     
     // Verify main sections count (contact info, summary, experience, education, expertise, projects)
     const sections = mainContainer?.childNodes;

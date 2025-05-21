@@ -18,25 +18,37 @@ vi.mock('@/components/atoms/icons', () => ({
   GitHubIcon: ({ className }: { className?: string }) => (
     <svg data-testid="github-icon" className={className} />
   ),
+  EmailIcon: ({ className }: { className?: string }) => ( // Added EmailIcon mock
+    <svg data-testid="email-icon" className={className} />
+  ),
 }));
 
 describe('SocialLinks component', () => {
-  it('renders social links correctly', () => {
+  it('renders social links correctly with default email', () => {
     render(<SocialLinks />);
     
     const links = screen.getAllByTestId('mock-icon-link');
-    expect(links).toHaveLength(2);  // LinkedIn and GitHub
+    expect(links).toHaveLength(3); // Email, LinkedIn, and GitHub
     
-    expect(links[0]).toHaveAttribute('href', 'https://linkedin.com/in/derek-gagnon');
-    expect(links[0]).toHaveAttribute('aria-label', 'LinkedIn Profile');
+    // Order might vary depending on implementation, so check for specific hrefs
+    const emailLink = links.find(link => link.getAttribute('href') === 'mailto:gagnon.derek@protonmail.com');
+    const linkedInLink = links.find(link => link.getAttribute('href') === 'https://linkedin.com/in/derek-gagnon');
+    const githubLink = links.find(link => link.getAttribute('href') === 'https://github.com/dtgagnon');
+
+    expect(emailLink).toBeInTheDocument();
+    expect(emailLink).toHaveAttribute('aria-label', 'Email Me');
     
-    expect(links[1]).toHaveAttribute('href', 'https://github.com/dtgagnon');
-    expect(links[1]).toHaveAttribute('aria-label', 'GitHub Profile');
+    expect(linkedInLink).toBeInTheDocument();
+    expect(linkedInLink).toHaveAttribute('aria-label', 'LinkedIn Profile');
+    
+    expect(githubLink).toBeInTheDocument();
+    expect(githubLink).toHaveAttribute('aria-label', 'GitHub Profile');
   });
   
   it('renders icons with correct testing ids', () => {
     render(<SocialLinks />);
     
+    expect(screen.getByTestId('email-icon')).toBeInTheDocument(); // Added EmailIcon check
     expect(screen.getByTestId('linkedin-icon')).toBeInTheDocument();
     expect(screen.getByTestId('github-icon')).toBeInTheDocument();
   });
@@ -65,9 +77,11 @@ describe('SocialLinks component', () => {
     sizes.forEach(({ prop, class: className }) => {
       const { unmount } = render(<SocialLinks iconSize={prop as 'sm' | 'md' | 'lg'} />);
       
+      const emailIcon = screen.getByTestId('email-icon'); // Added EmailIcon
       const linkedInIcon = screen.getByTestId('linkedin-icon');
       const githubIcon = screen.getByTestId('github-icon');
       
+      expect(emailIcon).toHaveClass(className); // Check EmailIcon class
       expect(linkedInIcon).toHaveClass(className);
       expect(githubIcon).toHaveClass(className);
       

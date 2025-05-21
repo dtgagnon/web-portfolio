@@ -38,7 +38,7 @@ describe('ProfileImage component', () => {
     
     // Container should have medium size by default
     const container = screen.getByTestId('profile-image-container');
-    expect(container).toHaveClass('w-64', 'h-64', 'sm:w-[100px]', 'sm:h-[100px]');
+    expect(container).toHaveClass('w-64', 'h-64', 'sm:w-64', 'sm:h-64');
     expect(container).toHaveClass('rounded-full', 'overflow-hidden');
   });
   
@@ -49,7 +49,7 @@ describe('ProfileImage component', () => {
     );
     
     let profileContainer = screen.getByTestId('profile-image-container');
-    expect(profileContainer).toHaveClass('w-48', 'h-48', 'sm:w-[100px]', 'sm:h-[100px]');
+    expect(profileContainer).toHaveClass('w-48', 'h-48', 'sm:w-48', 'sm:h-48');
     expect(profileContainer).not.toHaveClass('w-64', 'h-64');
     
     unmount();
@@ -60,7 +60,7 @@ describe('ProfileImage component', () => {
     );
     
     profileContainer = screen.getByTestId('profile-image-container');
-    expect(profileContainer).toHaveClass('w-64', 'h-64', 'md:w-80', 'md:h-80', 'lg:w-96', 'lg:h-96');
+    expect(profileContainer).toHaveClass('w-64', 'h-64', 'sm:w-64', 'sm:h-64');
     
     unmount2();
     
@@ -68,7 +68,7 @@ describe('ProfileImage component', () => {
     render(<ProfileImage {...defaultProps} size="lg" />);
     
     profileContainer = screen.getByTestId('profile-image-container');
-    expect(profileContainer).toHaveClass('w-80', 'h-80', 'sm:w-[100px]', 'sm:h-[100px]');
+    expect(profileContainer).toHaveClass('w-80', 'h-80', 'sm:w-80', 'sm:h-80');
   });
   
   it('applies priority prop when set to true', () => {

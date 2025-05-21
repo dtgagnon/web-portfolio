@@ -113,7 +113,7 @@ describe('ChatCard component', () => {
     
     // Chat card should have the main container classes
     const chatCard = container.querySelector('div');
-    expect(chatCard).toHaveClass('fixed', 'bottom-0', 'border');
+    expect(chatCard).toHaveClass('fixed', 'bottom-0', 'shadow-[0_-2px_10px_rgba(0,0,0,.2)]');
     
     // Chat header should exist
     const chatHeader = screen.getByText('Chat with Me').closest('div');

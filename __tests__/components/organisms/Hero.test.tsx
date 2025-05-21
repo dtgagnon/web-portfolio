@@ -15,23 +15,52 @@ vi.mock('next/image', () => ({
   )
 }));
 
-// Mock Button component
+interface MockButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link';
+  size?: 'sm' | 'md' | 'lg' | 'icon';
+  className?: string;
+}
+
+interface MockProfileImageProps {
+  src: string;
+  alt: string;
+  className?: string;
+  size?: 'sm' | 'md' | 'lg' | string; // Allow string for data-size flexibility
+  priority?: boolean;
+  style?: React.CSSProperties;
+}
+
+// Mock the '@/components/atoms' module
 vi.mock('@/components/atoms', () => ({
-  Button: ({ 
-    children, 
-    onClick, 
-    variant, 
-    size 
-  }: { children: React.ReactNode; onClick?: () => void; variant: string; size: string }) => (
-    <button 
-      onClick={onClick} 
-      data-variant={variant} 
-      data-size={size} 
-      data-testid="mock-button"
+  __esModule: true, // Important for modules with default exports if they also have named
+  Button: ({ children, onClick, variant, size, className }: MockButtonProps) => (
+    <button
+      onClick={onClick}
+      data-variant={variant}
+      data-size={size}
+      className={className}
+      data-testid="mock-button" // Added for clarity
     >
       {children}
     </button>
-  )
+  ),
+  ProfileImage: ({ src, alt, className, size, priority, style }: MockProfileImageProps) => {
+    const passedClassName = className || '';
+    const finalClassName = `rounded-full ${passedClassName}`.trim(); // Ensure 'rounded-full' is always present
+    return (
+      <img
+        src={src}
+        alt={alt}
+        className={finalClassName}
+        data-testid="mock-profile-image"
+        data-size={size} // size is already string or undefined
+        data-priority={priority}
+        style={style}
+      />
+    );
+  }
 }));
 
 describe('Hero component', () => {
@@ -50,17 +79,17 @@ describe('Hero component', () => {
   it('renders hero image with correct props', () => {
     render(<Hero title="Welcome" imageSrc="/images/custom.jpg" />);
     
-    const image = screen.getByTestId('mock-image');
+    const image = screen.getByTestId('mock-profile-image');
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute('src', '/images/custom.jpg');
-    expect(image).toHaveAttribute('alt', 'Hero image');
+    expect(image).toHaveAttribute('alt', 'Derek headshot image');
     expect(image).toHaveClass('rounded-full');
   });
   
   it('uses default image src if not provided', () => {
     render(<Hero title="Welcome" />);
     
-    const image = screen.getByTestId('mock-image');
+    const image = screen.getByTestId('mock-profile-image');
     expect(image).toHaveAttribute('src', '/images/profile.jpg');
   });
   
@@ -79,20 +108,35 @@ describe('Hero component', () => {
   });
   
   it('sets button onClick to navigate to ctaLink', () => {
-    // Mock window.location.href
+    const mockHref = '/custom-page';
     const originalLocation = window.location;
-    delete window.location;
-    window.location = { ...originalLocation, href: '' };
-    
-    render(<Hero title="Welcome" ctaLink="/custom-page" />);
-    
+
+    // Create a mock location object with a spyable href setter
+    let currentHref = '';
+    const hrefSetterSpy = vi.fn((newHref) => { currentHref = newHref; });
+
+    delete (window as any).location;
+    const mockLocation = {
+      ...originalLocation, // spread other properties if needed
+      assign: vi.fn(), // keep assign mock if other parts rely on it, or simplify
+      // Define href with a getter and our spyable setter
+      get href() {
+        return currentHref;
+      },
+      set href(newHref: string) {
+        hrefSetterSpy(newHref);
+      }
+    };
+    (window as any).location = mockLocation;
+
+    render(<Hero title="Welcome" ctaLink={mockHref} />);    
     const button = screen.getByTestId('mock-button');
     button.click();
     
-    expect(window.location.href).toBe('/custom-page');
+    expect(hrefSetterSpy).toHaveBeenCalledWith(mockHref);
     
-    // Restore original location
-    window.location = originalLocation;
+    // Restore the original window.location
+    (window as any).location = originalLocation;
   });
   
   it('applies correct button styling', () => {

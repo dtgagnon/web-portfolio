@@ -9,7 +9,7 @@ describe('ContactInfo component', () => {
   };
 
   it('renders name and email correctly', () => {
-    render(<ContactInfo {...defaultProps} />);
+    render(<ContactInfo {...defaultProps} showEmail={true} />);
     
     expect(screen.getByText('Derek Gagnon')).toBeInTheDocument();
     expect(screen.getByText('gagnon.derek@protonmail.com')).toBeInTheDocument();
@@ -24,7 +24,7 @@ describe('ContactInfo component', () => {
   });
   
   it('creates a mailto link for the email', () => {
-    render(<ContactInfo {...defaultProps} />);
+    render(<ContactInfo {...defaultProps} showEmail={true} />);
     
     const emailLink = screen.getByText('gagnon.derek@protonmail.com');
     expect(emailLink.tagName).toBe('A');
@@ -32,20 +32,20 @@ describe('ContactInfo component', () => {
   });
   
   it('applies accessibility attributes to the email link', () => {
-    render(<ContactInfo {...defaultProps} />);
+    render(<ContactInfo {...defaultProps} showEmail={true} />);
     
     const emailLink = screen.getByText('gagnon.derek@protonmail.com');
     expect(emailLink).toHaveAttribute('aria-label', 'Send email to Derek Gagnon');
   });
   
   it('shows label when showLabel is true', () => {
-    render(<ContactInfo {...defaultProps} showLabel={true} />);
+    render(<ContactInfo {...defaultProps} showEmail={true} showLabel={true} />);
     
     expect(screen.getByText('Email:')).toBeInTheDocument();
   });
   
   it('does not show label when showLabel is false', () => {
-    render(<ContactInfo {...defaultProps} showLabel={false} />);
+    render(<ContactInfo {...defaultProps} showEmail={true} showLabel={false} />);
     
     expect(screen.queryByText('Email:')).not.toBeInTheDocument();
   });
@@ -58,7 +58,7 @@ describe('ContactInfo component', () => {
   });
   
   it('applies hover styling to email link', () => {
-    render(<ContactInfo {...defaultProps} />);
+    render(<ContactInfo {...defaultProps} showEmail={true} />);
     
     const emailLink = screen.getByText('gagnon.derek@protonmail.com');
     expect(emailLink).toHaveClass('hover:border-b', 'border-dashed');

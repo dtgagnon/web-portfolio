@@ -1,116 +1,71 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { Home } from '@/components/pages';
-import { MainLayout } from '@/components/templates';
+import { Home as HomePageContent } from '@/components/pages'; // Testing the refactored component
 import { ThemeProvider } from '@/providers/ThemeContext';
 
-// Mock the templates to better test the Home component itself
-vi.mock('@/components/templates', () => ({
-  MainLayout: vi.fn(({ children }) => <div>{children}</div>)
-}));
-
-// Mock components to simplify testing
-vi.mock('@/components/organisms', () => ({
-  Hero: () => <div data-testid="hero-component">Hero Component</div>,
-  About: () => <div data-testid="about-component">About Component</div>,
-  ContactForm: () => <div data-testid="contact-form">Contact Form</div>
-}));
-
-vi.mock('@/components/molecules', () => ({
-  SocialLinks: () => <div data-testid="social-links">Social Links</div>,
-  ContactInfo: () => <div data-testid="contact-info">Contact Info</div>,
-  Card: ({ children }: { children: React.ReactNode }) => <div data-testid="card">{children}</div>,
-  NavLink: ({ href, children }: { href: string, children: React.ReactNode }) => (
-    <a data-testid="nav-link" href={href}>{children}</a>
-  ),
-  SearchBar: () => <div data-testid="search-bar">Search Bar</div>,
-  Input: ({ label }: { label: string }) => <div data-testid="input">{label}</div>
-}));
-
-vi.mock('@/components/organisms/chat', () => ({
-  ChatCard: () => <div data-testid="chat-component">Chat Component</div>
-}));
-
-describe('Home Page Component', () => {
-  let container: HTMLElement;
-
-  beforeEach(() => {
-    // Mock the SocialLinks and ChatCard components since they're injected by MainLayout
-    vi.mocked(MainLayout).mockImplementation(({ children }) => (
-      <div data-testid="main-layout" className="min-h-screen bg-navy-900">
-        <div className="absolute left-0">
-          <div data-testid="social-links" className="text-xl">Social Links</div>
-        </div>
-        {children}
-        <div className="fixed bottom-0">
-          <div data-testid="chat-component">Chat Component</div>
-        </div>
-      </div>
-    ));
-    
-    const renderResult = render(
-      <ThemeProvider>
-        <Home />
-      </ThemeProvider>
-    );
-    container = renderResult.container;
-  });
-
-  it('renders the profile section with proper structure', () => {
-    // Check for main container existence
-    expect(screen.getByTestId('main-layout')).toBeInTheDocument();
-    
-    // Check for profile information
-    expect(screen.getByText('Derek Gagnon')).toBeInTheDocument();
-    expect(screen.getByText('gagnon.derek@protonmail.com')).toBeInTheDocument();
-  });
-
-  it('renders with three-column layout on desktop', () => {
-    // Check for the three main sections
-    expect(screen.getByText('Derek Gagnon')).toBeInTheDocument(); // Left column
-    
-    // Check for image container
-    const imageContainer = container.querySelector('.rounded-full');
-    expect(imageContainer).toBeInTheDocument();
-    
-    // Check for bio text
-    expect(screen.getByText(/Hi! I'm a medical device engineer/)).toBeInTheDocument();
-  });
-
-  it('has centered content layout', () => {
-    // Main flex container should exist and have proper centering classes
-    const mainFlexContainer = container.querySelector('.flex.items-center.justify-center');
-    expect(mainFlexContainer).toBeInTheDocument();
-  });
+// Mock the direct child MainContent to check props
+vi.mock('@/components/organisms', async (importOriginal) => {
+  const original = await importOriginal<typeof import('@/components/organisms')>();
+  return {
+    ...original,
+    MainContent: vi.fn(() => <div data-testid="main-content-mock">MainContent Mock</div>),
+  };
 });
 
-describe('Home Page Hero Content', () => {
-  // We need to create a minimal implementation of the Hero component for testing
-  // the specific layout of the profile content
-  let container: HTMLElement;
-    
-  // Test the specific layout of the three-column design
-  it('displays profile content with correct positioning', () => {
-    const renderResult = render(
+// Mock molecule components just to verify they are passed as props
+// These paths are relative to the test file or aliased paths from tsconfig
+vi.mock('@/components/molecules/ContactInfo', () => ({
+  default: () => <div data-testid="contact-info-mock">ContactInfo Mock</div>,
+}));
+vi.mock('@/components/molecules/AboutMeBlurb', () => ({
+  default: () => <div data-testid="about-me-blurb-mock">AboutMeBlurb Mock</div>,
+}));
+vi.mock('@/components/molecules/SocialLinks', () => ({
+  default: () => <div data-testid="social-links-mock">SocialLinks Mock</div>,
+}));
+
+// Import the mocked MainContent to assert calls
+import { MainContent } from '@/components/organisms';
+// Import the actual molecule components to compare references for props
+import ContactInfo from '@/components/molecules/ContactInfo';
+import AboutMeBlurb from '@/components/molecules/AboutMeBlurb';
+import SocialLinks from '@/components/molecules/SocialLinks';
+
+
+describe('HomePageContent Component (components/pages/Home.tsx)', () => {
+  beforeEach(() => {
+    vi.clearAllMocks(); // Clear mocks before each test
+    render(
       <ThemeProvider>
-        <Home />
+        <HomePageContent />
       </ThemeProvider>
     );
-    container = renderResult.container;
-    
-    // We'll select actual elements based on their content and position
-    // Left column - Name and email
-    const nameHeading = screen.getByText('Derek Gagnon');
-    const leftColumn = nameHeading.closest('div');
-    expect(leftColumn).toHaveClass('flex', 'flex-col', 'text-left');
-    
-    // Center column - Profile photo
-    const photoContainer = container.querySelector('.rounded-full.overflow-hidden');
-    expect(photoContainer).toBeInTheDocument();
-    
-    // Right column - Bio text
-    const bioText = screen.getByText(/Hi! I'm a medical device engineer/);
-    const rightColumn = bioText.closest('div');
-    expect(rightColumn).toHaveClass('text-right');
+  });
+
+  it('renders the MainContent component', () => {
+    expect(screen.getByTestId('main-content-mock')).toBeInTheDocument();
+  });
+
+  it('passes the correct static props to MainContent', () => {
+    expect(MainContent).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: 'Derek Gagnon',
+        email: 'gagnon.derek@protonmail.com',
+        profileImageUrl: '/images/profile.jpg',
+        profileImageAlt: 'Picture of Derek Gagnon',
+      }),
+      undefined // Expect the second argument to be undefined
+    );
+  });
+
+  it('passes the correct component references as props to MainContent', () => {
+    expect(MainContent).toHaveBeenCalledWith(
+      expect.objectContaining({
+        ContactInfoComponent: ContactInfo,
+        AboutMeBlurbComponent: AboutMeBlurb,
+        SocialLinksComponent: SocialLinks,
+      }),
+      undefined // Expect the second argument to be undefined
+    );
   });
 });

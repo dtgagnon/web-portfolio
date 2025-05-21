@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/providers/ThemeContext";
-import ThemeToggle from "@/components/atoms/ThemeToggle";
 
 
 
@@ -31,7 +30,6 @@ export default function RootLayout({ children }: Readonly<{
     <html lang="en">
       <body className={`${fontClasses} antialiased bg-amber-50 text-gray-900 dark:bg-gray-900 dark:text-amber-50`}>
         <ThemeProvider>
-          <ThemeToggle />
           {children}
         </ThemeProvider>
       </body>

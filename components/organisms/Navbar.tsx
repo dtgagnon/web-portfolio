@@ -2,6 +2,7 @@ import React from 'react';
 import { Logo } from '@/components/atoms';
 import { NavLink } from '@/components/molecules';
 import ResumeButton from './resume/ResumeButton';
+import ThemeToggle from '@/components/atoms/ThemeToggle';
 
 interface NavbarProps {
   className?: string;
@@ -13,6 +14,7 @@ export default function Navbar({ className = '' }: NavbarProps) {
       <Logo href="/" withText={false} />
       
       <div className="flex items-center gap-6 md:gap-8">
+        <ThemeToggle />
         <NavLink href="/about">About</NavLink>
         <NavLink href="/projects">Projects</NavLink>
         <ResumeButton />
