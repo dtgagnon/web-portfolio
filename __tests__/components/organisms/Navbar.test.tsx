@@ -15,19 +15,21 @@ vi.mock('@/components/atoms', () => ({
 import { act } from '@testing-library/react';
 
 // Keep existing mocks and add new ones
-const NavLinkMock = ({ href, children, className, onClick }: { href: string; children: React.ReactNode; className?: string; onClick?: (e: React.MouseEvent) => void }) => (
-  <a 
-    href={href} 
-    className={className} 
-    data-testid="nav-link"
-    onClick={onClick}
-  >
-    {children}
-  </a>
-);
-
 vi.mock('@/components/molecules', async (importOriginal) => {
   const actual = await importOriginal() as any;
+
+  // Define NavLinkMock inside the factory
+  const NavLinkMock = ({ href, children, className, onClick }: { href: string; children: React.ReactNode; className?: string; onClick?: (e: React.MouseEvent) => void }) => (
+    <a 
+      href={href} 
+      className={className} 
+      data-testid="nav-link"
+      onClick={onClick}
+    >
+      {children}
+    </a>
+  );
+
   return {
     ...actual,
     NavLink: NavLinkMock, // Use the defined mock for NavLink
@@ -50,8 +52,15 @@ vi.mock('@/components/molecules', async (importOriginal) => {
 });
 
 
-vi.mock('@/components/organisms/ProjectCarousel', () => ({
-  default: () => <div data-testid="project-carousel">Project Carousel Mock</div>,
+
+
+// Mock ProjectsButton
+vi.mock('@/components/organisms/projects/ProjectsButton', () => ({
+  default: () => (
+    <button data-testid="projects-button-mock">
+      Projects
+    </button>
+  )
 }));
 
 // Mock the ResumeButton component
@@ -96,9 +105,10 @@ describe('Navbar component', () => {
     expect(aboutLink.closest('a')).toHaveAttribute('data-testid', 'nav-link');
     expect(aboutLink.closest('a')).toHaveAttribute('href', '/about');
 
-    // Check that "Projects" button exists (it's not a NavLink component anymore)
-    const projectsButton = screen.getByRole('button', { name: /projects/i });
-    expect(projectsButton).toBeInTheDocument();
+    // Check that "Projects" button mock exists
+    const projectsButtonMock = screen.getByTestId('projects-button-mock');
+    expect(projectsButtonMock).toBeInTheDocument();
+    expect(projectsButtonMock).toHaveTextContent('Projects');
     
     // Check that resume button exists
     const resumeButton = screen.getByTestId('resume-button');
@@ -125,7 +135,7 @@ describe('Navbar component', () => {
     const navElement = screen.getByRole('navigation');
     const logoElement = screen.getByTestId('logo');
     const aboutLink = screen.getByText('About').closest('a'); // NavLink for "About"
-    const projectsButton = screen.getByRole('button', { name: /projects/i }); // Button for "Projects"
+    const projectsButtonMock = screen.getByTestId('projects-button-mock'); // Mocked Button for "Projects"
     
     // Logo should be the first child of nav
     expect(navElement.firstChild).toBe(logoElement);
@@ -133,7 +143,7 @@ describe('Navbar component', () => {
     // Navigation items should be in a container that's the second child
     const linksContainer = navElement.childNodes[1];
     expect(linksContainer).toContainElement(aboutLink!);
-    expect(linksContainer).toContainElement(projectsButton);
+    expect(linksContainer).toContainElement(projectsButtonMock);
   });
 
   it('applies custom className when provided', () => {
@@ -152,59 +162,4 @@ describe('Navbar component', () => {
     expect(resumeButton).toHaveTextContent('Resume');
   });
 
-  describe('Project Carousel Modal Interaction', () => {
-    it('renders the "Projects" button', () => {
-      renderNavbar();
-      const projectsButton = screen.getByRole('button', { name: /projects/i });
-      expect(projectsButton).toBeInTheDocument();
-    });
-
-    it('opens the modal when "Projects" button is clicked, and renders ProjectCarousel', async () => {
-      const FullScreenModalMock = vi.mocked(require('@/components/molecules').FullScreenModal);
-      renderNavbar();
-      
-      const projectsButton = screen.getByRole('button', { name: /projects/i });
-      
-      // Modal should not be visible initially
-      expect(screen.queryByTestId('fullscreen-modal')).not.toBeInTheDocument();
-      expect(FullScreenModalMock).toHaveBeenLastCalledWith(expect.objectContaining({ isOpen: false }), {});
-
-
-      await act(async () => {
-        fireEvent.click(projectsButton);
-      });
-      
-      // Check if FullScreenModal is called with isOpen: true
-      expect(FullScreenModalMock).toHaveBeenLastCalledWith(expect.objectContaining({ isOpen: true }), {});
-      
-      // Check if the modal content (mocked) is rendered
-      expect(screen.getByTestId('fullscreen-modal')).toBeInTheDocument();
-      expect(screen.getByTestId('fullscreen-modal')).toHaveAttribute('data-isopen', 'true');
-      expect(screen.getByTestId('project-carousel')).toBeInTheDocument(); // Check for mocked ProjectCarousel
-    });
-
-    it('closes the modal when onClose is triggered from FullScreenModal', async () => {
-      const FullScreenModalMock = vi.mocked(require('@/components/molecules').FullScreenModal);
-      renderNavbar();
-
-      const projectsButton = screen.getByRole('button', { name: /projects/i });
-      await act(async () => {
-        fireEvent.click(projectsButton); // Open the modal
-      });
-
-      // Modal should be open
-      expect(FullScreenModalMock).toHaveBeenLastCalledWith(expect.objectContaining({ isOpen: true }), {});
-      expect(screen.getByTestId('fullscreen-modal')).toBeInTheDocument();
-
-      // Simulate onClose being called (e.g., by clicking the mocked close button inside FullScreenModal)
-      const closeButton = screen.getByTestId('modal-close-button');
-      await act(async () => {
-        fireEvent.click(closeButton);
-      });
-
-      // Modal should be closed
-      expect(FullScreenModalMock).toHaveBeenLastCalledWith(expect.objectContaining({ isOpen: false }), {});
-      expect(screen.queryByTestId('fullscreen-modal')).not.toBeInTheDocument();
-    });
-  });
 });
