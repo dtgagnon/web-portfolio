@@ -7,3 +7,4 @@ export { default as About } from './About';
 export { default as MainContent } from './MainContent';
 export * from './chat';
 export * from './resume';
+export * from './projects';

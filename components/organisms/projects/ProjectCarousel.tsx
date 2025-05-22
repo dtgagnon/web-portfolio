@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ProjectCard from '../molecules/ProjectCard';
+import ProjectCard from '../../molecules/ProjectCard'; // Updated import path
 import { Project } from '@/types/project'; // Import shared Project type
 
 const ProjectCarousel: React.FC = () => {
