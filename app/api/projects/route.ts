@@ -1,5 +1,51 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ProjectRepository, TelemetryRepository } from '@/lib/database';
+import { Project as FrontendProjectType } from '@/types/project'; // Import frontend Project type
+import { Project as BackendProjectType } from '@/lib/database/Repository'; // Assuming this is the backend type
+
+// Helper function to determine imageUrl
+const getImageUrl = (content: string | null): string => {
+  const defaultImageUrl = 'https://via.placeholder.com/600x400?text=Project+Image';
+  if (!content) {
+    return defaultImageUrl;
+  }
+
+  // Check if content is a direct image URL
+  const imageExtensions = /\.(jpeg|jpg|gif|png|svg|webp)$/i;
+  if (imageExtensions.test(content) || content.startsWith('data:image')) {
+    try {
+      // Validate if it's a proper URL
+      new URL(content);
+      return content;
+    } catch (e) {
+      // Not a valid URL, proceed to JSON parsing or default
+    }
+  }
+
+  // Try to parse content as JSON to find imageUrl
+  try {
+    const parsedContent = JSON.parse(content);
+    if (parsedContent && typeof parsedContent.imageUrl === 'string') {
+      // Validate if it's a proper URL
+      new URL(parsedContent.imageUrl);
+      return parsedContent.imageUrl;
+    }
+  } catch (e) {
+    // JSON parsing failed or imageUrl not found/invalid
+  }
+
+  return defaultImageUrl;
+};
+
+// Helper function to transform backend project to frontend project type
+const transformProjectData = (project: BackendProjectType): FrontendProjectType => {
+  return {
+    id: project.id,
+    title: project.title,
+    description: project.description,
+    imageUrl: getImageUrl(project.content),
+  };
+};
 
 // GET /api/projects - Get all projects or a specific project
 export async function GET(request: NextRequest) {
@@ -13,15 +59,17 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Project not found' }, { status: 404 });
       }
       
+      const transformedProject = transformProjectData(project);
       return NextResponse.json({
-        project,
+        project: transformedProject,
         success: true
       });
     } else {
       const projects = ProjectRepository.findAll();
+      const transformedProjects = projects.map(transformProjectData);
       
       return NextResponse.json({
-        projects,
+        projects: transformedProjects,
         success: true
       });
     }
