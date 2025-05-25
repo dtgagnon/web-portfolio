@@ -7,13 +7,18 @@ interface ProjectCarouselProps {
 }
 
 const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ initialProjects = [] }) => {
-  const [projects, setProjects] = useState<Project[]>(initialProjects);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(initialProjects.length === 0);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchProjects = useCallback(async () => {
-    if (initialProjects.length > 0) return;
+    // If we have initial projects, use them and skip the API call
+    if (initialProjects.length > 0) {
+      setProjects(initialProjects);
+      setIsLoading(false);
+      return;
+    }
     
     setIsLoading(true);
     setError(null);
@@ -33,20 +38,39 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ initialProjects = [] 
           : [];
           
       if (projectsData.length > 0) {
-        // Ensure all projects have required fields with proper fallbacks
-        const validatedProjects = projectsData.map((project: any): Project => ({
-          id: project.id || `project-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          title: project.title || 'Untitled Project',
-          description: project.description || 'No description available',
-          imageUrl: project.imageUrl || project.image || '/images/placeholder-project.jpg',
-          link: project.link || `#${project.id || ''}`,
-          category: project.category || project.type || 'Uncategorized',
-          skills: Array.isArray(project.skills) ? project.skills : 
-                (project.technologies ? (Array.isArray(project.technologies) ? project.technologies : [project.technologies]) : []),
-          tags: Array.isArray(project.tags) ? project.tags : []
-        }));
+        // Create a map to deduplicate projects by ID
+        const projectsMap = new Map<string, Project>();
         
-        setProjects(validatedProjects);
+        // First add initial projects if they exist
+        initialProjects.forEach(project => {
+          if (project.id) {
+            projectsMap.set(project.id, project);
+          }
+        });
+        
+        // Then add/override with API projects
+        projectsData.forEach((project: any) => {
+          const validatedProject: Project = {
+            id: project.id || `project-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            title: project.title || 'Untitled Project',
+            description: project.description || 'No description available',
+            imageUrl: project.imageUrl || project.image || '/images/placeholder-project.jpg',
+            link: project.link || `#${project.id || ''}`,
+            category: project.category || project.type || 'Uncategorized',
+            skills: Array.isArray(project.skills) 
+              ? project.skills 
+              : (project.technologies 
+                  ? (Array.isArray(project.technologies) 
+                      ? project.technologies 
+                      : [project.technologies]) 
+                  : []),
+            tags: Array.isArray(project.tags) ? project.tags : []
+          };
+          projectsMap.set(validatedProject.id, validatedProject);
+        });
+        
+        const uniqueProjects = Array.from(projectsMap.values());
+        setProjects(uniqueProjects);
         setCurrentIndex(0);
       } else {
         throw new Error('No projects found');

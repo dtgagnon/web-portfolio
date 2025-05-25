@@ -21,6 +21,12 @@ export interface Project {
   title: string;
   description: string | null;
   content: string | null;
+  imageUrl?: string;
+  link?: string;
+  category?: string;
+  skills?: string[];
+  tags?: string[];
+  slug?: string;
   created_at: number;
   updated_at: number;
 }

@@ -36,18 +36,6 @@
     "updated_at": 1747884067
   },
   {
-    "id": "machining-bolt-action-pen",
-    "title": "Machining a Bolt-Action Pen from Aluminum",
-    "description": "A precision machining project to create a functional bolt-action pen from solid aluminum stock, featuring a custom-designed mechanism and anodized finish.",
-    "imageUrl": "/images/projects/bolt-action-pen.jpg",
-    "link": "/projects/machining-bolt-action-pen",
-    "category": "Craftsmanship",
-    "skills": ["CNC Machining", "Metalworking", "CAD Design", "Anodizing"],
-    "tags": [],
-    "created_at": 1748137363,
-    "updated_at": 1748137363
-  },
-  {
     "id": "bolt-action-pen",
     "title": "Bolt-Action Aluminum Pen",
     "description": "A precision machining project to create a functional bolt-action pen from solid aluminum stock, featuring a custom-designed mechanism and anodized finish.",

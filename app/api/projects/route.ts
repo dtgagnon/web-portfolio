@@ -39,36 +39,54 @@ const getImageUrl = (content: string | null): string => {
 
 // Helper function to transform backend project to frontend project type
 const transformProjectData = (project: BackendProjectType): FrontendProjectType => {
-  try {
-    // Parse the content field which may contain additional metadata
-    const content = project.content ? JSON.parse(project.content) : {};
-    
-    return {
-      id: project.id,
-      title: project.title,
-      description: project.description,
-      imageUrl: getImageUrl(project.content),
-      link: content.link || `#${project.id}`,
-      category: content.category || content.type || 'Uncategorized',
-      skills: Array.isArray(content.skills) 
-        ? content.skills 
-        : (content.technologies ? (Array.isArray(content.technologies) ? content.technologies : [content.technologies]) : []),
-      tags: Array.isArray(content.tags) ? content.tags : []
-    };
-  } catch (e) {
-    console.error('Error parsing project content:', e);
-    // Return a minimal valid project object if parsing fails
-    return {
-      id: project.id,
-      title: project.title,
-      description: project.description || 'No description available',
-      imageUrl: getImageUrl(project.content),
-      link: `#${project.id}`,
-      category: 'Uncategorized',
-      skills: [],
-      tags: []
-    };
+  // Initialize content as an empty object
+  let content: any = {};
+  
+  // Try to parse content if it exists and is a JSON string
+  if (project.content) {
+    try {
+      const trimmedContent = project.content.trim();
+      if ((trimmedContent.startsWith('{') && trimmedContent.endsWith('}')) || 
+          (trimmedContent.startsWith('[') && trimmedContent.endsWith(']'))) {
+        content = JSON.parse(project.content);
+      } else {
+        // If it's not JSON, treat it as plain text description
+        content = { description: project.content };
+      }
+    } catch (e) {
+      console.error('Error parsing project content, using as plain text:', e);
+      content = { description: project.content };
+    }
   }
+  
+  // Get the image URL, preferring the direct property, then content, then default
+  const imageUrl = project.imageUrl || content.imageUrl || getImageUrl(project.content || null);
+  
+  // Extract skills from content.technologies or content.skills, defaulting to empty array
+  const skills = content.technologies || content.skills || [];
+  
+  // Extract category from content or use default
+  const category = content.category || 'Uncategorized';
+  
+  // Extract tags from content or use empty array
+  const tags = content.tags || [];
+  
+  // Extract link from content or generate from slug/id
+  const link = content.link || `/projects/${project.id}`;
+  
+  // Build the result object with all properties
+  const result: FrontendProjectType = {
+    id: project.id,
+    title: project.title,
+    description: project.description,
+    imageUrl,
+    link,
+    category,
+    skills,
+    tags
+  };
+  
+  return result;
 };
 
 // GET /api/projects - Get all projects or a specific project

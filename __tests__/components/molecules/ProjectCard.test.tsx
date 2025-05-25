@@ -92,4 +92,81 @@ describe('ProjectCard', () => {
       expect(screen.getByText(skill)).toBeInTheDocument();
     });
   });
+
+  it('renders skills as badges with secondary variant', () => {
+    render(<ProjectCard project={mockProject} />);
+    
+    // Check that each skill is rendered inside a badge with the correct variant
+    mockProject.skills.forEach(skill => {
+      const badge = screen.getByText(skill).closest('[data-testid="skill-badge"]');
+      expect(badge).toBeInTheDocument();
+      
+      // Check that the badge has the correct classes for the secondary variant
+      const badgeElement = badge?.querySelector('.bg-gray-100');
+      expect(badgeElement).toHaveClass('bg-gray-100');
+      expect(badgeElement).toHaveClass('text-gray-800');
+      expect(badgeElement).toHaveClass('text-xs');
+      expect(badgeElement).toHaveClass('font-medium');
+      expect(badgeElement).toHaveClass('rounded-full');
+      expect(badgeElement).toHaveClass('px-2.5');
+      expect(badgeElement).toHaveClass('py-1');
+    });
+  });
+  
+  it('does not render skills section when skills array is empty', () => {
+    const projectWithoutSkills = { ...mockProject, skills: [] };
+    render(<ProjectCard project={projectWithoutSkills} />);
+    
+    expect(screen.queryByTestId('skills-container')).not.toBeInTheDocument();
+  });
+  
+  it('handles empty skills array gracefully', () => {
+    const projectWithoutSkills = { ...mockProject, skills: [] };
+    render(<ProjectCard project={projectWithoutSkills} />);
+    
+    expect(screen.queryByTestId('skills-container')).not.toBeInTheDocument();
+  });
+  
+  it('displays skills in a flex container with proper spacing', () => {
+    render(<ProjectCard project={mockProject} />);
+    
+    const container = screen.getByTestId('skills-container');
+    expect(container).toBeInTheDocument();
+    expect(container).toHaveClass('mb-3');
+    
+    // The flex container is the direct child of the skills-container
+    const flexContainer = container.firstChild;
+    expect(flexContainer).toHaveClass('flex');
+    expect(flexContainer).toHaveClass('flex-wrap');
+    expect(flexContainer).toHaveClass('gap-2');
+    expect(flexContainer).toHaveClass('items-center');
+  });
+  
+  it('shows the correct label based on project category', () => {
+    // Test non-software project
+    const { rerender } = render(<ProjectCard project={mockProject} />);
+    expect(screen.getByText('Skills:')).toBeInTheDocument();
+    
+    // Test software project
+    const softwareProject = {
+      ...mockProject,
+      category: 'Web Development',
+      skills: ['Next.js', 'TypeScript']
+    };
+    rerender(<ProjectCard project={softwareProject} />);
+    expect(screen.getByText('Technologies:')).toBeInTheDocument();
+  });
+
+  it('handles empty skills array gracefully', () => {
+    const projectWithoutSkills: Project = {
+      ...mockProject,
+      skills: []
+    };
+    
+    render(<ProjectCard project={projectWithoutSkills} />);
+    
+    // Skills section should not be rendered when there are no skills
+    expect(screen.queryByText('Skills:')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('skills-container')).not.toBeInTheDocument();
+  });
 });

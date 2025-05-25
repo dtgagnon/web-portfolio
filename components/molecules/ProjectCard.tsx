@@ -34,26 +34,31 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           {/* Title */}
           <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{project.title}</h3>
           
-          {/* Skills/Technologies Section - Directly below title */}
+          {/* Category Section */}
+          <div className="mb-3" data-testid="category-container">
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className="text-xs font-medium text-gray-500 dark:text-gray-400">Category:</span>
+              <Badge variant="outline">
+                {project.category || 'Uncategorized'}
+              </Badge>
+            </div>
+          </div>
+          
+          {/* Skills/Technologies Section */}
           {project.skills && project.skills.length > 0 && (
-            <div className="mb-3">
+            <div className="mb-3" data-testid="skills-container">
               <div className="flex flex-wrap gap-2 items-center">
                 <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{skillsLabel}:</span>
                 {project.skills.map((skill, index) => (
-                  <Badge key={index} variant="secondary">
-                    {skill || ''}
-                  </Badge>
+                  <div key={index} data-testid="skill-badge">
+                    <Badge variant="secondary">
+                      {skill || ''}
+                    </Badge>
+                  </div>
                 ))}
               </div>
             </div>
           )}
-          
-          {/* Category Badge */}
-          <div className="mb-3">
-            <Badge variant="outline">
-              {project.category || 'Uncategorized'}
-            </Badge>
-          </div>
           
           {/* Description */}
           <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-4">{project.description}</p>
