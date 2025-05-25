@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ProjectRepository, TelemetryRepository } from '@/lib/database';
-import { Project as FrontendProjectType } from '@/types/project'; // Import frontend Project type
-import { Project as BackendProjectType } from '@/lib/database/Repository'; // Assuming this is the backend type
+import { Project as FrontendProjectType } from '@/types/project';
+import { Project as BackendProjectType } from '@/lib/database/models/types'; // Updated import path
 
 // Helper function to determine imageUrl
 const getImageUrl = (content: string | null): string => {
@@ -39,12 +39,36 @@ const getImageUrl = (content: string | null): string => {
 
 // Helper function to transform backend project to frontend project type
 const transformProjectData = (project: BackendProjectType): FrontendProjectType => {
-  return {
-    id: project.id,
-    title: project.title,
-    description: project.description,
-    imageUrl: getImageUrl(project.content),
-  };
+  try {
+    // Parse the content field which may contain additional metadata
+    const content = project.content ? JSON.parse(project.content) : {};
+    
+    return {
+      id: project.id,
+      title: project.title,
+      description: project.description,
+      imageUrl: getImageUrl(project.content),
+      link: content.link || `#${project.id}`,
+      category: content.category || content.type || 'Uncategorized',
+      skills: Array.isArray(content.skills) 
+        ? content.skills 
+        : (content.technologies ? (Array.isArray(content.technologies) ? content.technologies : [content.technologies]) : []),
+      tags: Array.isArray(content.tags) ? content.tags : []
+    };
+  } catch (e) {
+    console.error('Error parsing project content:', e);
+    // Return a minimal valid project object if parsing fails
+    return {
+      id: project.id,
+      title: project.title,
+      description: project.description || 'No description available',
+      imageUrl: getImageUrl(project.content),
+      link: `#${project.id}`,
+      category: 'Uncategorized',
+      skills: [],
+      tags: []
+    };
+  }
 };
 
 // GET /api/projects - Get all projects or a specific project
