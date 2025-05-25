@@ -1,57 +1,35 @@
 [
   {
-    "id": "neuroassist",
-    "title": "NeuroAssist",
-    "description": "AI-powered application that adapts digital interfaces in real-time based on neurophysiological feedback to improve accessibility for users with various cognitive profiles.",
-    "image": "/images/projects/neuroassist.jpg",
-    "link": "/projects/neuroassist",
-    "category": "AI/ML",
-    "technologies": ["Machine Learning", "React", "Python", "Neurophysiology"]
+    "id": "35a9a32e-172c-4db8-b029-6640a99c317d",
+    "title": "Medical Device Labeling & Compliance Initiative",
+    "description": "Spearheaded the New Product Development (NPD) labeling process across the full product lifecycle. This initiative focused on meticulously evaluating label and user interface risks, and ensuring all products met stringent regulatory and standards compliance for medical devices. Key activities included risk assessment, documentation, and cross-functional team leadership to guarantee patient safety and successful market introduction.",
+    "imageUrl": "/images/projects/medical-labeling-compliance.jpg",
+    "created_at": 1747883944,
+    "updated_at": 1747883944
   },
   {
-    "id": "mindfultech-framework",
-    "title": "MindfulTech Framework",
-    "description": "Open-source design framework for creating technology that accommodates diverse cognitive processing styles, with a focus on reducing cognitive load and sensory overwhelm.",
-    "image": "/images/projects/mindfultech.jpg",
-    "link": "/projects/mindfultech-framework",
-    "category": "Inclusive Design",
-    "technologies": ["UX Design", "Accessibility", "Documentation", "Web Standards"]
+    "id": "f9974ec7-112b-4382-9808-b53587f3da24",
+    "title": "Advanced Sensor & Fixture Development",
+    "description": "Led the design and development of a novel variable-reference sensor and multiple manufacturing fixtures using SolidWorks and rapid prototyping. This initiative resulted in a 40% increase in manufacturing throughput and significant production cost savings.",
+    "imageUrl": "/images/projects/advanced-sensor-fixture.jpg",
+    "created_at": 1747884056,
+    "updated_at": 1747884056
   },
   {
-    "id": "sensenet",
-    "title": "SenseNet",
-    "description": "Wearable IoT ecosystem that monitors environmental factors known to trigger sensory sensitivities, providing personalized alerts and adaptation recommendations.",
-    "image": "/images/projects/sensenet.jpg",
-    "link": "/projects/sensenet",
-    "category": "IoT",
-    "technologies": ["IoT", "Embedded Systems", "Mobile App", "Sensors"]
+    "id": "967e108b-4e68-4376-ad3d-c1388be35ac7",
+    "title": "Critical Design Change & Value Recovery",
+    "description": "Championed critical design changes by leading cross-functional teams of senior engineers. Successfully reduced manufacturing scrap by 25%, recovering an estimated $1 million in annualized product value.",
+    "imageUrl": "/images/projects/critical-design-value-recovery.jpg",
+    "created_at": 1747884067,
+    "updated_at": 1747884067
   },
   {
-    "id": "cognicompanion",
-    "title": "CogniCompanion",
-    "description": "Digital assistant specifically designed to support executive functioning challenges through personalized reminders, task breakdown, and adaptive scheduling.",
-    "image": "/images/projects/cognicompanion.jpg",
-    "link": "/projects/cognicompanion",
-    "category": "AI/ML",
-    "technologies": ["AI/ML", "React Native", "Node.js", "Cognitive Science"]
-  },
-  {
-    "id": "neural-interface",
-    "title": "Neural Interface Prototype",
-    "description": "Implantable medical device that creates a direct communication pathway between the brain and external devices for assistive technology applications.",
-    "image": "/images/projects/neural-interface.jpg",
-    "link": "/projects/neural-interface",
-    "category": "Medical Devices",
-    "technologies": ["Medical Electronics", "Signal Processing", "Embedded Systems", "Biocompatibility"]
-  },
-  {
-    "id": "sensory-spaces",
-    "title": "Sensory-Adaptive Spaces",
-    "description": "Smart environment system that automatically adjusts lighting, sound, and spatial elements based on occupant needs and sensory preferences.",
-    "image": "/images/projects/sensory-spaces.jpg",
-    "link": "/projects/sensory-spaces",
-    "category": "IoT",
-    "technologies": ["Smart Home", "Sensors", "Automation", "Ambient Computing"]
+    "id": "56229613-ff9c-443d-8c05-8aa5e717f53b",
+    "title": "Machining a Bolt-Action Pen from Aluminum",
+    "description": "A precision machining project to create a functional bolt-action pen from solid aluminum stock, featuring a custom-designed mechanism and anodized finish.",
+    "imageUrl": "/images/projects/bolt-action-pen.jpg",
+    "created_at": 1748137363,
+    "updated_at": 1748137363
   },
   {
     "id": "bolt-action-pen",
