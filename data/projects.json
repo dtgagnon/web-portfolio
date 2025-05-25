@@ -1,0 +1,83 @@
+[
+  {
+    "id": "neuroassist",
+    "title": "NeuroAssist",
+    "description": "AI-powered application that adapts digital interfaces in real-time based on neurophysiological feedback to improve accessibility for users with various cognitive profiles.",
+    "image": "/images/projects/neuroassist.jpg",
+    "link": "/projects/neuroassist",
+    "category": "AI/ML",
+    "technologies": ["Machine Learning", "React", "Python", "Neurophysiology"]
+  },
+  {
+    "id": "mindfultech-framework",
+    "title": "MindfulTech Framework",
+    "description": "Open-source design framework for creating technology that accommodates diverse cognitive processing styles, with a focus on reducing cognitive load and sensory overwhelm.",
+    "image": "/images/projects/mindfultech.jpg",
+    "link": "/projects/mindfultech-framework",
+    "category": "Inclusive Design",
+    "technologies": ["UX Design", "Accessibility", "Documentation", "Web Standards"]
+  },
+  {
+    "id": "sensenet",
+    "title": "SenseNet",
+    "description": "Wearable IoT ecosystem that monitors environmental factors known to trigger sensory sensitivities, providing personalized alerts and adaptation recommendations.",
+    "image": "/images/projects/sensenet.jpg",
+    "link": "/projects/sensenet",
+    "category": "IoT",
+    "technologies": ["IoT", "Embedded Systems", "Mobile App", "Sensors"]
+  },
+  {
+    "id": "cognicompanion",
+    "title": "CogniCompanion",
+    "description": "Digital assistant specifically designed to support executive functioning challenges through personalized reminders, task breakdown, and adaptive scheduling.",
+    "image": "/images/projects/cognicompanion.jpg",
+    "link": "/projects/cognicompanion",
+    "category": "AI/ML",
+    "technologies": ["AI/ML", "React Native", "Node.js", "Cognitive Science"]
+  },
+  {
+    "id": "neural-interface",
+    "title": "Neural Interface Prototype",
+    "description": "Implantable medical device that creates a direct communication pathway between the brain and external devices for assistive technology applications.",
+    "image": "/images/projects/neural-interface.jpg",
+    "link": "/projects/neural-interface",
+    "category": "Medical Devices",
+    "technologies": ["Medical Electronics", "Signal Processing", "Embedded Systems", "Biocompatibility"]
+  },
+  {
+    "id": "sensory-spaces",
+    "title": "Sensory-Adaptive Spaces",
+    "description": "Smart environment system that automatically adjusts lighting, sound, and spatial elements based on occupant needs and sensory preferences.",
+    "image": "/images/projects/sensory-spaces.jpg",
+    "link": "/projects/sensory-spaces",
+    "category": "IoT",
+    "technologies": ["Smart Home", "Sensors", "Automation", "Ambient Computing"]
+  },
+  {
+    "id": "bolt-action-pen",
+    "title": "Bolt-Action Aluminum Pen",
+    "description": "A precision machining project to create a functional bolt-action pen from solid aluminum stock, featuring a custom-designed mechanism and anodized finish.",
+    "image": "/images/projects/bolt-action-pen.jpg",
+    "link": "/projects/bolt-action-pen",
+    "category": "Craftsmanship",
+    "technologies": ["CNC Machining", "Metalworking", "CAD Design", "Anodizing"]
+  },
+  {
+    "id": "chevron-cutting-board",
+    "title": "Chevron End-Grain Cutting Board",
+    "description": "A woodworking project creating a durable and visually striking end-grain cutting board with a complex chevron pattern using contrasting wood species.",
+    "image": "/images/projects/chevron-board.jpg",
+    "link": "/projects/chevron-cutting-board",
+    "category": "Craftsmanship",
+    "technologies": ["Woodworking", "Wood Joinery", "Finishing", "Design"]
+  },
+  {
+    "id": "portfolio-website",
+    "title": "Portfolio Website",
+    "description": "A modern, responsive portfolio website built from scratch to showcase my projects and professional experience across various disciplines.",
+    "image": "/images/projects/portfolio-website.jpg",
+    "link": "/projects/portfolio-website",
+    "category": "Web Development",
+    "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "React"]
+  }
+]
