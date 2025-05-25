@@ -18,9 +18,40 @@ const ProjectCarousel: React.FC = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
+        console.log('API response:', data);
+        
         if (data.success && Array.isArray(data.projects)) {
-          setProjects(data.projects);
+          // Ensure all projects have required fields
+          const validatedProjects = data.projects.map((project: Partial<Project>): Project => ({
+            id: project.id || `project-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            title: project.title || 'Untitled Project',
+            description: project.description || null,
+            imageUrl: project.imageUrl || '/images/placeholder-project.jpg',
+            link: project.link || '#',
+            category: project.category || 'Uncategorized',
+            skills: Array.isArray(project.skills) ? project.skills : [],
+            tags: Array.isArray(project.tags) ? project.tags : []
+          }));
+          
+          console.log('Validated projects:', validatedProjects);
+          setProjects(validatedProjects);
           setCurrentIndex(0); // Reset index when new projects are loaded
+        } else if (Array.isArray(data)) {
+          // Handle case where API returns direct array instead of {success, projects}
+          const validatedProjects = data.map((project: Partial<Project>): Project => ({
+            id: project.id || `project-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            title: project.title || 'Untitled Project',
+            description: project.description || null,
+            imageUrl: project.imageUrl || '/images/placeholder-project.jpg',
+            link: project.link || '#',
+            category: project.category || 'Uncategorized',
+            skills: Array.isArray(project.skills) ? project.skills : [],
+            tags: Array.isArray(project.tags) ? project.tags : []
+          }));
+          
+          console.log('Validated projects from direct array:', validatedProjects);
+          setProjects(validatedProjects);
+          setCurrentIndex(0);
         } else {
           throw new Error('Failed to fetch projects or data format is incorrect.');
         }

@@ -31,8 +31,8 @@ describe('ProjectCard', () => {
     expect(image).toHaveAttribute('src', mockProject.imageUrl);
     expect(image).toHaveAttribute('alt', mockProject.title);
     
-    // Check for skills label (non-software project should show 'Skills')
-    expect(screen.getByText('Skills')).toBeInTheDocument();
+    // Check for skills label (non-software project should show 'Skills:')
+    expect(screen.getByText('Skills:')).toBeInTheDocument();
     
     // Check that skills are displayed
     mockProject.skills.forEach(skill => {
@@ -84,8 +84,8 @@ describe('ProjectCard', () => {
     
     render(<ProjectCard project={softwareProject} />);
     
-    // Check that the label is 'Technologies' for software projects
-    expect(screen.getByText('Technologies')).toBeInTheDocument();
+    // Check that the label is 'Technologies:' for software projects
+    expect(screen.getByText('Technologies:')).toBeInTheDocument();
     
     // Check that skills are displayed with the correct label
     softwareProject.skills.forEach(skill => {
