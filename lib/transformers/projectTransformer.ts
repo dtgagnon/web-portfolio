@@ -6,7 +6,7 @@ import { Project as FrontendProject } from '@/types/project';
  */
 export function dbToFrontendProject(dbProject: DbProject): FrontendProject {
   let category = 'Uncategorized';
-  let technologies: string[] = [];
+  let skills: string[] = [];
   let tags: string[] = [];
   let imageUrl = '';
   let link = `/projects/${dbProject.id}`;
@@ -22,10 +22,12 @@ export function dbToFrontendProject(dbProject: DbProject): FrontendProject {
       // Extract category
       category = contentData.category || category;
       
-      // Extract technologies
-      technologies = Array.isArray(contentData.technologies) 
-        ? contentData.technologies 
-        : [];
+      // Extract skills (supporting legacy technologies field too)
+      skills = Array.isArray(contentData.skills) 
+        ? contentData.skills 
+        : Array.isArray(contentData.technologies)
+          ? contentData.technologies
+          : [];
       
       // Extract tags if available
       tags = Array.isArray(contentData.tags) 
@@ -50,7 +52,7 @@ export function dbToFrontendProject(dbProject: DbProject): FrontendProject {
     imageUrl,
     link,
     category,
-    technologies,
+    skills,
     tags
   };
 }
@@ -63,7 +65,7 @@ export function frontendToDbProject(frontendProject: Partial<FrontendProject>): 
   const content = JSON.stringify({
     imageUrl: frontendProject.imageUrl,
     category: frontendProject.category,
-    technologies: frontendProject.technologies,
+    skills: frontendProject.skills,
     tags: frontendProject.tags,
     link: frontendProject.link
   });

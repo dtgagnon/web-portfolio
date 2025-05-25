@@ -5,10 +5,14 @@ import ProjectCard from '@/components/molecules/ProjectCard';
 import { Project } from '@/types/project';
 
 const mockProject: Project = {
-  id: '1',
+  id: 'test-project',
   title: 'Test Project Title',
   description: 'This is a test project description.',
   imageUrl: 'https://example.com/test-image.jpg',
+  link: '/projects/test-project',
+  category: 'Engineering Design',
+  skills: ['CAD Design', 'Prototyping', 'Engineering'],
+  tags: []
 };
 
 describe('ProjectCard', () => {
@@ -26,6 +30,17 @@ describe('ProjectCard', () => {
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute('src', mockProject.imageUrl);
     expect(image).toHaveAttribute('alt', mockProject.title);
+    
+    // Check for skills label (non-software project should show 'Skills')
+    expect(screen.getByText('Skills')).toBeInTheDocument();
+    
+    // Check that skills are displayed
+    mockProject.skills.forEach(skill => {
+      expect(screen.getByText(skill)).toBeInTheDocument();
+    });
+    
+    // Check for category badge
+    expect(screen.getByText(mockProject.category)).toBeInTheDocument();
   });
 
   it('renders correctly when description is null', () => {
@@ -58,5 +73,23 @@ describe('ProjectCard', () => {
     const descriptionElement = screen.getByText(projectWithNullDescription.title).closest('div')?.querySelector('p');
     expect(descriptionElement).toBeInTheDocument();
     expect(descriptionElement).toBeEmptyDOMElement();
+  });
+  
+  it('displays "Technologies" label for software projects', () => {
+    const softwareProject: Project = {
+      ...mockProject,
+      category: 'Web Development',
+      skills: ['Next.js', 'TypeScript', 'Tailwind CSS']
+    };
+    
+    render(<ProjectCard project={softwareProject} />);
+    
+    // Check that the label is 'Technologies' for software projects
+    expect(screen.getByText('Technologies')).toBeInTheDocument();
+    
+    // Check that skills are displayed with the correct label
+    softwareProject.skills.forEach(skill => {
+      expect(screen.getByText(skill)).toBeInTheDocument();
+    });
   });
 });

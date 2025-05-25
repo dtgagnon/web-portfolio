@@ -5,7 +5,7 @@ export interface Project {
   imageUrl: string;
   link: string;
   category: string;
-  technologies: string[];
+  skills: string[];
   tags: string[];
   // Add other fields like content if they are to be used directly by the card,
   // but for now, focus on what ProjectCard consumes.

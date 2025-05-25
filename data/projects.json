@@ -1,33 +1,49 @@
 [
   {
-    "id": "35a9a32e-172c-4db8-b029-6640a99c317d",
+    "id": "medical-device-labeling",
     "title": "Medical Device Labeling & Compliance Initiative",
     "description": "Spearheaded the New Product Development (NPD) labeling process across the full product lifecycle. This initiative focused on meticulously evaluating label and user interface risks, and ensuring all products met stringent regulatory and standards compliance for medical devices. Key activities included risk assessment, documentation, and cross-functional team leadership to guarantee patient safety and successful market introduction.",
     "imageUrl": "/images/projects/medical-labeling-compliance.jpg",
+    "link": "/projects/medical-device-labeling",
+    "category": "Medical Devices",
+    "skills": ["Regulatory Compliance", "Risk Assessment", "Cross-functional Leadership", "Documentation"],
+    "tags": [],
     "created_at": 1747883944,
     "updated_at": 1747883944
   },
   {
-    "id": "f9974ec7-112b-4382-9808-b53587f3da24",
+    "id": "advanced-sensor-fixture",
     "title": "Advanced Sensor & Fixture Development",
     "description": "Led the design and development of a novel variable-reference sensor and multiple manufacturing fixtures using SolidWorks and rapid prototyping. This initiative resulted in a 40% increase in manufacturing throughput and significant production cost savings.",
     "imageUrl": "/images/projects/advanced-sensor-fixture.jpg",
+    "link": "/projects/advanced-sensor-fixture",
+    "category": "Engineering Design",
+    "skills": ["SolidWorks", "Rapid Prototyping", "Sensor Design", "Fixture Design"],
+    "tags": [],
     "created_at": 1747884056,
     "updated_at": 1747884056
   },
   {
-    "id": "967e108b-4e68-4376-ad3d-c1388be35ac7",
+    "id": "critical-design-value-recovery",
     "title": "Critical Design Change & Value Recovery",
     "description": "Championed critical design changes by leading cross-functional teams of senior engineers. Successfully reduced manufacturing scrap by 25%, recovering an estimated $1 million in annualized product value.",
     "imageUrl": "/images/projects/critical-design-value-recovery.jpg",
+    "link": "/projects/critical-design-value-recovery",
+    "category": "Engineering Leadership",
+    "skills": ["Design Optimization", "Value Engineering", "Team Leadership", "Cost Reduction"],
+    "tags": [],
     "created_at": 1747884067,
     "updated_at": 1747884067
   },
   {
-    "id": "56229613-ff9c-443d-8c05-8aa5e717f53b",
+    "id": "machining-bolt-action-pen",
     "title": "Machining a Bolt-Action Pen from Aluminum",
     "description": "A precision machining project to create a functional bolt-action pen from solid aluminum stock, featuring a custom-designed mechanism and anodized finish.",
     "imageUrl": "/images/projects/bolt-action-pen.jpg",
+    "link": "/projects/machining-bolt-action-pen",
+    "category": "Craftsmanship",
+    "skills": ["CNC Machining", "Metalworking", "CAD Design", "Anodizing"],
+    "tags": [],
     "created_at": 1748137363,
     "updated_at": 1748137363
   },
@@ -35,27 +51,36 @@
     "id": "bolt-action-pen",
     "title": "Bolt-Action Aluminum Pen",
     "description": "A precision machining project to create a functional bolt-action pen from solid aluminum stock, featuring a custom-designed mechanism and anodized finish.",
-    "image": "/images/projects/bolt-action-pen.jpg",
+    "imageUrl": "/images/projects/bolt-action-pen.jpg",
     "link": "/projects/bolt-action-pen",
     "category": "Craftsmanship",
-    "technologies": ["CNC Machining", "Metalworking", "CAD Design", "Anodizing"]
+    "skills": ["CNC Machining", "Metalworking", "CAD Design", "Anodizing"],
+    "tags": [],
+    "created_at": 1748137363,
+    "updated_at": 1748137363
   },
   {
     "id": "chevron-cutting-board",
     "title": "Chevron End-Grain Cutting Board",
     "description": "A woodworking project creating a durable and visually striking end-grain cutting board with a complex chevron pattern using contrasting wood species.",
-    "image": "/images/projects/chevron-board.jpg",
+    "imageUrl": "/images/projects/chevron-board.jpg",
     "link": "/projects/chevron-cutting-board",
     "category": "Craftsmanship",
-    "technologies": ["Woodworking", "Wood Joinery", "Finishing", "Design"]
+    "skills": ["Woodworking", "Wood Joinery", "Finishing", "Design"],
+    "tags": [],
+    "created_at": 1748137400,
+    "updated_at": 1748137400
   },
   {
     "id": "portfolio-website",
     "title": "Portfolio Website",
     "description": "A modern, responsive portfolio website built from scratch to showcase my projects and professional experience across various disciplines.",
-    "image": "/images/projects/portfolio-website.jpg",
+    "imageUrl": "/images/projects/portfolio-website.jpg",
     "link": "/projects/portfolio-website",
     "category": "Web Development",
-    "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "React"]
+    "skills": ["Next.js", "TypeScript", "Tailwind CSS", "React"],
+    "tags": [],
+    "created_at": 1748137450,
+    "updated_at": 1748137450
   }
 ]
