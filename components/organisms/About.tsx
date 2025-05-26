@@ -41,6 +41,11 @@ export default function About({ className = '' }: AboutProps) {
       { name: 'Machine Learning & Semantic Embeddings Applications', level: 'Intermediate' },
       { name: 'AI/ML in Healthcare', level: 'Intermediate' },
     ],
+    'Fabrication & Manufacturing': [
+      { name: 'Machining', level: 'Novice' },
+      { name: 'Soldering', level: 'Novice' },
+      { name: 'Welding', level: 'Novice' },
+    ],
     'Software & Web Development': [
       { name: 'Software Development', level: 'Novice' },
       { name: 'Web Development', level: 'Intermediate' },
@@ -127,8 +132,8 @@ export default function About({ className = '' }: AboutProps) {
                 return (
                   <div key={skill.name} className="flex items-center gap-4">
                     <div className="relative w-1/3 pr-4">
-                      <div className="relative pl-6 flex items-center">
-                        <div className="absolute left-0 w-5 h-5 flex items-center justify-center">
+                      <div className="relative flex items-center pl-6">
+                        <div className="absolute left-0 flex items-center justify-center w-5 h-5">
                           <GearIcon className="text-blue-500 dark:text-blue-400" size={12} />
                         </div>
                         <div className="text-sm font-medium leading-6">{skill.name}</div>
