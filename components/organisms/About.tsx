@@ -1,14 +1,23 @@
 import React from 'react';
 import Image from 'next/image';
 import { Card } from '@/components/molecules';
+import { GearIcon } from '@/components/atoms/icons';
 
 interface AboutProps {
   className?: string;
 }
 
 export default function About({ className = '' }: AboutProps) {
+  // Define skill level type
+  type SkillLevel = 'Novice' | 'Intermediate' | 'Advanced' | 'Expert';
+
+  interface Skill {
+    name: string;
+    level: SkillLevel;
+  }
+
   // Skills organized by categories
-  const skillsByCategory = {
+  const skillsByCategory: Record<string, Skill[]> = {
     'Medical Device Engineering': [
       { name: 'Medical Device Development', level: 'Expert' },
       { name: 'Design Controls & QMS (21 CFR 820 / ISO 13485)', level: 'Expert' },
@@ -81,19 +90,62 @@ export default function About({ className = '' }: AboutProps) {
       <section>
         <h2 className="mb-6 text-2xl font-bold">Skills & Expertise</h2>
         
-        {/* Render skills by category */}
+        {/* Skills level legend */}
+        <div className="flex justify-end pr-2 mb-6 text-xs text-gray-500 dark:text-gray-400">
+          <div className="grid w-2/3 grid-cols-4 gap-1">
+            <span className="text-center">Novice</span>
+            <span className="text-center">Intermediate</span>
+            <span className="text-center">Advanced</span>
+            <span className="text-center">Expert</span>
+          </div>
+        </div>
+        
+        {/* Render skills by category with horizontal bar charts */}
         {Object.entries(skillsByCategory).map(([category, skills]) => (
-          <div key={category} className="mb-8">
+          <div key={category} className="mb-10">
             <h3 className="mb-4 text-xl font-semibold text-primary">{category}</h3>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {skills.map((skill) => (
-                <Card key={skill.name} className="h-full">
-                  <div className="flex flex-col h-full">
-                    <h3 className="text-lg font-semibold">{skill.name}</h3>
-                    <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">{skill.level}</p>
+            <div className="space-y-4">
+              {skills.map((skill) => {
+                // Calculate width based on expertise level
+                const levelMap: Record<SkillLevel, string> = {
+                  'Novice': '10%',
+                  'Intermediate': '37%',
+                  'Advanced': '63%',
+                  'Expert': '87%'
+                } as const;
+                const barWidth = levelMap[skill.level];
+                
+                // Determine bar color based on level
+                const colorMap: Record<SkillLevel, string> = {
+                  'Novice': 'bg-blue-300 dark:bg-blue-800',
+                  'Intermediate': 'bg-blue-400 dark:bg-blue-700',
+                  'Advanced': 'bg-blue-500 dark:bg-blue-600',
+                  'Expert': 'bg-blue-600 dark:bg-blue-500'
+                } as const;
+                const barColor = colorMap[skill.level];
+                
+                return (
+                  <div key={skill.name} className="flex items-center gap-4">
+                    <div className="relative w-1/3 pr-4">
+                      <div className="relative pl-6 flex items-center">
+                        <div className="absolute left-0 w-5 h-5 flex items-center justify-center">
+                          <GearIcon className="text-blue-500 dark:text-blue-400" size={12} />
+                        </div>
+                        <div className="text-sm font-medium leading-6">{skill.name}</div>
+                      </div>
+                    </div>
+                    <div className="w-2/3 h-6 overflow-hidden bg-gray-100 rounded-md dark:bg-gray-800">
+                      <div 
+                        className={`h-full ${barColor} rounded-md transition-all duration-500 ease-out`}
+                        style={{ width: barWidth }}
+                        title={`${skill.level}`}
+                      >
+                        <span className="pl-2 text-xs font-medium text-white whitespace-nowrap">{skill.level}</span>
+                      </div>
+                    </div>
                   </div>
-                </Card>
-              ))}
+                );
+              })}
             </div>
           </div>
         ))}
