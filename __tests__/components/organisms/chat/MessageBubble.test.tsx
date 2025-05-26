@@ -20,7 +20,7 @@ describe('MessageBubble component', () => {
     
     expect(screen.getByText('Hello there!')).toBeInTheDocument();
     const messageBubble = container.querySelector('div');
-    expect(messageBubble).toHaveClass('ml-auto', 'bg-pink', 'text-black');
+    expect(messageBubble).toHaveClass('ml-auto', 'bg-white', 'dark:bg-gray-800', 'text-black', 'dark:text-white');
   });
   
   it('renders assistant message with correct styling', () => {
@@ -35,7 +35,7 @@ describe('MessageBubble component', () => {
     
     expect(screen.getByText('I can help with that.')).toBeInTheDocument();
     const messageBubble = container.querySelector('div');
-    expect(messageBubble).toHaveClass('mr-auto', 'bg-green', 'text-black');
+    expect(messageBubble).toHaveClass('mr-auto', 'bg-blue-100', 'text-black', 'dark:bg-blue-900', 'dark:text-blue-100');
   });
   
   it('renders system message with correct styling', () => {

@@ -104,7 +104,7 @@ describe('ChatCard component', () => {
     render(<ChatCard />);
     
     expect(screen.getByText('Ask me anything about my work!')).toBeInTheDocument();
-    expect(screen.getByText(/ask me about my ux design work/i)).toBeInTheDocument();
+    expect(screen.getByText(/Ask my AI rep about what I've been up to/i)).toBeInTheDocument();
   });
   
   // Test only the basic structure and remove tests that depend on state changes

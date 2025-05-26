@@ -10,12 +10,10 @@ vi.mock('next/image', () => ({
   ),
 }));
 
-// Mock the Card component
-vi.mock('@/components/molecules', () => ({
-  Card: ({ children, className }: { children: React.ReactNode; className?: string }) => (
-    <div data-testid="card" className={className}>
-      {children}
-    </div>
+// Mock the GearIcon component
+vi.mock('@/components/atoms/icons', () => ({
+  GearIcon: ({ className, size }: { className?: string; size: number }) => (
+    <svg className={className} width={size} height={size} data-testid="gear-icon" />
   ),
 }));
 
@@ -40,24 +38,51 @@ describe('About component', () => {
   it('renders the bio paragraphs', () => {
     render(<About />);
     
-    expect(screen.getByText(/Hi! I'm a medical device engineer/)).toBeInTheDocument();
-    expect(screen.getByText(/With extensive expertise in neurological conditions/)).toBeInTheDocument();
-    expect(screen.getByText(/My analytical approach has helped organizations/)).toBeInTheDocument();
+    // Check for text that's split across elements
+    const aboutSection = screen.getByText(/About Me/).closest('section');
+    const aboutText = aboutSection?.textContent || '';
+    
+    expect(aboutText).toContain("I'm Derek Gagnon");
+    expect(aboutText).toContain('Product Development Engineer with 9 years');
+    expect(aboutText).toContain('electro-optic blood-parameter monitoring systems');
+    expect(aboutText).toContain('chemistry and materials science');
   });
 
   it('displays all skills with their expertise levels', () => {
     render(<About />);
     
-    // Check for skill names
+    // Check for skill categories
+    expect(screen.getByText('Medical Device Engineering')).toBeInTheDocument();
+    expect(screen.getByText('Project Management')).toBeInTheDocument();
+    expect(screen.getByText('Design & Development')).toBeInTheDocument();
+    expect(screen.getByText('Data & Analytics')).toBeInTheDocument();
+    
+    // Check for some specific skills
     expect(screen.getByText('Medical Device Development')).toBeInTheDocument();
-    expect(screen.getByText('Neural Engineering')).toBeInTheDocument();
     expect(screen.getByText('Accessibility & Inclusive Design')).toBeInTheDocument();
     expect(screen.getByText('AI/ML in Healthcare')).toBeInTheDocument();
     
-    // Check for expertise levels
-    expect(screen.getAllByText('Expert').length).toBeGreaterThanOrEqual(3);
-    expect(screen.getAllByText('Advanced').length).toBeGreaterThanOrEqual(4);
-    expect(screen.getByText('Intermediate')).toBeInTheDocument();
+    // Check for expertise levels in the legend
+    const legendTexts = screen.getByTestId('skills-legend').textContent;
+    expect(legendTexts).toContain('Novice');
+    expect(legendTexts).toContain('Intermediate');
+    expect(legendTexts).toContain('Advanced');
+    expect(legendTexts).toContain('Expert');
+    
+    // Check for skill levels in the skill bars
+    const expertBars = screen.getAllByText('Expert', { selector: '.pl-2' });
+    const advancedBars = screen.getAllByText('Advanced', { selector: '.pl-2' });
+    const intermediateBars = screen.getAllByText('Intermediate', { selector: '.pl-2' });
+    const noviceBars = screen.getAllByText('Novice', { selector: '.pl-2' });
+    
+    expect(expertBars.length).toBeGreaterThanOrEqual(3);
+    expect(advancedBars.length).toBeGreaterThanOrEqual(4);
+    expect(intermediateBars.length).toBeGreaterThanOrEqual(1);
+    expect(noviceBars.length).toBeGreaterThanOrEqual(1);
+    
+    // Check for gear icons
+    const gearIcons = screen.getAllByTestId('gear-icon');
+    expect(gearIcons.length).toBeGreaterThan(0);
   });
 
   it('applies custom className when provided', () => {
@@ -66,13 +91,5 @@ describe('About component', () => {
     // The custom class should be applied to the top-level div
     const topLevelDiv = container.firstChild as HTMLElement;
     expect(topLevelDiv).toHaveClass('custom-class');
-  });
-
-  it('renders skills in Card components', () => {
-    render(<About />);
-    
-    // There should be 10 cards (one for each skill)
-    const cards = screen.getAllByTestId('card');
-    expect(cards.length).toBe(10);
   });
 });

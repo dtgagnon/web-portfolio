@@ -96,7 +96,7 @@ export default function About({ className = '' }: AboutProps) {
         <h2 className="mb-6 text-2xl font-bold">Skills & Expertise</h2>
         
         {/* Skills level legend */}
-        <div className="flex justify-end pr-2 mb-6 text-xs text-gray-500 dark:text-gray-400">
+        <div data-testid="skills-legend" className="flex justify-end pr-2 mb-6 text-xs text-gray-500 dark:text-gray-400">
           <div className="grid w-2/3 grid-cols-4 gap-1">
             <span className="text-center">Novice</span>
             <span className="text-center">Intermediate</span>

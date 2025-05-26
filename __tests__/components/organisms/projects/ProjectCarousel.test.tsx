@@ -18,9 +18,36 @@ vi.mock('@/components/molecules/ProjectCard', () => ({
 }));
 
 const mockProjects: Project[] = [
-  { id: '1', title: 'Project Uno', description: 'Description One', imageUrl: 'url1.jpg' },
-  { id: '2', title: 'Project Dos', description: 'Description Two', imageUrl: 'url2.jpg' },
-  { id: '3', title: 'Project Tres', description: 'Description Three', imageUrl: 'url3.jpg' },
+  { 
+    id: '1', 
+    title: 'Project Uno', 
+    description: 'Description One', 
+    imageUrl: 'url1.jpg',
+    link: '#1',
+    category: 'Web Development',
+    skills: ['React', 'TypeScript'],
+    tags: ['frontend', 'responsive']
+  },
+  { 
+    id: '2', 
+    title: 'Project Dos', 
+    description: 'Description Two', 
+    imageUrl: 'url2.jpg',
+    link: '#2',
+    category: 'Mobile App',
+    skills: ['React Native', 'Firebase'],
+    tags: ['mobile', 'cross-platform']
+  },
+  { 
+    id: '3', 
+    title: 'Project Tres', 
+    description: 'Description Three', 
+    imageUrl: 'url3.jpg',
+    link: '#3',
+    category: 'Backend',
+    skills: ['Node.js', 'PostgreSQL'],
+    tags: ['api', 'database']
+  },
 ];
 
 // Global mock for fetch
@@ -55,11 +82,12 @@ describe('ProjectCarousel', () => {
       expect(screen.getByText('Loading projects...')).toBeInTheDocument();
     });
 
-    it('displays "No projects to display" if API returns an empty array', async () => {
+    it('displays "No projects found" if API returns an empty array', async () => {
       mockFetch({ success: true, projects: [] });
       render(<ProjectCarousel />);
       await waitFor(() => {
-        expect(screen.getByText('No projects to display.')).toBeInTheDocument();
+        const errorContainer = screen.getByText(/Error:/).closest('div');
+        expect(errorContainer).toHaveTextContent('No projects found');
       });
     });
 
@@ -71,20 +99,21 @@ describe('ProjectCarousel', () => {
       });
     });
     
-    it('displays an error message if API returns success:false', async () => {
+    it('displays "No projects found" if API returns success:false', async () => {
       mockFetch({ success: false, message: 'API error occurred' }, true); // ok:true but success:false in body
       render(<ProjectCarousel />);
       await waitFor(() => {
-        // The component throws 'Failed to fetch projects or data format is incorrect.'
-        expect(screen.getByText(/Error: Failed to fetch projects or data format is incorrect./i)).toBeInTheDocument();
+        const errorContainer = screen.getByText(/Error:/).closest('div');
+        expect(errorContainer).toHaveTextContent('No projects found');
       });
     });
 
-     it('displays an error message if API response is not as expected', async () => {
+     it('displays "No projects found" if API response is not as expected', async () => {
       mockFetch({ someOtherStructure: [] }); // Correctly formatted success but wrong data structure
       render(<ProjectCarousel />);
       await waitFor(() => {
-        expect(screen.getByText(/Error: Failed to fetch projects or data format is incorrect./i)).toBeInTheDocument();
+        const errorContainer = screen.getByText(/Error:/).closest('div');
+        expect(errorContainer).toHaveTextContent('No projects found');
       });
     });
   });
