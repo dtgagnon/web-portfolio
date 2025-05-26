@@ -8,45 +8,50 @@ interface AboutProps {
 
 export default function About({ className = '' }: AboutProps) {
   const skills = [
+    { name: 'Cross-functional Team Leadership', level: 'Expert' },
     { name: 'Medical Device Development', level: 'Expert' },
-    { name: 'Neural Engineering', level: 'Expert' },
-    { name: 'Accessibility & Inclusive Design', level: 'Expert' },
-    { name: 'AI/ML in Healthcare', level: 'Advanced' },
-    { name: 'Regulatory Compliance (FDA, ISO)', level: 'Advanced' },
+    { name: 'Design Controls & QMS (21 CFR 820 / ISO 13485', level: 'Expert' },
+    { name: 'Verification & Validation (V&V / TMV)', level: 'Expert' },
+    { name: 'Project & Stakeholder Management', level: 'Expert' },
+    { name: 'SOLIDWORKS CAD & Rapid Prototyping', level: 'Advanced' },
+    { name: 'Risk Management (ISO 14971, FMEA / HA)', level: 'Advanced' },
+    { name: 'Root-Cause Analysis & Process Improvement', level: 'Advanced' },
+    { name: 'Statistical Analysis (Minitab)', level: 'Advanced' },
+    { name: 'Accessibility & Inclusive Design', level: 'Advanced' },
+    { name: 'Machine Learning & Semantic Embeddings Applications', level: 'Intermediate' },
+    { name: 'AI/ML in Healthcare', level: 'Intermediate' },
     { name: 'Hardware & Firmware Design', level: 'Advanced' },
-    { name: 'Human-Computer Interaction', level: 'Advanced' },
-    { name: 'Signal Processing', level: 'Advanced' },
-    { name: 'Product Management', level: 'Intermediate' },
     { name: 'Interdisciplinary Collaboration', level: 'Expert' },
   ];
 
   return (
     <div className={`space-y-12 ${className}`}>
       {/* Bio section */}
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+      <section className="grid items-center grid-cols-1 gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          <h2 className="text-3xl font-bold mb-4">About Me</h2>
+          <h2 className="mb-4 text-3xl font-bold">About Me</h2>
           <div className="space-y-4 text-lg">
             <p>
-              Hi! I'm a medical device engineer who has become a bit of an everything engineer.
-              I'm passionate about creating innovative solutions that improve healthcare outcomes
-              through thoughtful design and robust engineering.
+              I'm <strong>Derek Gagnon</strong>, a Product Development Engineer with 9 years 
+              of hands-on experience taking complex cardiovascular medical devices from concept 
+              through commercialization under strict FDA and ISO quality systems.
             </p>
             <p>
-              With extensive expertise in neurological conditions and inclusive design for 
-              neurodiverse humans, I apply AI and engineering principles to solve complex 
-              healthcare challenges. I've led multidisciplinary teams in developing solutions 
-              for both hardware and software challenges.
+              My career has thus focused on electro-optic blood-parameter monitoring systems. 
+              I led cross-functional teams in requirements engineering, rapid prototyping, and rigorous V&V - reducing
+              scrap by 25% and recovering $1M in annualized product value while automating test workflows to cut verification time 60%. 
+              I have incorporated the application of machine learning systems and advanced engineering principles to solve complex healthcare challenges. 
+              I've led multidisciplinary teams in developing solutions for both hardware and software challenges.
             </p>
             <p>
-              My analytical approach has helped organizations discover and eliminate 
-              waste in supply chain management and operational protocols, while my background 
-              in neural engineering informs my human-centered design philosophy.
+              With a foundation in chemistry and materials science, I bring specialized expertise in chemical biosensors,
+              fluorescence, and ex vivo blood circuits. I thrive at the interface of hardware, software, and human factors - turning 
+              multidisciplinary insight into safe, manufacturable, and patient-centric designs.
             </p>
           </div>
         </div>
         <div className="flex justify-center">
-          <div className="relative h-64 w-64 rounded-lg overflow-hidden shadow-lg">
+          <div className="relative w-64 h-64 overflow-hidden rounded-lg shadow-lg">
             <Image
               src="/images/profile.jpg"
               alt="Derek Gagnon"
@@ -60,12 +65,12 @@ export default function About({ className = '' }: AboutProps) {
       
       {/* Skills section */}
       <section>
-        <h2 className="text-2xl font-bold mb-6">Skills & Expertise</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <h2 className="mb-6 text-2xl font-bold">Skills & Expertise</h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {skills.map((skill) => (
             <Card key={skill.name} className="h-full">
               <div className="flex flex-col h-full">
-                <h3 className="font-semibold text-lg">{skill.name}</h3>
+                <h3 className="text-lg font-semibold">{skill.name}</h3>
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">{skill.level}</p>
               </div>
             </Card>
