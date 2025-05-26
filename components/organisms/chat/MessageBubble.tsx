@@ -32,9 +32,9 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
   // Determine the styling based on message role
   const getBubbleStyle = () => {
     if (message.role === 'user') {
-      return 'ml-auto bg-pink text-black';
+      return 'ml-auto bg-white dark:bg-gray-800 text-black dark:text-white';
     } else if (message.role === 'assistant') {
-      return 'mr-auto bg-green text-black';
+      return 'mr-auto bg-blue-100 text-black dark:bg-blue-900 dark:text-blue-100';
     } else {
       // System messages (errors, notifications)
       return 'mx-auto bg-gray-300 dark:bg-gray-700 text-black dark:text-white italic text-sm';
@@ -43,9 +43,9 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
 
   return (
     <div className={`p-3 my-2 rounded-lg max-w-[85%] ${getBubbleStyle()}`}>
-      <p className="whitespace-pre-wrap break-words">{getMessageContent()}</p>
+      <p className="break-words whitespace-pre-wrap">{getMessageContent()}</p>
       {message.role !== 'system' && (
-        <div className="text-xs mt-1 text-gray-600 dark:text-gray-300 text-right">
+        <div className="mt-1 text-xs text-right text-gray-600 dark:text-gray-300">
           {new Date(message.created_at * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </div>
       )}

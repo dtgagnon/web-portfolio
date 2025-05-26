@@ -96,7 +96,7 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
   return (
     <div 
       ref={cardRef}
-      className={`fixed bottom-0 origin-bottom left-1/2 w-80 max-h-[400px] rounded-t-md shadow-[0_-2px_10px_rgba(0,0,0,.2)] transition-transform duration-300 ease-in-out translate-x-[-50%] ${isOpen ? 'translate-y-0' : 'translate-y-[calc(100%-2.5rem)]'} bg-white dark:bg-black z-[1000]`}
+      className={`fixed bottom-0 origin-bottom left-1/2 w-80 h-[500px] max-h-[90vh] flex flex-col rounded-t-md shadow-[0_-2px_10px_rgba(0,0,0,.2)] transition-transform duration-300 ease-in-out translate-x-[-50%] ${isOpen ? 'translate-y-0' : 'translate-y-[calc(100%-2.5rem)]'} bg-white dark:bg-black z-[1000]`}
     >
       {/* Chat header */}
       <div 
@@ -108,24 +108,26 @@ export default function ChatCard({ threshold = 20, content = '' }: ChatCardProps
       </div>
       
       {/* Chat messages */}
-      <div className="p-3 max-h-96 overflow-y-auto bg-white dark:bg-black text-black dark:text-white">
-        {messages.length === 0 ? (
-          <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-            <p>Ask me anything about my work!</p>
-            <p className="text-xs mt-2">Ask me about my UX design work, accessibility expertise, or neuroinclusive design approach.</p>
-          </div>
-        ) : (
-          messages.map((msg) => (
-            <MessageBubble key={msg.id} message={msg} />
-          ))
-        )}
-        <div ref={messagesEndRef} />
+      <div className="flex flex-col flex-1 overflow-hidden">
+        <div className="flex-1 p-3 overflow-y-auto text-black bg-white dark:bg-black dark:text-white">
+          {messages.length === 0 ? (
+            <div className="py-8 text-center text-gray-500 dark:text-gray-400">
+              <p>Ask me anything about my work!</p>
+              <p className="mt-2 text-xs">Ask my AI rep about what I've been up to.</p>
+            </div>
+          ) : (
+            messages.map((msg) => (
+              <MessageBubble key={msg.id} message={msg} />
+            ))
+          )}
+          <div ref={messagesEndRef} className="h-4" />
+        </div>
       </div>
       
       {/* Input area */}
       <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-amber-50 dark:bg-gray-900">
         {isCooldownActive() ? (
-          <div className="text-center text-sm text-red-500 mb-2">
+          <div className="mb-2 text-sm text-center text-red-500">
             {getCooldownMessage()}
           </div>
         ) : null}
