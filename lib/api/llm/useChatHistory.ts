@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { ACTIVE_PROVIDER, getApiEndpoint } from './config';
 
 interface ChatMessage {
   id: string;
@@ -11,13 +12,18 @@ interface ChatMessage {
 interface StreamEvent {
   type: 'content' | 'complete' | 'error';
   content?: string;
-  threadId?: string;
+  threadId?: string; // OpenAI uses threadId
+  sessionId?: string; // Gemini uses sessionId
 }
 
 const useChatHistory = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null); // Track userId for Gemini
+  
+  // Get current API endpoint based on active provider
+  const apiEndpoint = getApiEndpoint();
   
   // Helper to safely get messages from API response
   const getMessagesFromResponse = useCallback((data: any): ChatMessage[] => {
@@ -51,7 +57,7 @@ const useChatHistory = () => {
     }
     
     try {
-      const response = await fetch(`/api/chat?sessionId=${sid}`);
+      const response = await fetch(`${apiEndpoint}?sessionId=${sid}`);
       
       if (!response.ok) {
         const errorText = await response.text();
@@ -81,9 +87,24 @@ const useChatHistory = () => {
     }
   }, [getMessagesFromResponse]);
 
-  // Initialize session ID from storage
+  // Initialize session ID and user ID from storage
   useEffect(() => {
     const storedSessionId = sessionStorage.getItem('chatSessionId');
+    let storedUserId = localStorage.getItem('userId');
+    
+    // Always ensure we have a userId, even if localStorage failed
+    if (!storedUserId) {
+      // Generate a persistent user ID if none exists
+      storedUserId = `user-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+      localStorage.setItem('userId', storedUserId);
+      console.log('Created new userId:', storedUserId);
+    } else {
+      console.log('Found existing userId:', storedUserId);
+    }
+    
+    // Always set the userId, ensuring it's never null or undefined
+    setUserId(storedUserId);
+    
     if (storedSessionId) {
       setSessionId(storedSessionId);
       fetchChatHistory(storedSessionId);
@@ -118,15 +139,27 @@ const useChatHistory = () => {
     setIsLoading(true);
     
     try {
-      const response = await fetch('/api/chat', {
+      // Set a hardcoded userId for testing if none exists
+      const effectiveUserId = userId || 'fallback-user-id-' + Date.now();
+      
+      console.log('[DEBUG] Chat - About to send request');
+      console.log('[DEBUG] Chat - userId value:', effectiveUserId);
+      console.log('[DEBUG] Chat - sessionId value:', sessionId);
+      
+      const requestPayload = {
+        message: messageText,
+        sessionId: sessionId || undefined,
+        userId: effectiveUserId // Ensure we always have a non-empty userId
+      };
+      
+      console.log('[DEBUG] Chat - Full request payload:', JSON.stringify(requestPayload));
+      
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          message: messageText,
-          sessionId: sessionId || undefined // Send undefined instead of null
-        }),
+        body: JSON.stringify(requestPayload),
       });
       
       if (!response.body) {
@@ -173,10 +206,13 @@ const useChatHistory = () => {
                   : msg
               ));
             } 
-            else if (data.type === 'complete' && data.threadId) {
-              // Update the session ID if this is a new thread
-              if (!currentSessionId) {
-                currentSessionId = data.threadId || '';
+            else if (data.type === 'complete') {
+              // Update the session ID if this is a new thread/session
+              // OpenAI uses threadId, Gemini uses sessionId
+              const newId = data.threadId || data.sessionId || '';
+              
+              if (!currentSessionId && newId) {
+                currentSessionId = newId;
                 setSessionId(currentSessionId);
                 sessionStorage.setItem('chatSessionId', currentSessionId || '');
               }
@@ -223,7 +259,7 @@ const useChatHistory = () => {
   const clearChat = useCallback(async () => {
     if (sessionId) {
       try {
-        await fetch(`/api/chat?sessionId=${sessionId}`, { 
+        await fetch(`${apiEndpoint}?sessionId=${sessionId}`, { 
           method: 'DELETE' 
         });
       } catch (error) {
@@ -241,11 +277,13 @@ const useChatHistory = () => {
     messages,
     setMessages,
     sessionId,
+    userId,
     isLoading,
     setIsLoading,
     fetchChatHistory,
     sendMessage,
-    clearChat
+    clearChat,
+    activeProvider: ACTIVE_PROVIDER
   };
 };
 

@@ -27,6 +27,7 @@
             python3
             pkg-config
             gcc
+            google-cloud-sdk # Added for Gemini API migration
           ];
 
           shellHook = ''
