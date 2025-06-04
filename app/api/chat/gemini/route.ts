@@ -206,7 +206,7 @@ export async function POST(request: NextRequest) {
                     content: part.text,
                     sessionId: sessionId,
                   };
-                  controller.enqueue(encoder.encode(JSON.stringify(streamEvent) + '\n'));
+                  controller.enqueue(encoder.encode(`data: ${JSON.stringify(streamEvent)}\n\n`));
                 }
               }
             }
@@ -228,14 +228,14 @@ export async function POST(request: NextRequest) {
             sessionId: sessionId,
             content: accumulatedResponseText,
           };
-          controller.enqueue(encoder.encode(JSON.stringify(completeEvent) + '\n'));
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify(completeEvent)}\n\n`));
         } catch (error) {
           console.error('Error during Gemini stream processing:', error);
           const errorEvent: StreamEvent = {
             type: 'error',
             content: 'Error processing stream: ' + (error instanceof Error ? error.message : String(error)),
           };
-          controller.enqueue(encoder.encode(JSON.stringify(errorEvent) + '\n'));
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify(errorEvent)}\n\n`));
         } finally {
           controller.close();
         }

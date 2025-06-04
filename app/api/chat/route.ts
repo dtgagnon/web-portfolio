@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
                         content: contentValue,
                         threadId: thread.id
                       };
-                      controller.enqueue(encoder.encode(JSON.stringify(event) + '\n'));
+                      controller.enqueue(encoder.encode(`data: ${JSON.stringify(event)}\n\n`));
                     }
                   }
                 }
@@ -137,29 +137,29 @@ export async function POST(request: NextRequest) {
           // If we have a run that requires action but we didn't handle it properly
           if (requiresAction && runId) {
             controller.enqueue(encoder.encode(
-              JSON.stringify({
+              `data: ${JSON.stringify({
                 type: 'error',
                 content: 'Function calls are not fully supported in this demo.'
-              }) + '\n'
+              })}\n\n`
             ));
           }
           
           // Send a final message with the complete content and thread ID
           controller.enqueue(encoder.encode(
-            JSON.stringify({
+            `data: ${JSON.stringify({
               type: 'complete',
               threadId: thread.id,
               content: accumulatedContent
-            }) + '\n'
+            })}\n\n`
           ));
           
         } catch (error) {
           console.error('Stream error:', error);
           controller.enqueue(encoder.encode(
-            JSON.stringify({
+            `data: ${JSON.stringify({
               type: 'error',
               content: 'An error occurred while processing the stream.'
-            }) + '\n'
+            })}\n\n`
           ));
         } finally {
           controller.close();

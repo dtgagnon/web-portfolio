@@ -189,12 +189,25 @@ const useChatHistory = () => {
         // Decode the chunk
         const chunk = decoder.decode(value, { stream: true });
         
-        // Process each line (the API sends newline-separated JSON)
-        const lines = chunk.split('\n').filter(line => line.trim() !== '');
+        // Process the chunk which may contain SSE format (data: prefix + double newlines) or legacy format (raw JSON + single newlines)
+        let processedLines: string[] = [];
         
-        for (const line of lines) {
+        // First try to split by SSE standard (double newlines)
+        if (chunk.includes('\n\n')) {
+          processedLines = chunk.split('\n\n').filter(line => line.trim() !== '');
+        } 
+        // Fall back to legacy format (single newlines)
+        else {
+          processedLines = chunk.split('\n').filter(line => line.trim() !== '');
+        }
+        
+        for (const line of processedLines) {
           try {
-            const data = JSON.parse(line);
+            // Extract the JSON part by removing the 'data: ' prefix if present
+            const jsonString = line.startsWith('data: ') ? line.substring(6) : line;
+            if (!jsonString.trim()) continue;
+            
+            const data = JSON.parse(jsonString);
             
             if (data.type === 'content' && typeof data.content === 'string') {
               // Update the assistant's message with the new content
