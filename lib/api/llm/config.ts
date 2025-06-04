@@ -14,7 +14,7 @@ export const ACTIVE_PROVIDER: LLMProvider =
 
 // Provider-specific API endpoints
 export const API_ENDPOINTS = {
-  openai: '/api/chat',
+  openai: '/api/chat/openai',
   gemini: '/api/chat/gemini'
 };
 

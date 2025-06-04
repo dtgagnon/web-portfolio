@@ -23,7 +23,7 @@ if (!assistantId) {
   // In production, you might want to throw an error during build or startup
 }
 
-// POST /api/chat - Send a message and get a streaming response using Assistants API
+// POST /api/chat/openai - Send a message and get a streaming response using Assistants API
 export async function POST(request: NextRequest) {
   if (!assistantId) {
     return new Response(JSON.stringify({ error: 'Assistant configuration error.' }), {
@@ -192,7 +192,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET /api/chat - Get chat history for a session from OpenAI Thread
+// GET /api/chat/openai - Get chat history for a session from OpenAI Thread
 export async function GET(request: NextRequest) {
   try {
     const threadId = request.nextUrl.searchParams.get('sessionId');
@@ -231,7 +231,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// DELETE /api/chat - Delete a chat session (OpenAI Thread)
+// DELETE /api/chat/openai - Delete a chat session (OpenAI Thread)
 export async function DELETE(request: NextRequest) {
   try {
     const threadId = request.nextUrl.searchParams.get('sessionId');
