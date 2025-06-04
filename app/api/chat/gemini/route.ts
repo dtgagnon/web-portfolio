@@ -14,21 +14,10 @@ interface ChatRequest {
   sessionId?: string; // Will be used as the primary identifier for Gemini
 }
 
-const vertexAI = new VertexAI({
-  project: process.env.GOOGLE_CLOUD_PROJECT || '',
-  location: process.env.GOOGLE_CLOUD_LOCATION || '',
-});
+import { getModel } from '@/lib/api/llm/gemini';
 
-const geminiModel = vertexAI.getGenerativeModel({
-  model: 'gemini-2.5-flash-preview-05-20',
-  // safetySettings: [
-  //   { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
-  //   { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
-  //   { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
-  //   { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
-  // ],
-  // generationConfig: { maxOutputTokens: 8192, temperature: 1, topP: 0.95 },
-});
+// Get the Gemini model with system instructions securely applied
+const geminiModel = getModel('gemini-2.5-flash-preview-05-20');
 
 // POST /api/chat/gemini - Send a message and get a streaming response using Gemini
 export async function POST(request: NextRequest) {

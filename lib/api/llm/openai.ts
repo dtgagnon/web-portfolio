@@ -47,6 +47,41 @@ export interface AddMessageOptions {
  * Creates or retrieves an OpenAI Assistant.
  * TODO: Implement retrieval or persistent storage of assistant ID.
  */
+/**
+ * Get system instructions from the shared systemInst.md file
+ */
+export function getSystemInstructions(): string {
+  // First try environment variable
+  if (process.env.OPENAI_SYSTEM_INSTRUCTIONS) {
+    return process.env.OPENAI_SYSTEM_INSTRUCTIONS;
+  }
+  
+  // Try to read from the systemInst.md file
+  try {
+    const systemInstPath = path.resolve(process.cwd(), 'lib/api/llm/systemInst.md');
+    return fs.readFileSync(systemInstPath, 'utf-8');
+  } catch (systemInstError) {
+    console.warn(`Could not read systemInst.md: ${systemInstError}`);
+    
+    // Then try file path from environment variable as fallback
+    const filePath = process.env.OPENAI_INSTRUCTIONS_FILE_PATH;
+    if (filePath) {
+      try {
+        return fs.readFileSync(path.resolve(process.cwd(), filePath), 'utf-8');
+      } catch (error) {
+        console.warn(`Could not read OpenAI instructions file: ${error}`);
+      }
+    }
+  }
+  
+  // Fallback - summary of systemInst.md
+  return `You are a chat interface for Derek Gagnon's portfolio website, acting as an advocate based on reference documents. 
+  Handle user chat messages by responding positively, showcasing Derek's experiences and expertise. 
+  Follow these steps: (1) understand the user query, (2) reference context from available documents, 
+  (3) craft a positive response highlighting Derek's strengths, (4) verify accuracy, and 
+  (5) conclude with affirmation. Keep responses concise, supportive, and accurate to Derek's experience.`;
+}
+
 export async function createAssistant(options?: AssistantCreationOptions) {
   const config = {
     name: "Portfolio Liason",
@@ -55,10 +90,8 @@ export async function createAssistant(options?: AssistantCreationOptions) {
     ...options, 
   };
 
-  let instructionsContent = options?.instructions ?? 
-    `You are an AI assistant for Derek Gagnon's portfolio website.
-    You specialize in UX design with a focus on accessibility and neuroinclusive design.
-    Be helpful, informative, and concise in your responses.`;
+  // Use instructions from options, or get from systemInst.md
+  let instructionsContent = options?.instructions ?? getSystemInstructions();
 
   if (!options?.instructions && config.instructionsFilePath) {
     try {
